@@ -1,3 +1,40 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "story-1",
+      "description": "A person looking at a peaceful landscape from a mountain top",
+      "imageUrl": "https://images.unsplash.com/photo-1731361968477-859322bd74be?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZWFjZWZ1bCUyMGxhbmRzY2FwZXxlbnwwfHx8fDE3NTg2NTAwMjR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "peaceful landscape"
+    },
+    {
+      "id": "story-2",
+      "description": "Someone achieving a personal goal, celebrating at a finish line",
+      "imageUrl": "https://images.unsplash.com/photo-1758223596760-cc6b2c0c20e1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXJzb25hbCUyMGFjaGlldmVtZW50fGVufDB8fHx8MTc1ODY1MDAyNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "personal achievement"
+    },
+    {
+      "id": "story-3",
+      "description": "A diverse group of friends enjoying a happy moment together",
+      "imageUrl": "https://images.unsplash.com/photo-1607748862156-7c548e7e98f4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxoYXBweSUyMGZyaWVuZHN8ZW58MHx8fHwxNzU4NjUwMDI0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "happy friends"
+    },
+    {
+      "id": "story-4",
+      "description": "A person meditating in a tranquil natural setting by a lake",
+      "imageUrl": "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtZWRpdGF0aW9uJTIwbmF0dXJlfGVufDB8fHx8MTc1ODYzODk1Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "meditation nature"
+    },
+    {
+      "id": "story-5",
+      "description": "A scholar reading a book in a grand library",
+      "imageUrl": "https://images.unsplash.com/photo-1652305489491-789257d2e95c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxyZWFkaW5nJTIwbGlicmFyeXxlbnwwfHx8fDE3NTg2MTcxOTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "reading library"
+    },
+    {
+      "id": "story-6",
+      "description": "A creative person painting on a canvas outdoors",
+      "imageUrl": "https://images.unsplash.com/photo-1725819242793-e83d3e08d439?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjcmVhdGl2ZSUyMHBhaW50aW5nfGVufDB8fHx8MTc1ODY1MDAyNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "creative painting"
+    }
+  ]
 }
