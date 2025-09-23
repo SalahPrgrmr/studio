@@ -21,7 +21,7 @@ const navLinks = [
   { href: '/god-certainty', label: 'اليقين بالله' },
   { href: '/cosmic-signs', label: 'آيات الكون' },
   { href: '/stories', label: 'قصص نجاح' },
-  { href: '/forum', label: 'المجتمع' },
+  { href: '/community', label: 'المجتمع' },
 ];
 
 export default function Header() {
@@ -60,7 +60,7 @@ export default function Header() {
               href={link.href}
               className={cn(
                 'text-sm font-medium transition-colors hover:text-primary',
-                pathname === link.href ? 'text-primary' : 'text-muted-foreground'
+                pathname.startsWith(link.href) ? 'text-primary' : 'text-muted-foreground'
               )}
             >
               {link.label}
