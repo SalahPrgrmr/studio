@@ -18,8 +18,8 @@ import { useAuth } from '@/hooks/use-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 const navLinks = [
-  { href: '/stories', label: 'Success Stories' },
-  { href: '/forum', label: 'Community' },
+  { href: '/stories', label: 'قصص نجاح' },
+  { href: '/forum', label: 'المجتمع' },
 ];
 
 export default function Header() {
@@ -43,15 +43,15 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 max-w-7xl items-center">
-        <div className="mr-4 flex items-center">
-          <Link href="/" className="mr-2 flex items-center justify-center space-x-2">
+        <div className="ml-4 flex items-center">
+          <Link href="/" className="ml-2 flex items-center justify-center space-x-2">
             <Logo className="h-6 w-6 text-primary" />
             <span className="font-bold font-headline inline-block text-lg">
-              Certainty Path
+              مسار اليقين
             </span>
           </Link>
         </div>
-        <nav className="flex flex-1 items-center space-x-4">
+        <nav className="flex flex-1 items-center space-x-reverse space-x-4">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -65,26 +65,26 @@ export default function Header() {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center justify-end space-x-4">
+        <div className="flex items-center justify-end space-x-reverse space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Globe className="h-5 w-5" />
-                <span className="sr-only">Change language</span>
+                <span className="sr-only">تغيير اللغة</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem>
-                <Languages className="mr-2 h-4 w-4" />
-                <span>English</span>
+                <Languages className="ml-2 h-4 w-4" />
+                <span>العربية</span>
               </DropdownMenuItem>
               <DropdownMenuItem disabled>
-                <Languages className="mr-2 h-4 w-4" />
-                <span>Español (soon)</span>
+                <Languages className="ml-2 h-4 w-4" />
+                <span>English (قريبًا)</span>
               </DropdownMenuItem>
               <DropdownMenuItem disabled>
-                <Languages className="mr-2 h-4 w-4" />
-                <span>Français (soon)</span>
+                <Languages className="ml-2 h-4 w-4" />
+                <span>Español (قريبًا)</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -101,18 +101,18 @@ export default function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem disabled>
-                  <span className="font-medium">{user.displayName || 'User'}</span>
+                  <span className="font-medium">{user.displayName || 'مستخدم'}</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
+                  <LogOut className="ml-2 h-4 w-4" />
+                  <span>تسجيل الخروج</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Button asChild>
-              <Link href="/login">Sign In</Link>
+              <Link href="/login">تسجيل الدخول</Link>
             </Button>
           )}
         </div>

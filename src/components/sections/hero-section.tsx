@@ -13,15 +13,15 @@ export default function HeroSection() {
       <div className="container px-4 md:px-6">
         <div className="mx-auto max-w-4xl text-center space-y-6">
           <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            Embark on Your Path to <span className="text-primary">Certainty</span>
+            ابدأ رحلتك نحو <span className="text-primary">اليقين</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-            Discover a personalized journey toward clarity, security, and well-being. Our platform offers guidance, insights, and a supportive community to help you find the answers you seek.
+            اكتشف رحلة شخصية نحو الوضوح والأمان والرفاهية. منصتنا تقدم الإرشاد والبصائر ومجتمعًا داعمًا لمساعدتك في العثور على الإجابات التي تبحث عنها.
           </p>
           <div className="flex justify-center">
             <Button size="lg" onClick={scrollToMain}>
-              Begin Your Journey
-              <ArrowDown className="ml-2 h-5 w-5" />
+              ابدأ رحلتك
+              <ArrowDown className="mr-2 h-5 w-5" />
             </Button>
           </div>
         </div>

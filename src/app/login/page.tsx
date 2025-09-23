@@ -26,8 +26,8 @@ export default function LoginPage() {
       console.error('GitHub sign-in error:', error);
       toast({
         variant: 'destructive',
-        title: 'Authentication Error',
-        description: 'Failed to sign in with GitHub. Please try again.',
+        title: 'خطأ في المصادقة',
+        description: 'فشل تسجيل الدخول باستخدام GitHub. يرجى المحاولة مرة أخرى.',
       });
       setIsGitHubLoading(false);
     }
@@ -39,9 +39,9 @@ export default function LoginPage() {
       <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center p-4">
         <Card className="mx-auto w-full max-w-sm">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl font-headline">Sign In</CardTitle>
+            <CardTitle className="text-2xl font-headline">تسجيل الدخول</CardTitle>
             <CardDescription>
-              Sign in to your account to save your path and join the community.
+              سجل الدخول إلى حسابك لحفظ مسارك والانضمام إلى المجتمع.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -52,11 +52,11 @@ export default function LoginPage() {
                 disabled={isGitHubLoading}
               >
                 {isGitHubLoading ? (
-                  <span className="animate-spin mr-2">...</span>
+                  <span className="animate-spin ml-2">...</span>
                 ) : (
-                  <Github className="mr-2 h-4 w-4" />
+                  <Github className="ml-2 h-4 w-4" />
                 )}
-                Continue with GitHub
+                المتابعة باستخدام GitHub
               </Button>
             </div>
           </CardContent>

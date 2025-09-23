@@ -27,7 +27,7 @@ export type GeneratePersonalizedPathInput = z.infer<typeof GeneratePersonalizedP
 const GeneratePersonalizedPathOutputSchema = z.object({
   personalizedPath: z
     .string()
-    .describe('A list of actionable steps towards discovering certainty, tailored to the user\'s input.'),
+    .describe('A list of actionable steps towards discovering certainty, tailored to the user\'s input, in Arabic.'),
 });
 export type GeneratePersonalizedPathOutput = z.infer<typeof GeneratePersonalizedPathOutputSchema>;
 
@@ -41,7 +41,7 @@ const prompt = ai.definePrompt({
   name: 'generatePersonalizedPathPrompt',
   input: {schema: GeneratePersonalizedPathInputSchema},
   output: {schema: GeneratePersonalizedPathOutputSchema},
-  prompt: `Based on the user's beliefs, background, and aspirations, create a personalized path with actionable steps towards discovering certainty.
+  prompt: `Based on the user's beliefs, background, and aspirations, create a personalized path with actionable steps towards discovering certainty. Respond in Arabic.
 
 Beliefs: {{{beliefs}}}
 Background: {{{background}}}

@@ -7,34 +7,34 @@ import { MessageSquare, ThumbsUp, PlusCircle } from 'lucide-react';
 const forumPosts = [
   {
     id: 1,
-    title: 'How do you differentiate between intuition and fear?',
-    author: 'Clara W.',
+    title: 'كيف تفرق بين الحدس والخوف؟',
+    author: 'كلارا و.',
     authorInitials: 'CW',
     avatarUrl: 'https://picsum.photos/seed/avatar1/40/40',
-    timestamp: '2 hours ago',
-    tags: ['discussion', 'philosophy'],
+    timestamp: 'قبل ساعتين',
+    tags: ['نقاش', 'فلسفة'],
     comments: 12,
     likes: 34,
   },
   {
     id: 2,
-    title: 'My story: Finding certainty after a major life change.',
-    author: 'Ben S.',
+    title: 'قصتي: العثور على اليقين بعد تغيير كبير في حياتي.',
+    author: 'بن س.',
     authorInitials: 'BS',
     avatarUrl: 'https://picsum.photos/seed/avatar2/40/40',
-    timestamp: '1 day ago',
-    tags: ['personal-story', 'inspiration'],
+    timestamp: 'قبل يوم واحد',
+    tags: ['قصة-شخصية', 'إلهام'],
     comments: 8,
     likes: 56,
   },
   {
     id: 3,
-    title: 'A practical guide to daily reflection that worked for me.',
-    author: 'Aisha K.',
+    title: 'دليل عملي للتأمل اليومي نجح معي.',
+    author: 'عائشة ك.',
     authorInitials: 'AK',
     avatarUrl: 'https://picsum.photos/seed/avatar3/40/40',
-    timestamp: '3 days ago',
-    tags: ['guidance', 'practice'],
+    timestamp: 'قبل 3 أيام',
+    tags: ['إرشاد', 'ممارسة'],
     comments: 21,
     likes: 102,
   },
@@ -46,15 +46,15 @@ export default function ForumPage() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
-            Community Forum
+            منتدى المجتمع
           </h1>
           <p className="mt-2 text-lg text-muted-foreground">
-            Share your thoughts, ask questions, and connect with others.
+            شارك بأفكارك، واطرح الأسئلة، وتواصل مع الآخرين.
           </p>
         </div>
         <Button size="lg" disabled>
-          <PlusCircle className="mr-2 h-5 w-5" />
-          New Post (Coming Soon)
+          <PlusCircle className="ml-2 h-5 w-5" />
+          مشاركة جديدة (قريبًا)
         </Button>
       </div>
 
@@ -63,7 +63,7 @@ export default function ForumPage() {
           <Card key={post.id} className="shadow-sm hover:shadow-md transition-shadow duration-300">
             <CardHeader>
               <CardTitle className="font-headline text-xl">{post.title}</CardTitle>
-              <div className="flex items-center text-sm text-muted-foreground pt-2 space-x-2">
+              <div className="flex items-center text-sm text-muted-foreground pt-2 space-x-2 space-x-reverse">
                 <Avatar className="h-6 w-6">
                   <AvatarImage src={post.avatarUrl} alt={post.author} />
                   <AvatarFallback>{post.authorInitials}</AvatarFallback>
@@ -74,27 +74,27 @@ export default function ForumPage() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="flex space-x-2">
+              <div className="flex space-x-2 space-x-reverse">
                 {post.tags.map((tag) => (
                   <Badge key={tag} variant="secondary">{tag}</Badge>
                 ))}
               </div>
             </CardContent>
-            <CardFooter className="flex items-center space-x-6 text-sm text-muted-foreground">
-              <div className="flex items-center space-x-1">
+            <CardFooter className="flex items-center space-x-6 space-x-reverse text-sm text-muted-foreground">
+              <div className="flex items-center space-x-1 space-x-reverse">
                 <MessageSquare className="h-4 w-4" />
-                <span>{post.comments} Comments</span>
+                <span>{post.comments} تعليقات</span>
               </div>
-              <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-1 space-x-reverse">
                 <ThumbsUp className="h-4 w-4" />
-                <span>{post.likes} Likes</span>
+                <span>{post.likes} إعجابات</span>
               </div>
             </CardFooter>
           </Card>
         ))}
       </div>
       <div className="text-center mt-12">
-        <p className="text-muted-foreground">More discussions and features coming soon!</p>
+        <p className="text-muted-foreground">المزيد من المناقشات والميزات قريبًا!</p>
       </div>
     </div>
   );

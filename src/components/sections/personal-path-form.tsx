@@ -37,7 +37,7 @@ export default function PersonalPathForm() {
     if (actionResult.error) {
       toast({
         variant: 'destructive',
-        title: 'Error Generating Path',
+        title: 'خطأ في إنشاء المسار',
         description: actionResult.error,
       });
     } else if (actionResult.data) {
@@ -49,10 +49,10 @@ export default function PersonalPathForm() {
     <section id="personal-path" className="w-full">
       <div className="text-center space-y-4 mb-12">
         <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
-          Generate Your <span className="text-primary">Personal Path</span>
+          أنشئ <span className="text-primary">مسارك الشخصي</span>
         </h2>
         <p className="max-w-3xl mx-auto text-muted-foreground text-lg">
-          Answer a few questions and our AI will generate a personalized set of actionable steps to guide your journey towards certainty.
+          أجب على بعض الأسئلة وسيقوم الذكاء الاصطناعي لدينا بإنشاء مجموعة مخصصة من الخطوات العملية لتوجيه رحلتك نحو اليقين.
         </p>
       </div>
       <Card className="max-w-4xl mx-auto shadow-lg">
@@ -60,10 +60,10 @@ export default function PersonalPathForm() {
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-headline text-2xl">
-                <User className="h-6 w-6" /> Tell Us About Yourself
+                <User className="h-6 w-6" /> أخبرنا عن نفسك
               </CardTitle>
               <CardDescription>
-                The more you share, the more personalized your path will be. All information is private.
+                كلما شاركت أكثر، كلما كان مسارك شخصيًا أكثر. جميع المعلومات خاصة.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -72,10 +72,10 @@ export default function PersonalPathForm() {
                 name="beliefs"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base">Your Current Beliefs</FormLabel>
+                    <FormLabel className="text-base">معتقداتك الحالية</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="e.g., your spiritual, philosophical, or personal views on life and the world..."
+                        placeholder="على سبيل المثال، وجهات نظرك الروحية أو الفلسفية أو الشخصية حول الحياة والعالم..."
                         className="resize-none"
                         rows={4}
                         {...field}
@@ -90,10 +90,10 @@ export default function PersonalPathForm() {
                 name="background"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base">Your Background & Experiences</FormLabel>
+                    <FormLabel className="text-base">خلفيتك وتجاربك</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="e.g., your cultural upbringing, significant life events, or professional journey..."
+                        placeholder="على سبيل المثال، نشأتك الثقافية، أحداث حياتك الهامة، أو مسيرتك المهنية..."
                         className="resize-none"
                         rows={4}
                         {...field}
@@ -108,10 +108,10 @@ export default function PersonalPathForm() {
                 name="aspirations"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base">Your Aspirations & Goals</FormLabel>
+                    <FormLabel className="text-base">تطلعاتك وأهدافك</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="e.g., what you hope to achieve, the person you want to become, or the impact you wish to have..."
+                        placeholder="على سبيل المثال، ما تأمل في تحقيقه، الشخص الذي تريد أن تصبحه، أو التأثير الذي ترغب في إحداثه..."
                         className="resize-none"
                         rows={4}
                         {...field}
@@ -122,17 +122,17 @@ export default function PersonalPathForm() {
                 )}
               />
             </CardContent>
-            <CardFooter className="flex justify-end">
+            <CardFooter className="flex justify-start">
               <Button type="submit" disabled={isLoading} size="lg">
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                    Generating...
+                    <Loader2 className="ml-2 h-5 w-5 animate-spin" />
+                    جاري الإنشاء...
                   </>
                 ) : (
                   <>
-                    <Sparkles className="mr-2 h-5 w-5" />
-                    Generate Path
+                    <Sparkles className="ml-2 h-5 w-5" />
+                    أنشئ المسار
                   </>
                 )}
               </Button>
@@ -145,7 +145,7 @@ export default function PersonalPathForm() {
         <Card className="max-w-4xl mx-auto mt-8 shadow-lg animate-pulse">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2 font-headline text-2xl">
-                    <Bot className="h-6 w-6" /> Your Personalized Path
+                    <Bot className="h-6 w-6" /> مسارك الشخصي
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -160,9 +160,9 @@ export default function PersonalPathForm() {
         <Card className="max-w-4xl mx-auto mt-8 shadow-lg animate-in fade-in duration-500">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 font-headline text-2xl">
-              <Bot className="h-6 w-6 text-primary" /> Your Personalized Path
+              <Bot className="h-6 w-6 text-primary" /> مسارك الشخصي
             </CardTitle>
-            <CardDescription>Here are some AI-generated steps tailored to your journey.</CardDescription>
+            <CardDescription>إليك بعض الخطوات التي أنشأها الذكاء الاصطناعي والمصممة خصيصًا لرحلتك.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="prose prose-blue max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: result.replace(/\n/g, '<br />') }} />
