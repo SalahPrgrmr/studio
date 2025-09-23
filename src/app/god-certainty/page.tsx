@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { BookOpen, ShieldCheck, Heart, Sparkles } from 'lucide-react';
+import { BookOpen, ShieldCheck, Heart, Sparkles, Star } from 'lucide-react';
 
 const certaintyTopics = [
   {
@@ -55,6 +55,41 @@ export default function GodCertaintyPage() {
           </Card>
         ))}
       </div>
+
+      <Card className="my-16 shadow-lg">
+        <CardHeader>
+          <CardTitle className="font-headline text-3xl font-bold flex items-center gap-3">
+             <Star className="h-8 w-8 text-primary" />
+            تعرف على الله
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6 text-lg">
+            <div className="space-y-2">
+                <h3 className="font-bold text-xl font-headline">من هو الله؟</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                    هو الخالق الأحد، الذي لا إله إلا هو. خالق كل شيء ورب العالمين. هو الأول فليس قبله شيء، والآخر فليس بعده شيء، والظاهر فليس فوقه شيء، والباطن فليس دونه شيء. وجوده هو الحقيقة المطلقة التي يقوم عليها كل الوجود.
+                </p>
+            </div>
+            <div className="space-y-2">
+                <h3 className="font-bold text-xl font-headline">أسماؤه وصفاته</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                    لله الأسماء الحسنى والصفات العلى التي تدل على كماله وجلاله. من أسمائه: الرحمن، الرحيم، الملك، القدوس، السلام، المؤمن، المهيمن، العزيز، الجبار، المتكبر. كل اسم يكشف جانبًا من عظمته وقدرته وعلمه الذي أحاط بكل شيء.
+                </p>
+            </div>
+             <div className="space-y-2">
+                <h3 className="font-bold text-xl font-headline">رحمته وعدله</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                    رحمته وسعت كل شيء، وهي تسبق غضبه. проявляется في خلقه ورزقه وهدايته. وفي نفس الوقت، هو العدل الذي لا يظلم مثقال ذرة. يضع الموازين بالقسط ويحكم بين الناس بالحق، ويجازي كل نفس بما كسبت.
+                </p>
+            </div>
+             <div className="space-y-2">
+                <h3 className="font-bold text-xl font-headline">صدق وعوده</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                    إن الله لا يخلف الميعاد. كل ما وعد به في كتبه ورسله هو حق ويقين. وعده بالجزاء للمحسنين، والعقاب للمسيئين، والنصر للمؤمنين، واستجابة الدعاء هي وعود صادقة لا تتغير ولا تتبدل، مما يمنح القلب ثقة وطمأنينة.
+                </p>
+            </div>
+        </CardContent>
+      </Card>
 
        <div className="text-center mt-16 bg-card p-8 rounded-lg shadow-inner">
           <h2 className="font-headline text-3xl font-bold mb-4">
