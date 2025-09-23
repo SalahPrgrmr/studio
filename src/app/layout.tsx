@@ -10,6 +10,7 @@ import ChatAssistant from '@/components/assistant/chat-assistant';
 export const metadata: Metadata = {
   title: 'مسار اليقين',
   description: 'رحلتك الشخصية نحو الوضوح والسعادة والرفاهية.',
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
