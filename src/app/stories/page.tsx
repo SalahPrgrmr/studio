@@ -1,53 +1,8 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-
-type Story = {
-  title: string;
-  author: string;
-  snippet: string;
-  imageId: string;
-};
-
-const stories: Story[] = [
-  {
-    title: "العثور على السلام في الفوضى",
-    author: "أليكس جونسون",
-    snippet: "من خلال التأمل والتوجيه، اكتشفت جوهر اليقين الذي حوّل قلقي إلى سلام عميق. لا تزال عواصف الحياة تأتي، لكن لدي الآن مرساة.",
-    imageId: "story-1"
-  },
-  {
-    title: "من الشك إلى العمل الحاسم",
-    author: "ماريا غارسيا",
-    snippet: "كنت مشلولة بسبب 'ماذا لو'. ساعدتني رحلة اليقين على تحديد قيمي، والآن أتخذ خياراتي بثقة وهدف، وأحتفل بكل خطوة إلى الأمام.",
-    imageId: "story-2"
-  },
-  {
-    title: "إعادة الاتصال بمجتمعي",
-    author: "ديفيد تشين",
-    snippet: "شعرت بالضياع والعزلة، وبحثت عن اليقين ووجدته ليس فقط في داخلي، ولكن في الروابط التي أعدت بناءها مع من حولي. القوة الحقيقية مشتركة.",
-    imageId: "story-3"
-  },
-  {
-    title: "منظور جديد على مسار مدى الحياة",
-    author: "فاطمة الفاسي",
-    snippet: "كان إيماني حجر الزاوية في حياتي، لكن كانت لدي أسئلة. هذه الرحلة لم تستبدل معتقداتي بل عمقتها، مما وفر يقينًا يبدو قديمًا وجديدًا في آن واحد.",
-    imageId: "story-4"
-  },
-  {
-    title: "الوضوح لتغيير المسار المهني",
-    author: "سام أوكونيل",
-    snippet: "شعرت بعدم الرضا ولكني كنت خائفًا جدًا من ترك وظيفتي المستقرة. العثور على اليقين في مهمتي الشخصية أعطاني الشجاعة لمتابعة مهنة تتماشى مع روحي.",
-    imageId: "story-5"
-  },
-  {
-    title: "إطلاق العنان لإمكانياتي الإبداعية",
-    author: "كلوي دوبوا",
-    snippet: "كان صوتي الإبداعي محجوبًا بالشك الذاتي. من خلال إيجاد اليقين في قيمتي ورؤيتي، تمكنت من إسكات الناقد الداخلي وإنشاء فن أشعر أنه ملكي حقًا.",
-    imageId: "story-6"
-  },
-];
-
+import { stories } from './data';
 
 export default function StoriesPage() {
   return (
@@ -64,27 +19,29 @@ export default function StoriesPage() {
         {stories.map((story) => {
           const imageData = PlaceHolderImages.find(img => img.id === story.imageId);
           return (
-            <Card key={story.title} className="flex flex-col overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
-              {imageData && (
-                <div className="aspect-w-16 aspect-h-9 overflow-hidden">
-                  <Image
-                    src={imageData.imageUrl}
-                    alt={imageData.description}
-                    width={600}
-                    height={400}
-                    data-ai-hint={imageData.imageHint}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              )}
-              <CardHeader>
-                <CardTitle className="font-headline text-2xl">{story.title}</CardTitle>
-                <CardDescription>بواسطة {story.author}</CardDescription>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <p className="text-muted-foreground italic">"{story.snippet}"</p>
-              </CardContent>
-            </Card>
+            <Link href={`/stories/${story.id}`} key={story.id} className="block group">
+              <Card className="flex flex-col overflow-hidden shadow-md group-hover:shadow-lg transition-shadow duration-300 transform group-hover:-translate-y-1 h-full">
+                {imageData && (
+                  <div className="aspect-w-16 aspect-h-9 overflow-hidden">
+                    <Image
+                      src={imageData.imageUrl}
+                      alt={imageData.description}
+                      width={600}
+                      height={400}
+                      data-ai-hint={imageData.imageHint}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
+                <CardHeader>
+                  <CardTitle className="font-headline text-2xl">{story.title}</CardTitle>
+                  <CardDescription>بواسطة {story.author}</CardDescription>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <p className="text-muted-foreground italic">"{story.snippet}"</p>
+                </CardContent>
+              </Card>
+            </Link>
           );
         })}
       </div>
