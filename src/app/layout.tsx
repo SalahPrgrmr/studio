@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { AuthProvider } from '@/hooks/use-auth';
+import ChatAssistant from '@/components/assistant/chat-assistant';
 
 export const metadata: Metadata = {
   title: 'مسار اليقين',
@@ -34,6 +35,7 @@ export default function RootLayout({
             <div className="flex-1">{children}</div>
             <Footer />
           </div>
+          <ChatAssistant />
           <Toaster />
         </AuthProvider>
       </body>

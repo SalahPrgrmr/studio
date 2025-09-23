@@ -1,6 +1,7 @@
 'use server';
 
 import { generatePersonalizedPath, GeneratePersonalizedPathInput } from '@/ai/flows/generate-personalized-path';
+import { askAssistant, AskAssistantInput } from '@/ai/flows/ask-assistant';
 import { personalPathSchema } from '@/lib/types';
 
 interface ActionResult {
@@ -25,6 +26,30 @@ export async function createPersonalizedPath(
     return { data: result };
   } catch (error) {
     console.error('Error generating personalized path:', error);
+    return { error: 'An unexpected error occurred on our end. Please try again later.' };
+  }
+}
+
+interface AssistantActionResult {
+  data?: { answer: string };
+  error?: string;
+}
+
+export async function getAssistantResponse(
+  input: AskAssistantInput
+): Promise<AssistantActionResult> {
+  if (!input.query || input.query.trim().length === 0) {
+    return { error: 'Query cannot be empty.' };
+  }
+
+  try {
+    const result = await askAssistant(input);
+    if (!result || !result.answer) {
+      return { error: 'The assistant could not provide an answer. Please try again.' };
+    }
+    return { data: result };
+  } catch (error) {
+    console.error('Error getting assistant response:', error);
     return { error: 'An unexpected error occurred on our end. Please try again later.' };
   }
 }
