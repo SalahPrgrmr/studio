@@ -18,6 +18,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 const navLinks = [
+  { href: '/god-certainty', label: 'اليقين بالله' },
   { href: '/stories', label: 'قصص نجاح' },
   { href: '/forum', label: 'المجتمع' },
 ];
