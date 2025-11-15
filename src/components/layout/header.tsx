@@ -24,6 +24,7 @@ const navLinks = [
   { href: '/stories', label: 'قصص نجاح' },
   { href: '/library', label: 'المكتبة' },
   { href: '/community', label: 'المجتمع' },
+  { href: '/vr-journeys', label: 'رحلات VR' },
 ];
 
 export default function Header() {
@@ -55,21 +56,21 @@ export default function Header() {
             </span>
           </Link>
         </div>
-        <nav className="flex flex-1 items-center space-x-reverse space-x-4">
+        <nav className="flex-1 items-center space-x-1 hidden md:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={cn(
-                'text-sm font-medium transition-colors hover:text-primary',
-                pathname.startsWith(link.href) ? 'text-primary' : 'text-muted-foreground'
+                'text-sm font-medium transition-colors hover:text-primary px-2 py-1 rounded-md',
+                pathname.startsWith(link.href) ? 'text-primary bg-primary/10' : 'text-muted-foreground'
               )}
             >
               {link.label}
             </Link>
           ))}
         </nav>
-        <div className="flex items-center justify-end space-x-reverse space-x-4">
+        <div className="flex items-center justify-end space-x-reverse space-x-2 md:space-x-4 flex-1 md:flex-initial">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
