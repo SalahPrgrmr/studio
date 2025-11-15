@@ -49,8 +49,8 @@ export default function JourneyOfCertaintyPage() {
         <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
           خارطة طريق رحلة اليقين
         </h1>
-        <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-          اليقين ليس وجهة، بل هو رحلة مستمرة من النمو والتطور. هذه الخارطة ترشدك خلال أهم محطات هذه الرحلة.
+        <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground leading-relaxed">
+          اليقين ليس وجهة، بل هو رحلة مستمرة ومستدامة لشحن القلب باليقين لأنه يزيد وينقص، وهذه الرحلة لا تنتهي إلا بالموت. لا غنى لأي بشر عن اليقين، فهو الوقود المحرك للحياة والسعادة والاطمئنان في الدنيا، والفوز والفلاح في الآخرة.
         </p>
       </div>
 
