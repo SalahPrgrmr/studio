@@ -1,7 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Map, Footprints, Telescope, BookHeart, Users, Milestone } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Map, Footprints, Telescope, BookHeart, Users, Milestone, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import CertaintyChart from '@/components/sections/certainty-chart';
 
 const journeySteps = [
   {
@@ -88,6 +89,21 @@ export default function JourneyOfCertaintyPage() {
           ))}
         </div>
       </div>
+      
+      <Card className="mt-20 shadow-lg">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-3 font-headline text-3xl">
+            <TrendingUp className="h-8 w-8 text-primary" />
+            نمو اليقين وفوائده
+          </CardTitle>
+          <CardDescription className="text-base pt-2">
+            هذا الرسم البياني يوضح كيف أن مستوى اليقين ينمو مع مرور الوقت والممارسة، على الرغم من أنه قد يواجه تقلبات. كلما زاد اليقين، زادت معه السعادة والطمأنينة.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <CertaintyChart />
+        </CardContent>
+      </Card>
     </div>
   );
 }
