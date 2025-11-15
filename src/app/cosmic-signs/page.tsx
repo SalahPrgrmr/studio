@@ -29,10 +29,10 @@ export default function CosmicSignsPage() {
     <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 animate-in fade-in duration-500">
       <div className="text-center mb-12">
         <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
-          اليقين بآيات الله في الكون
+          البلاغ والإنذار المبين
         </h1>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-          الكون كتاب مفتوح، وظواهره رسائل من الله لإيقاظ القلوب ودعوتها للعودة إلى طريق اليقين.
+          الكون كتاب مفتوح، وظواهره رسائل من الله لإيقاظ القلوب، وتحميل كل مسلم مسؤولية التبليغ والإنذار قبل فوات الأوان.
         </p>
       </div>
 
@@ -56,15 +56,18 @@ export default function CosmicSignsPage() {
         <CardHeader className="flex-row items-center gap-3">
           <AlertTriangle className="h-8 w-8 text-destructive" />
           <CardTitle className="font-headline text-2xl text-destructive">
-            رسالة تحذير وإنذار
+            مسؤولية التبليغ والتحذير من العذاب المباغت
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4 text-lg">
             <p className="leading-relaxed text-destructive/90">
-                هذه الظواهر ليست مجرد أحداث طبيعية عابرة، بل هي رسائل إلهية وإنذارات للناس. إنها تذكير بأن الكون يسير بأمر الله، وأن تجاهل هذه الآيات والإصرار على الغفلة قد يؤدي إلى عواقب وخيمة في الدنيا والآخرة.
+                هذه الظواهر ليست مجرد أحداث طبيعية، بل هي إنذارات واضحة ومسؤولية على عاتق كل مسلم ومسلمة لتبليغ كلمة "لا إله إلا الله". إنها دعوة لإنذار الناس من العذاب الفجائي والمباغت الذي وعد الله به الكافرين والغافلين الذين لا يوقنون.
             </p>
             <p className="leading-relaxed font-semibold text-destructive">
-                إن الله يرسل بالآيات تخويفًا، لعل الناس يرجعون ويتوبون ويوقنون به قبل فوات الأوان. فمن لم يوقن بالرسائل اللطيفة، قد تأتيه رسائل أشد لعلها توقظه.
+                لقد أقسم الله في كتابه بأنه سيستبدل الذين لا يؤمنون ولا يبلغون رسالته بقوم آخرين يحبهم ويحبونه، يوقنون به ويقومون بواجب البلاغ. إن الله يرسل بالآيات تخويفًا، لعل الناس يرجعون ويتوبون ويوقنون به قبل أن يأتي أمر الله.
+            </p>
+             <p className="leading-relaxed text-destructive/90">
+                فمن لم يوقن بالرسائل اللطيفة، قد تأتيه رسائل أشد لعلها توقظه. والمسؤولية تقع على كل من وصله هذا العلم لإنذار من حوله، فالدين هو النصيحة.
             </p>
         </CardContent>
       </Card>
