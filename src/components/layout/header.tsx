@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Globe, Languages, LogOut } from 'lucide-react';
+import { Globe, Languages, LogOut, Menu } from 'lucide-react';
+import { useState } from 'react';
 
 import Logo from '@/components/logo';
 import { Button } from '@/components/ui/button';
@@ -13,6 +14,12 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/hooks/use-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
@@ -32,6 +39,7 @@ export default function Header() {
   const pathname = usePathname();
   const { user, signOut } = useAuth();
   const router = useRouter();
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleSignOut = async () => {
     await signOut();
@@ -46,6 +54,22 @@ export default function Header() {
       .join('');
   };
 
+  const NavLink = ({ href, label }: { href: string; label: string }) => (
+    <Link
+      key={href}
+      href={href}
+      onClick={() => setIsSheetOpen(false)}
+      className={cn(
+        'text-sm font-medium transition-colors hover:text-primary px-3 py-2 rounded-md',
+        pathname.startsWith(href)
+          ? 'text-primary bg-primary/10'
+          : 'text-muted-foreground'
+      )}
+    >
+      {label}
+    </Link>
+  );
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 max-w-7xl items-center">
@@ -57,21 +81,41 @@ export default function Header() {
             </span>
           </Link>
         </div>
+
+        {/* Desktop Navigation */}
         <nav className="flex-1 items-center space-x-1 hidden md:flex">
           {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={cn(
-                'text-sm font-medium transition-colors hover:text-primary px-2 py-1 rounded-md',
-                pathname.startsWith(link.href) ? 'text-primary bg-primary/10' : 'text-muted-foreground'
-              )}
-            >
-              {link.label}
-            </Link>
+            <NavLink key={link.href} {...link} />
           ))}
         </nav>
-        <div className="flex items-center justify-end space-x-reverse space-x-2 md:space-x-4 flex-1 md:flex-initial">
+
+        {/* Mobile Navigation */}
+        <div className="md:hidden flex-1 flex justify-start">
+           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">فتح القائمة</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <SheetHeader>
+                 <Link href="/" onClick={() => setIsSheetOpen(false)} className="flex items-center space-x-2">
+                    <Logo className="h-6 w-6 text-primary" />
+                    <span className="font-bold font-headline">مسار اليقين</span>
+                  </Link>
+              </SheetHeader>
+              <nav className="flex flex-col space-y-2 mt-6">
+                {navLinks.map((link) => (
+                  <NavLink key={link.href} {...link} />
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
+
+
+        <div className="flex items-center justify-end space-x-reverse space-x-1 md:space-x-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -117,7 +161,7 @@ export default function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button asChild>
+            <Button asChild className="hidden sm:inline-flex">
               <Link href="/login">تسجيل الدخول</Link>
             </Button>
           )}
