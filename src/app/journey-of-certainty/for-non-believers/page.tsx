@@ -16,7 +16,7 @@ const steps = [
     title: "التفكر في الآيات الكونية",
     description: "النظر في دقة وانتظام الكون، من المجرات إلى أصغر خلية. كيف يمكن لهذا النظام المعقد أن يوجد بالصدفة؟",
     link: "/cosmic-signs",
-    linkLabel: "تأمل في الكون"
+    linkLabel: "تأمل في البلاغ والإنذار"
   },
   {
     icon: <MessageCircle className="h-8 w-8 text-primary" />,
