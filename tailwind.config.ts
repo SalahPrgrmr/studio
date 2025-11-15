@@ -17,9 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['var(--font-cairo)', 'var(--font-alegreya)', 'serif'],
-        headline: ['var(--font-cairo)', 'var(--font-alegreya)', 'serif'],
-        code: ['monospace'],
+        body: ['var(--font-cairo)', 'sans-serif'],
+        headline: ['var(--font-alegreya)', 'serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -92,5 +91,5 @@ export default {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
 } satisfies Config;

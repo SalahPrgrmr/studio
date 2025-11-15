@@ -1,9 +1,8 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { stories, Story } from '../data';
+import { stories } from '@/lib/stories-data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { User, Calendar } from 'lucide-react';
+import { User } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
