@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Map, Footprints, Telescope, BookHeart, Users, Milestone, TrendingUp, BookOpen } from 'lucide-react';
+import { Map, Footprints, Telescope, BookHeart, Users, Milestone, TrendingUp, BookOpen, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import CertaintyChart from '@/components/sections/certainty-chart';
@@ -8,33 +8,33 @@ const journeySteps = [
   {
     icon: <BookOpen className="h-10 w-10 text-primary" />,
     title: 'الخطوة الأولى: العلم والمعرفة',
-    description: 'تبدأ الرحلة بتطبيق الأمر الإلهي الأول في طريق اليقين: "فاعلم أنه لا إله إلا الله". المعرفة بالله وصفاته وكلماته هي حجر الأساس. صفحة "اليقين بالله" هي نقطة انطلاقك.',
+    description: 'كل رحلة عظيمة تبدأ بخطوة معرفية. الأمر الإلهي الأول في طريق اليقين هو "فاعلم". هذه هي مرحلة بناء الأساس المتين من خلال التعلم والقراءة.',
+    link: '/god-certainty',
+    linkLabel: 'ابدأ بالمعرفة'
+  },
+  {
+    icon: <ShieldCheck className="h-10 w-10 text-primary" />,
+    title: 'الخطوة الثانية: اليقين بالتوحيد',
+    description: 'بعد العلم، يأتي دور ترسيخ اليقين بأن لهذا الكون خالق واحد. صفحة "اليقين بالله" هي مرجعك لفهم وحدانية الله وأسمائه وصفاته وعمق كلماته.',
     link: '/god-certainty',
     linkLabel: 'تعرف على الله'
   },
   {
     icon: <Telescope className="h-10 w-10 text-primary" />,
-    title: 'الخطوة الثانية: التفكر في الكون وتسبيح الخالق',
-    description: 'بعد العلم بوجود الخالق، يأتي دور التفكر. مراقبة عظمة الكون ونظامه الدقيق تقودك بشكل طبيعي إلى تسبيح الخالق وتعظيمه، مما يعمق يقينك. تأمل في "آيات الكون" لترسيخ هذا الشعور.',
+    title: 'الخطوة الثالثة: التفكر في الكون',
+    description: 'التفكر هو تطبيق عملي للمعرفة. تأمل "آيات الكون" من حولك لترى عظمة الخالق في كل شيء، مما يحول العلم النظري إلى يقين قلبي راسخ.',
     link: '/cosmic-signs',
     linkLabel: 'استكشف آيات الكون'
   },
   {
     icon: <Users className="h-10 w-10 text-primary" />,
-    title: 'الخطوة الثالثة: استلهام التجارب',
+    title: 'الخطوة الرابعة: استلهام التجارب',
     description: 'أنت لست وحدك في هذه الرحلة. اقرأ "قصص نجاح" لأشخاص آخرين وجدوا طريقهم، وانضم إلى "المجتمع" للتواصل والدعم.',
     link: '/stories',
     linkLabel: 'اقرأ قصص النجاح'
   },
   {
     icon: <Footprints className="h-10 w-10 text-primary" />,
-    title: 'الخطوة الرابعة: الاستكشاف والبحث',
-    description: 'بعد بناء الأساس المعرفي، استمر في البحث والاستكشاف. صفحة "الاستقصاء" يمكن أن تساعدك على فهم مشاعرك وتحديد الأسئلة الأعمق في رحلتك.',
-    link: '/survey',
-    linkLabel: 'ابدأ الاستقصاء'
-  },
-  {
-    icon: <Milestone className="h-10 w-10 text-primary" />,
     title: 'الخطوة الخامسة: بناء مسارك الخاص',
     description: 'الآن، اجمع كل ما تعلمته وشعرت به لتبني "مسارك الشخصي". استخدم أداتنا المدعومة بالذكاء الاصطناعي لإنشاء خطة عملية تناسبك.',
     link: '/#personal-path',
