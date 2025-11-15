@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Users, MessageSquare, HandHeart, HeartHandshake, Radio, Video } from 'lucide-react';
+import { Users, MessageSquare, HandHeart, HeartHandshake, Radio, Video, Building } from 'lucide-react';
 
 const communitySections = [
   {
@@ -32,6 +32,12 @@ const communitySections = [
     icon: <HeartHandshake className="h-8 w-8 text-primary" />,
     title: 'الداعمون',
     description: 'ساهم في استمرارية وتطور المنصة من خلال دعمك.',
+  },
+    {
+    href: '/community/partners',
+    icon: <Building className="h-8 w-8 text-primary" />,
+    title: 'شركاء اليقين',
+    description: 'تعرف على المؤسسات والجهات التي تشاركنا الرؤية وتساهم في تحقيق رسالتنا.',
   },
 ];
 
