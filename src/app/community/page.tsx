@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
-import { Users, MessageSquare, HandHeart, HeartHandshake } from 'lucide-react';
+import { Users, MessageSquare, HandHeart, HeartHandshake, Radio, Video } from 'lucide-react';
 
 const communitySections = [
   {
@@ -8,6 +8,18 @@ const communitySections = [
     icon: <MessageSquare className="h-8 w-8 text-primary" />,
     title: 'المنتدى',
     description: 'شارك بأفكارك، واطرح الأسئلة، وتواصل مع الآخرين في رحلتهم.',
+  },
+  {
+    href: '/community/audio-rooms',
+    icon: <Radio className="h-8 w-8 text-primary" />,
+    title: 'غرف الدردشة الصوتية',
+    description: 'انضم إلى نقاشات صوتية مباشرة حول مواضيع تهمك واستمع لآراء متنوعة.',
+  },
+  {
+    href: '/community/video-rooms',
+    icon: <Video className="h-8 w-8 text-primary" />,
+    title: 'غرف البث المرئي',
+    description: 'شاهد واستمع إلى بث مباشر وورش عمل تفاعلية من قبل خبراء ومؤثرين.',
   },
   {
     href: '/community/volunteers',
