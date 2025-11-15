@@ -1,8 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { stories } from '@/lib/stories-data';
+import { PenSquare } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function StoriesPage() {
   return (
@@ -15,6 +17,26 @@ export default function StoriesPage() {
           اقرأ قصصًا ملهمة من أفراد وجدوا طريقهم إلى اليقين.
         </p>
       </div>
+
+       <Card className="mb-12 bg-primary/5 text-center p-8 md:p-12 rounded-2xl shadow-lg border-primary/20">
+        <CardHeader>
+            <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
+                <PenSquare className="h-10 w-10 text-primary" />
+            </div>
+          <CardTitle className="font-headline text-3xl font-bold mb-2">
+            شارك قصتك وألهم الآخرين
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="max-w-3xl mx-auto">
+          <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+            هل لديك قصة عن رحلتك مع اليقين؟ أو ربما سمعت قصة أثرت فيك. مشاركتك يمكن أن تكون مصدر إلهام وقوة لشخص آخر يمر بنفس الطريق.
+          </p>
+          <Button size="lg" asChild>
+            <Link href="/stories/new">اكتب قصتك الآن</Link>
+          </Button>
+        </CardContent>
+      </Card>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {stories.map((story) => {
           const imageData = PlaceHolderImages.find(img => img.id === story.imageId);
