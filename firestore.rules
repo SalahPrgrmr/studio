@@ -14,6 +14,7 @@
  * - /live_streams/{streamId}: Stores live stream data, secured by a denormalized 'members' map.
  * - /voice_chat_rooms/{roomId}: Stores voice chat room data, secured by a denormalized 'members' map.
  * - /voice_chat_rooms/{roomId}/messages/{messageId}: Stores voice chat messages, also secured by a denormalized 'members' map from the parent room.
+ * - /video_chat_rooms/{roomId}: Stores video chat room data.
  * - /roles_admin/{uid}: Used for Database-Based Access Control (DBAC) to grant admin privileges.
  *
  * Key Security Decisions:
@@ -187,6 +188,24 @@ service cloud.firestore {
         allow update: if isSignedIn() && isExistingOwner();
         allow delete: if isSignedIn() && isExistingOwner();
     }
+    
+    /**
+     * @description Controls access to video chat rooms.
+     * @path /video_chat_rooms/{roomId}
+     */
+     match /video_chat_rooms/{roomId} {
+        function isOwner() {
+          return request.auth.uid == request.resource.data.ownerId;
+        }
+        function isExistingOwner() {
+          return request.auth.uid == resource.data.ownerId;
+        }
+
+        allow create: if isSignedIn() && isOwner();
+        allow get, list: if true;
+        allow update: if isSignedIn() && isExistingOwner();
+        allow delete: if isSignedIn() && isExistingOwner();
+    }
 
     /**
      * @description Controls access to voice chat messages within a room, using the room's denormalized 'members' map.
@@ -234,3 +253,5 @@ service cloud.firestore {
     }
   }
 }
+
+    

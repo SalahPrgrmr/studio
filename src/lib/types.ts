@@ -17,6 +17,15 @@ export type VoiceChatRoom = {
     members: { [key: string]: 'owner' | 'speaker' | 'listener' };
 };
 
+export type VideoChatRoom = {
+    id: string;
+    name: string;
+    presenter: string;
+    ownerId: string;
+    creationDate: string;
+    members: { [key: string]: 'owner' | 'viewer' };
+};
+
 export type VoiceChatMessage = {
     id: string;
     roomId: string;
@@ -24,3 +33,5 @@ export type VoiceChatMessage = {
     message: string;
     timestamp: string;
 }
+
+    

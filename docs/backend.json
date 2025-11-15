@@ -196,12 +196,54 @@
         "ownerId": {
           "type": "string",
           "description": "Reference to the User who owns the voice chat room. (Relationship: User 1:N VoiceChatRoom)"
+        },
+        "members": {
+          "type": "object"
         }
       },
       "required": [
         "id",
         "name",
         "description",
+        "creationDate",
+        "ownerId"
+      ]
+    },
+    "VideoChatRoom": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "VideoChatRoom",
+      "type": "object",
+      "description": "Represents a video chat room on the platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the VideoChatRoom entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the video chat room."
+        },
+        "presenter": {
+          "type": "string",
+          "description": "The name of the presenter or host."
+        },
+        "creationDate": {
+          "type": "string",
+          "description": "The date and time the video chat room was created.",
+          "format": "date-time"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Reference to the User who owns the video chat room."
+        },
+        "members": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "presenter",
         "creationDate",
         "ownerId"
       ]
@@ -348,6 +390,22 @@
         }
       },
       {
+        "path": "/video_chat_rooms/{roomId}",
+        "definition": {
+          "entityName": "VideoChatRoom",
+          "schema": {
+            "$ref": "#/backend/entities/VideoChatRoom"
+          },
+          "description": "Stores video chat rooms.",
+          "params": [
+            {
+              "name": "roomId",
+              "description": "The unique identifier of the video chat room."
+            }
+          ]
+        }
+      },
+      {
         "path": "/voice_chat_rooms/{roomId}/messages/{messageId}",
         "definition": {
           "entityName": "VoiceChatMessage",
@@ -387,3 +445,4 @@
     "reasoning": "The Firestore data structure is designed to provide a secure and scalable platform for the Certainty Path application. It emphasizes authorization independence and clear security rules. The key aspects of the structure are as follows:\n\n1.  **User Data:** User data is stored in `/users/{userId}` using path-based ownership. This allows for simple security rules based on `request.auth.uid == userId`. No denormalization is required here as access is directly tied to the user's ID.\n\n2.  **Community Forum Posts:** Community forum posts are stored in `/community_forum_posts/{postId}`. The `authorId` is stored within each document. List operations can be secured by limiting access to authorized users or making certain posts public based on a `status` field. (e.g., `status: 'public'` or `status: 'private'`).\n\n3.  **Success Stories:** Similar to forum posts, success stories are stored in `/success_stories/{storyId}`. The `authorId` field ensures clear ownership. Again, using a `status` field can control list access for different user roles.\n\n4.  **Certainty Definitions:** Certainty definitions are stored in `/certainty_definitions/{definitionId}`. These are intended as global, read-only data. Write access would be restricted to admin roles (enforced via a separate `/roles_admin/{uid}` collection - DBAC).\n\n5.  **Live Streams:** Live streams are stored in `/live_streams/{streamId}`. The `hostId` field indicates the owner. A `members` map can be added to handle collaborative live streams, with denormalization of this `members` map into each live stream document. This achieves authorization independence.\n\n6.  **Voice Chat Rooms:** Voice chat rooms are stored in `/voice_chat_rooms/{roomId}`. The `ownerId` field indicates the owner. The `members` map is crucial for authorization. Denormalization is applied: the `members` map is copied from the root document into every `/voice_chat_rooms/{roomId}` document to ensure authorization independence.\n\n7.  **Voice Chat Messages:** Voice chat messages are stored in `/voice_chat_rooms/{roomId}/messages/{messageId}`. Critically, the `members` map from the parent `/voice_chat_rooms/{roomId}` document is denormalized into EACH message. This ensures authorization independence: rules do not need to `get()` the parent room to check membership. QAPs are met because listing messages requires membership in the room, enforced by the denormalized `members` map on each message.\n\nThis structure supports the core design principles by:\n\n*   **Authorization Independence:** Achieved through denormalizing the `members` map in Live Streams and Voice Chat Messages, eliminating the need for `get()` calls in security rules.\n*   **Clarity of Intent:** The structure clearly separates user-owned data, collaborative data, and global data, making security rules more readable and maintainable.\n*   **DBAC:** Roles are managed via document existence in the `/roles_admin/{uid}` collection.\n*   **QAPs:** Segregation (different collections for different access needs) and membership models (denormalized `members` maps) enable secure `list` operations.\n*   **Invariants:** Timestamps are included, and ownership is explicitly modeled with `ownerId` and `authorId` fields."
   }
 }
+    
