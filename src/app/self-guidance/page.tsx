@@ -2,6 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Lightbulb, Brain, Heart, Zap, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import KhalilAssistant from "@/components/assistant/khalil-assistant";
 
 const guidanceSteps = [
   {
@@ -39,7 +40,7 @@ export default function SelfGuidancePage() {
         </p>
       </div>
       
-       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
         {guidanceSteps.map((step) => (
           <Card key={step.title} className="shadow-md hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center gap-4">
@@ -52,6 +53,8 @@ export default function SelfGuidancePage() {
           </Card>
         ))}
       </div>
+      
+      <KhalilAssistant />
 
        <div className="text-center mt-16 pt-8 border-t">
           <h2 className="font-headline text-2xl font-bold mb-4">هل أنت مستعد للبدء؟</h2>
