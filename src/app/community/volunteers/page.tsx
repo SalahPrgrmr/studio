@@ -11,7 +11,7 @@ const contributionAreas = [
   {
     icon: <Mic className="h-8 w-8 text-primary" />,
     title: 'المؤثرون والسفراء',
-    description: 'إذا كان لديك صوت مسموع وتأثير إيجابي، يمكنك أن تكون سفيرًا لـ "مسار اليقين" وتساعد في نشر رسالتنا.',
+    description: 'إذا كان لديك صوت مسموع وتأثير إيجابي، يمكنك أن تكون سفيرًا لـ "عين اليقين" وتساعد في نشر رسالتنا.',
   },
   {
     icon: <Film className="h-8 w-8 text-primary" />,

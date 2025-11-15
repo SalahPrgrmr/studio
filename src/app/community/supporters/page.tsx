@@ -57,7 +57,7 @@ export default function SupportersPage() {
         </CardHeader>
         <CardContent className="max-w-3xl mx-auto">
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-            "مسار اليقين" هو مشروع غير ربحي يعتمد على كرم داعميه. إذا كنت تؤمن برسالتنا وترغب في المساهمة في استمراريتها، فإننا نرحب بدعمك.
+            "عين اليقين" هو مشروع غير ربحي يعتمد على كرم داعميه. إذا كنت تؤمن برسالتنا وترغب في المساهمة في استمراريتها، فإننا نرحب بدعمك.
           </p>
           <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" disabled>
             ادعم المشروع (قريبًا)

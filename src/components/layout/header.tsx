@@ -80,7 +80,7 @@ export default function Header() {
           <Link href="/" className="ml-2 flex items-center justify-center space-x-2">
             <Logo className="h-6 w-6 text-primary" />
             <span className="font-bold font-headline inline-block text-lg">
-              مسار اليقين
+              عين اليقين
             </span>
           </Link>
         </div>
@@ -105,7 +105,7 @@ export default function Header() {
               <SheetHeader>
                  <Link href="/" onClick={() => setIsSheetOpen(false)} className="flex items-center space-x-2">
                     <Logo className="h-6 w-6 text-primary" />
-                    <span className="font-bold font-headline">مسار اليقين</span>
+                    <span className="font-bold font-headline">عين اليقين</span>
                   </Link>
               </SheetHeader>
               <nav className="flex flex-col space-y-2 mt-6">

@@ -1,5 +1,5 @@
 /**
- * @fileoverview Firestore Security Rules for the Certainty Path application.
+ * @fileoverview Firestore Security Rules for the Eye of Certainty application.
  *
  * Core Philosophy:
  * This ruleset enforces a strict user-ownership model for personal data and
