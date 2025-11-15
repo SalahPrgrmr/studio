@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import { AuthProvider } from '@/hooks/use-auth';
+import { FirebaseClientProvider } from '@/firebase';
 import ChatAssistant from '@/components/assistant/chat-assistant';
 
 export const metadata: Metadata = {
@@ -40,7 +40,7 @@ export default function RootLayout({
           alegreya.variable
         )}
       >
-        <AuthProvider>
+        <FirebaseClientProvider>
           <div className="relative flex min-h-dvh flex-col">
             <Header />
             <div className="flex-1">{children}</div>
@@ -48,7 +48,7 @@ export default function RootLayout({
           </div>
           <ChatAssistant />
           <Toaster />
-        </AuthProvider>
+        </FirebaseClientProvider>
       </body>
     </html>
   );

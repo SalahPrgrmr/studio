@@ -174,11 +174,18 @@ service cloud.firestore {
      *     request.resource.data.members[request.auth.uid] != null
      * @principle Enforces membership via a denormalized 'members' map.
      */
-    match /voice_chat_rooms/{roomId} {
-      allow create: if isSignedIn();
-      allow get, list: if isSignedIn() && resource.data.members[request.auth.uid] != null;
-      allow update: if isSignedIn() && resource.data.members[request.auth.uid] != null && resource != null;
-      allow delete: if isSignedIn() && resource.data.members[request.auth.uid] != null && resource != null;
+     match /voice_chat_rooms/{roomId} {
+        function isOwner() {
+          return request.auth.uid == request.resource.data.ownerId;
+        }
+        function isExistingOwner() {
+          return request.auth.uid == resource.data.ownerId;
+        }
+
+        allow create: if isSignedIn() && isOwner();
+        allow get, list: if isSignedIn();
+        allow update: if isSignedIn() && isExistingOwner();
+        allow delete: if isSignedIn() && isExistingOwner();
     }
 
     /**
@@ -195,8 +202,12 @@ service cloud.firestore {
      * @principle Enforces membership via a denormalized 'members' map inherited from the parent room; messages are immutable.
      */
     match /voice_chat_rooms/{roomId}/messages/{messageId} {
-        allow create: if isSignedIn() && get(/databases/$(database)/documents/voice_chat_rooms/$(roomId)).data.members[request.auth.uid] != null;
-        allow get, list: if isSignedIn() && get(/databases/$(database)/documents/voice_chat_rooms/$(roomId)).data.members[request.auth.uid] != null;
+        function isRoomMember(roomId) {
+            return get(/databases/$(database)/documents/voice_chat_rooms/$(roomId)).data.members[request.auth.uid] != null;
+        }
+        
+        allow create: if isSignedIn() && isRoomMember(roomId);
+        allow get, list: if isSignedIn() && isRoomMember(roomId);
         allow update: if false;
         allow delete: if false;
     }

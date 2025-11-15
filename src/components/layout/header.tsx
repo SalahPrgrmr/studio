@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Globe, Languages, LogOut, Menu } from 'lucide-react';
+import { Globe, Languages, LogOut, Menu, User as UserIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import Logo from '@/components/logo';
@@ -21,8 +21,9 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
-import { useAuth } from '@/hooks/use-auth';
+import { useFirebase } from '@/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { signOut } from 'firebase/auth';
 
 const navLinks = [
   { href: '/journey-of-certainty', label: 'رحلة اليقين' },
@@ -37,21 +38,23 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
-  const { user, signOut } = useAuth();
+  const { user, auth } = useFirebase();
   const router = useRouter();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleSignOut = async () => {
-    await signOut();
+    if (!auth) return;
+    await signOut(auth);
     router.push('/');
   };
   
   const getInitials = (name?: string | null) => {
-    if (!name) return 'U';
+    if (!name) return <UserIcon className="h-5 w-5" />;
     return name
       .split(' ')
       .map(n => n[0])
-      .join('');
+      .join('')
+      .toUpperCase();
   };
 
   const NavLink = ({ href, label }: { href: string; label: string }) => (

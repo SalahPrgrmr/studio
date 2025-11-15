@@ -3,41 +3,55 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Github } from 'lucide-react';
+import { Github, Loader2 } from 'lucide-react';
+import { signInWithPopup, GithubAuthProvider, UserCredential } from 'firebase/auth';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useAuth } from '@/hooks/use-auth';
-import { Toaster } from '@/components/ui/toaster';
+import { useFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
 
 export default function LoginPage() {
   const [isGitHubLoading, setIsGitHubLoading] = useState(false);
   const router = useRouter();
-  const { signInWithGithub } = useAuth();
+  const { auth } = useFirebase();
   const { toast } = useToast();
 
   const handleGitHubSignIn = async () => {
+    if (!auth) {
+        toast({
+            variant: "destructive",
+            title: "خطأ",
+            description: "خدمة المصادقة غير متوفرة حاليًا.",
+        });
+        return;
+    }
+
     setIsGitHubLoading(true);
+    const provider = new GithubAuthProvider();
+    
     try {
-      await signInWithGithub();
+      await signInWithPopup(auth, provider);
+      toast({
+        title: 'تم تسجيل الدخول بنجاح',
+        description: 'أهلاً بك مجددًا!',
+      });
       router.push('/');
-    } catch (error) {
+    } catch (error: any) {
       console.error('GitHub sign-in error:', error);
       toast({
         variant: 'destructive',
         title: 'خطأ في المصادقة',
-        description: 'فشل تسجيل الدخول باستخدام GitHub. يرجى المحاولة مرة أخرى.',
+        description: error.message || 'فشل تسجيل الدخول باستخدام GitHub. يرجى المحاولة مرة أخرى.',
       });
+    } finally {
       setIsGitHubLoading(false);
     }
   };
 
   return (
-    <>
-      <Toaster />
       <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center p-4">
-        <Card className="mx-auto w-full max-w-sm">
+        <Card className="mx-auto w-full max-w-sm animate-in fade-in duration-500">
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-headline">تسجيل الدخول</CardTitle>
             <CardDescription>
@@ -52,7 +66,7 @@ export default function LoginPage() {
                 disabled={isGitHubLoading}
               >
                 {isGitHubLoading ? (
-                  <span className="animate-spin ml-2">...</span>
+                  <Loader2 className="ml-2 h-4 w-4 animate-spin" />
                 ) : (
                   <Github className="ml-2 h-4 w-4" />
                 )}
@@ -62,6 +76,5 @@ export default function LoginPage() {
           </CardContent>
         </Card>
       </div>
-    </>
   );
 }

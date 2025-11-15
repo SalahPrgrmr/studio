@@ -7,3 +7,20 @@ export const personalPathSchema = z.object({
 });
 
 export type PersonalPathFormValues = z.infer<typeof personalPathSchema>;
+
+export type VoiceChatRoom = {
+    id: string;
+    name: string;
+    description: string;
+    ownerId: string;
+    creationDate: string;
+    members: { [key: string]: 'owner' | 'speaker' | 'listener' };
+};
+
+export type VoiceChatMessage = {
+    id: string;
+    roomId: string;
+    senderId: string;
+    message: string;
+    timestamp: string;
+}
