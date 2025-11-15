@@ -1,5 +1,7 @@
+'use client';
+
 import Image from 'next/image';
-import { Images } from 'lucide-react';
+import { Images, Download, Share2, Upload } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -7,7 +9,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
+  DialogClose,
 } from "@/components/ui/dialog"
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 const imageGallery = [
   {
@@ -92,10 +98,43 @@ export default function ImageLibraryPage() {
                <div className="relative aspect-video mt-4">
                  <Image src={image.imageUrl} alt={image.title} fill className="object-contain" data-ai-hint={image.imageHint} />
                </div>
+               <DialogFooter className="sm:justify-start gap-2 pt-4">
+                  <Button variant="outline" disabled>
+                    <Download className="ml-2 h-4 w-4" />
+                    تحميل
+                  </Button>
+                  <Button variant="outline" disabled>
+                    <Share2 className="ml-2 h-4 w-4" />
+                    مشاركة
+                  </Button>
+                  <DialogClose asChild>
+                      <Button type="button" variant="secondary" className="mr-auto">
+                      إغلاق
+                      </Button>
+                  </DialogClose>
+                </DialogFooter>
              </DialogContent>
            </Dialog>
         ))}
       </div>
+       <Card className="mt-16 bg-primary/5 text-center p-8 md:p-12 rounded-2xl shadow-lg border-primary/20">
+        <CardHeader>
+            <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
+                <Upload className="h-10 w-10 text-primary" />
+            </div>
+          <CardTitle className="font-headline text-3xl font-bold mb-2">
+            هل لديك صورة ملهمة؟
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="max-w-3xl mx-auto">
+          <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+            شارك صورة التقطتها أو تصميمًا أبدعته ويعكس معنى من معاني اليقين أو آية من آيات الله في الكون.
+          </p>
+          <Button size="lg" disabled>
+            ارفع صورتك (قريبًا)
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -1,6 +1,8 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookOpen, BookMarked, Download, FileText } from 'lucide-react';
+import { BookOpen, BookMarked, Download, FileText, Share2, Upload } from 'lucide-react';
 import Image from 'next/image';
 
 const bookContent = [
@@ -67,18 +69,41 @@ export default function BookLibraryPage() {
             <CardContent className="flex-grow">
               {/* Maybe a short description here in the future */}
             </CardContent>
-            <CardFooter>
-              <Button className="w-full" disabled>
-                <Download className="ml-2 h-5 w-5" />
-                تحميل (قريبًا)
+            <CardFooter className="flex-wrap gap-2">
+              <Button className="flex-1" disabled>
+                <BookOpen className="ml-2 h-4 w-4" />
+                قراءة
+              </Button>
+               <Button variant="outline" className="flex-1" disabled>
+                <Download className="ml-2 h-4 w-4" />
+                تحميل
+              </Button>
+               <Button variant="ghost" disabled>
+                <Share2 className="ml-2 h-4 w-4" />
+                مشاركة
               </Button>
             </CardFooter>
           </Card>
         ))}
       </div>
-       <div className="text-center mt-16">
-        <p className="text-muted-foreground">يتم العمل على إضافة المزيد من الكتب والمقالات قريبًا!</p>
-      </div>
+       <Card className="mt-16 bg-primary/5 text-center p-8 md:p-12 rounded-2xl shadow-lg border-primary/20">
+        <CardHeader>
+            <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
+                <Upload className="h-10 w-10 text-primary" />
+            </div>
+          <CardTitle className="font-headline text-3xl font-bold mb-2">
+            هل لديك كتاب أو مقال مفيد؟
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="max-w-3xl mx-auto">
+          <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+            نحن نبحث دائمًا عن كتب ومقالات تثري العقل وتغذي الروح. شاركنا توصياتك أو أعمالك.
+          </p>
+          <Button size="lg" disabled>
+            ارفع مشاركتك (قريبًا)
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }

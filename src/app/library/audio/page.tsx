@@ -1,6 +1,8 @@
+'use client';
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Headphones, Play, Clock, Mic } from 'lucide-react';
+import { Headphones, Play, Clock, Mic, Download, Share2, Upload } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 const audioContent = [
@@ -51,18 +53,41 @@ export default function AudioLibraryPage() {
                 <span className="flex items-center gap-1"><Clock className="h-4 w-4" /> {audio.duration}</span>
               </div>
             </div>
-            <div className="w-full md:w-auto">
-              <Button className="w-full md:w-auto" disabled>
-                <Play className="ml-2 h-5 w-5" />
-                استمع الآن (قريبًا)
+            <div className="flex items-center gap-2">
+              <Button disabled>
+                <Play className="ml-2 h-4 w-4" />
+                استمع
+              </Button>
+               <Button variant="outline" disabled>
+                <Download className="ml-2 h-4 w-4" />
+                تحميل
+              </Button>
+               <Button variant="ghost" disabled>
+                <Share2 className="ml-2 h-4 w-4" />
+                مشاركة
               </Button>
             </div>
           </Card>
         ))}
       </div>
-       <div className="text-center mt-16">
-        <p className="text-muted-foreground">يتم العمل على إضافة المزيد من المحتوى الصوتي قريبًا!</p>
-      </div>
+       <Card className="mt-16 bg-primary/5 text-center p-8 md:p-12 rounded-2xl shadow-lg border-primary/20">
+        <CardHeader>
+            <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
+                <Upload className="h-10 w-10 text-primary" />
+            </div>
+          <CardTitle className="font-headline text-3xl font-bold mb-2">
+            هل لديك محتوى صوتي ملهم؟
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="max-w-3xl mx-auto">
+          <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+            شارك بمحاضرة، تأمل، أو أي مادة صوتية تعتقد أنها قد تساهم في رحلة اليقين للآخرين.
+          </p>
+          <Button size="lg" disabled>
+            ارفع مشاركتك الصوتية (قريبًا)
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }

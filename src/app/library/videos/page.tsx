@@ -1,6 +1,8 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+'use client';
+
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Video, PlayCircle, Eye } from 'lucide-react';
+import { Video, PlayCircle, Eye, Download, Share2, Upload } from 'lucide-react';
 import Image from 'next/image';
 
 const videoContent = [
@@ -45,7 +47,7 @@ export default function VideoLibraryPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {videoContent.map((video) => (
-          <Card key={video.id} className="overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+          <Card key={video.id} className="overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
             <div className="aspect-video relative">
                <Image 
                 src={video.thumbnailUrl} 
@@ -64,18 +66,41 @@ export default function VideoLibraryPage() {
               <CardTitle className="font-headline text-xl">{video.title}</CardTitle>
               <CardDescription>تقديم: {video.presenter}</CardDescription>
             </CardHeader>
-            <CardContent>
-              <Button className="w-full" disabled>
+            <CardFooter className="mt-auto flex-wrap gap-2">
+              <Button className="flex-1" disabled>
                 <PlayCircle className="ml-2 h-5 w-5" />
-                شاهد الآن (قريبًا)
-                </Button>
-            </CardContent>
+                شاهد الآن
+              </Button>
+               <Button variant="outline" className="flex-auto" disabled>
+                <Download className="ml-2 h-4 w-4" />
+                تحميل
+              </Button>
+               <Button variant="ghost" className="flex-auto" disabled>
+                <Share2 className="ml-2 h-4 w-4" />
+                مشاركة
+              </Button>
+            </CardFooter>
           </Card>
         ))}
       </div>
-       <div className="text-center mt-16">
-        <p className="text-muted-foreground">يتم العمل على إضافة المزيد من الفيديوهات قريبًا!</p>
-      </div>
+       <Card className="mt-16 bg-primary/5 text-center p-8 md:p-12 rounded-2xl shadow-lg border-primary/20">
+        <CardHeader>
+            <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
+                <Upload className="h-10 w-10 text-primary" />
+            </div>
+          <CardTitle className="font-headline text-3xl font-bold mb-2">
+            هل لديك فيديو ملهم؟
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="max-w-3xl mx-auto">
+          <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+           سواء كان فيلمًا وثائقيًا قصيرًا، أو رسالة مؤثرة، أو شرحًا لمفهوم علمي يظهر عظمة الخلق، نرحب بمشاركاتك.
+          </p>
+          <Button size="lg" disabled>
+            ارفع الفيديو الخاص بك (قريبًا)
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }
