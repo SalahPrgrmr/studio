@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertTriangle, Eclipse, Mountain, Wind, Zap } from 'lucide-react';
+import { AlertTriangle, Eclipse, Mountain, Wind, Zap, Users } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 const cosmicSigns = [
   {
@@ -69,6 +71,25 @@ export default function CosmicSignsPage() {
              <p className="leading-relaxed text-destructive/90">
                 فمن لم يوقن بالرسائل اللطيفة، قد تأتيه رسائل أشد لعلها توقظه. والمسؤولية تقع على كل من وصله هذا العلم لإنذار من حوله، فالدين هو النصيحة.
             </p>
+        </CardContent>
+      </Card>
+      
+      <Card className="bg-primary/5 text-center p-8 md:p-12 rounded-2xl shadow-lg">
+        <CardHeader>
+          <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
+              <Users className="h-10 w-10 text-primary" />
+          </div>
+          <CardTitle className="font-headline text-3xl font-bold mb-2">
+            انضم إلى فرق التبليغ والإنذار
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="max-w-3xl mx-auto">
+          <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+            لا تقف مكتوف الأيدي. كن جزءًا من العمل وأخلِ مسؤوليتك أمام الله بالمساهمة في نشر الرسالة. انضم إلى المتطوعين والمؤثرين الذين يعملون على تبليغ كلمة الحق.
+          </p>
+          <Button size="lg" asChild>
+            <Link href="/community/volunteers">انضم الآن</Link>
+          </Button>
         </CardContent>
       </Card>
 
