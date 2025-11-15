@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Sparkles, Bot, User, Loader2 } from 'lucide-react';
+import { Sparkles, Bot, User, Loader2, PenLine } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { createPersonalizedPath } from '@/app/actions';
 import { personalPathSchema, type PersonalPathFormValues } from '@/lib/types';
@@ -42,6 +42,10 @@ export default function PersonalPathForm() {
       });
     } else if (actionResult.data) {
       setResult(actionResult.data.personalizedPath);
+      // Scroll to the result card
+      setTimeout(() => {
+        document.getElementById('ai-result-card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
     }
   }
 
@@ -72,7 +76,9 @@ export default function PersonalPathForm() {
                 name="beliefs"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base">معتقداتك الحالية</FormLabel>
+                    <FormLabel className="flex items-center gap-2 text-base">
+                      <PenLine className="h-4 w-4" /> معتقداتك الحالية
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="على سبيل المثال، وجهات نظرك الروحية أو الفلسفية أو الشخصية حول الحياة والعالم..."
@@ -90,7 +96,9 @@ export default function PersonalPathForm() {
                 name="background"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base">خلفيتك وتجاربك</FormLabel>
+                    <FormLabel className="flex items-center gap-2 text-base">
+                      <PenLine className="h-4 w-4" /> خلفيتك وتجاربك
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="على سبيل المثال، نشأتك الثقافية، أحداث حياتك الهامة، أو مسيرتك المهنية..."
@@ -108,7 +116,9 @@ export default function PersonalPathForm() {
                 name="aspirations"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-base">تطلعاتك وأهدافك</FormLabel>
+                    <FormLabel className="flex items-center gap-2 text-base">
+                      <PenLine className="h-4 w-4" /> تطلعاتك وأهدافك
+                    </FormLabel>
                     <FormControl>
                       <Textarea
                         placeholder="على سبيل المثال، ما تأمل في تحقيقه، الشخص الذي تريد أن تصبحه، أو التأثير الذي ترغب في إحداثه..."
@@ -142,7 +152,7 @@ export default function PersonalPathForm() {
       </Card>
       
       {isLoading && (
-        <Card className="max-w-4xl mx-auto mt-8 shadow-lg animate-pulse">
+        <Card className="max-w-4xl mx-auto mt-8 shadow-lg animate-pulse" id="ai-result-card">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2 font-headline text-2xl">
                     <Bot className="h-6 w-6" /> مسارك الشخصي
@@ -152,12 +162,13 @@ export default function PersonalPathForm() {
                 <div className="h-4 bg-muted rounded w-3/4"></div>
                 <div className="h-4 bg-muted rounded w-full"></div>
                 <div className="h-4 bg-muted rounded w-5/6"></div>
+                <div className="h-4 bg-muted rounded w-1/2"></div>
             </CardContent>
         </Card>
       )}
 
       {result && !isLoading && (
-        <Card className="max-w-4xl mx-auto mt-8 shadow-lg animate-in fade-in duration-500">
+        <Card id="ai-result-card" className="max-w-4xl mx-auto mt-8 shadow-lg animate-in fade-in duration-500">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 font-headline text-2xl">
               <Bot className="h-6 w-6 text-primary" /> مسارك الشخصي

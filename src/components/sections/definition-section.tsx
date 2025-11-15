@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { BookOpenText } from 'lucide-react';
 
 const definitions = [
   {
@@ -25,8 +26,8 @@ export default function DefinitionSection() {
     <section id="definitions" className="w-full">
       <div className="grid md:grid-cols-5 gap-8 items-center">
         <div className="md:col-span-2 space-y-4">
-          <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
-            فهم اليقين
+          <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl flex items-center gap-3">
+             <BookOpenText className="h-8 w-8" /> فهم اليقين
           </h2>
           <p className="text-muted-foreground text-lg">
             تعريفات وتوضيحات واضحة ومحايدة حول أهمية اليقين في الحياة.
@@ -35,7 +36,7 @@ export default function DefinitionSection() {
         <div className="md:col-span-3">
           <Accordion type="single" collapsible defaultValue="item-0" className="w-full">
             {definitions.map((item, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="bg-background rounded-lg mb-2 px-4 shadow-sm">
+              <AccordionItem key={index} value={`item-${index}`} className="bg-background rounded-lg mb-2 px-4 shadow-sm hover:bg-muted/50 transition-colors">
                 <AccordionTrigger className="font-headline text-lg hover:no-underline text-right">
                   {item.term}
                 </AccordionTrigger>
