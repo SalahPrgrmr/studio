@@ -1,12 +1,15 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { MessageSquare, ThumbsUp, PlusCircle } from 'lucide-react';
+import Link from 'next/link';
 
 const forumPosts = [
   {
-    id: 1,
+    id: 'how-to-differentiate-intuition-from-fear',
     title: 'كيف تفرق بين الحدس والخوف؟',
     author: 'كلارا و.',
     authorInitials: 'CW',
@@ -17,7 +20,7 @@ const forumPosts = [
     likes: 34,
   },
   {
-    id: 2,
+    id: 'my-story-finding-certainty',
     title: 'قصتي: العثور على اليقين بعد تغيير كبير في حياتي.',
     author: 'بن س.',
     authorInitials: 'BS',
@@ -28,7 +31,7 @@ const forumPosts = [
     likes: 56,
   },
   {
-    id: 3,
+    id: 'practical-guide-to-daily-meditation',
     title: 'دليل عملي للتأمل اليومي نجح معي.',
     author: 'عائشة ك.',
     authorInitials: 'AK',
@@ -60,37 +63,39 @@ export default function ForumPage() {
 
       <div className="space-y-6">
         {forumPosts.map((post) => (
-          <Card key={post.id} className="shadow-sm hover:shadow-md transition-shadow duration-300">
-            <CardHeader>
-              <CardTitle className="font-headline text-xl">{post.title}</CardTitle>
-              <div className="flex items-center text-sm text-muted-foreground pt-2 space-x-2 space-x-reverse">
-                <Avatar className="h-6 w-6">
-                  <AvatarImage src={post.avatarUrl} alt={post.author} />
-                  <AvatarFallback>{post.authorInitials}</AvatarFallback>
-                </Avatar>
-                <span>{post.author}</span>
-                <span>•</span>
-                <span>{post.timestamp}</span>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="flex space-x-2 space-x-reverse">
-                {post.tags.map((tag) => (
-                  <Badge key={tag} variant="secondary">{tag}</Badge>
-                ))}
-              </div>
-            </CardContent>
-            <CardFooter className="flex items-center space-x-6 space-x-reverse text-sm text-muted-foreground">
-              <div className="flex items-center space-x-1 space-x-reverse">
-                <MessageSquare className="h-4 w-4" />
-                <span>{post.comments} تعليقات</span>
-              </div>
-              <div className="flex items-center space-x-1 space-x-reverse">
-                <ThumbsUp className="h-4 w-4" />
-                <span>{post.likes} إعجابات</span>
-              </div>
-            </CardFooter>
-          </Card>
+          <Link href={`/community/forum/${post.id}`} key={post.id} className="block group">
+            <Card className="shadow-sm hover:shadow-md transition-shadow duration-300 transform group-hover:-translate-y-1">
+              <CardHeader>
+                <CardTitle className="font-headline text-xl group-hover:text-primary transition-colors">{post.title}</CardTitle>
+                <div className="flex items-center text-sm text-muted-foreground pt-2 space-x-2 space-x-reverse">
+                  <Avatar className="h-6 w-6">
+                    <AvatarImage src={post.avatarUrl} alt={post.author} />
+                    <AvatarFallback>{post.authorInitials}</AvatarFallback>
+                  </Avatar>
+                  <span>{post.author}</span>
+                  <span>•</span>
+                  <span>{post.timestamp}</span>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="flex space-x-2 space-x-reverse">
+                  {post.tags.map((tag) => (
+                    <Badge key={tag} variant="secondary">{tag}</Badge>
+                  ))}
+                </div>
+              </CardContent>
+              <CardFooter className="flex items-center space-x-6 space-x-reverse text-sm text-muted-foreground">
+                <div className="flex items-center space-x-1 space-x-reverse">
+                  <MessageSquare className="h-4 w-4" />
+                  <span>{post.comments} تعليقات</span>
+                </div>
+                <div className="flex items-center space-x-1 space-x-reverse">
+                  <ThumbsUp className="h-4 w-4" />
+                  <span>{post.likes} إعجابات</span>
+                </div>
+              </CardFooter>
+            </Card>
+          </Link>
         ))}
       </div>
       <div className="text-center mt-12">
