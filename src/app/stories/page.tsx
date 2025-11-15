@@ -1,12 +1,42 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { stories } from '@/lib/stories-data';
-import { PenSquare } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { PenSquare, Loader2, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useFirebase, useCollection, useMemoFirebase } from '@/firebase';
+import { collection, query, where } from 'firebase/firestore';
+
+// Define a type for the story data fetched from Firestore
+type SuccessStory = {
+  id: string;
+  title: string;
+  author: string;
+  content: string;
+  status: 'pending_review' | 'approved';
+  // Assuming a snippet or imageId might be added later
+  snippet?: string; 
+  imageId?: string; 
+};
+
 
 export default function StoriesPage() {
+  const { firestore } = useFirebase();
+
+  // Memoize the collection reference and the query
+  const storiesCollection = useMemoFirebase(
+    () => (firestore ? collection(firestore, 'success_stories') : null),
+    [firestore]
+  );
+  
+  const storiesQuery = useMemoFirebase(
+    () => (storiesCollection ? query(storiesCollection, where('status', '==', 'approved')) : null),
+    [storiesCollection]
+  );
+
+  const { data: stories, isLoading } = useCollection<SuccessStory>(storiesQuery);
+
   return (
     <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 animate-in fade-in duration-500">
       <div className="text-center mb-12">
@@ -37,35 +67,45 @@ export default function StoriesPage() {
         </CardContent>
       </Card>
 
+      {isLoading && (
+        <div className="text-center">
+            <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto" />
+            <p className="mt-4 text-muted-foreground">جاري تحميل القصص...</p>
+        </div>
+      )}
+
+      {!isLoading && stories?.length === 0 && (
+         <div className="text-center text-muted-foreground py-16">
+            <BookOpen className="mx-auto h-12 w-12 mb-4" />
+            <h3 className="text-xl font-semibold">لا توجد قصص موافق عليها بعد</h3>
+            <p className="mt-2">كن أول من يشارك قصة، أو تحقق مرة أخرى قريبًا!</p>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {stories.map((story) => {
-          const imageData = PlaceHolderImages.find(img => img.id === story.imageId);
-          return (
+        {stories?.map((story) => (
             <Link href={`/stories/${story.id}`} key={story.id} className="block group">
               <Card className="flex flex-col overflow-hidden shadow-md group-hover:shadow-lg transition-shadow duration-300 transform group-hover:-translate-y-1 h-full">
-                {imageData && (
-                  <div className="aspect-w-16 aspect-h-9 overflow-hidden">
+                <div className="aspect-w-16 aspect-h-9 overflow-hidden">
                     <Image
-                      src={imageData.imageUrl}
-                      alt={imageData.description}
+                      src={`https://picsum.photos/seed/${story.id}/600/400`}
+                      alt={story.title}
                       width={600}
                       height={400}
-                      data-ai-hint={imageData.imageHint}
+                      data-ai-hint="inspiring story placeholder"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                )}
                 <CardHeader>
                   <CardTitle className="font-headline text-2xl">{story.title}</CardTitle>
                   <CardDescription>بواسطة {story.author}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex-grow">
-                  <p className="text-muted-foreground italic">"{story.snippet}"</p>
+                  <p className="text-muted-foreground italic line-clamp-3">"{story.content}"</p>
                 </CardContent>
               </Card>
             </Link>
-          );
-        })}
+          ))}
       </div>
     </div>
   );

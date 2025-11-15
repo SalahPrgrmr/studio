@@ -1,42 +1,64 @@
+'use client';
+
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { stories } from '@/lib/stories-data';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { User } from 'lucide-react';
+import { User, Loader2, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { useFirebase, useDoc, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
 
-export function generateStaticParams() {
-  return stories.map((story) => ({
-    id: story.id,
-  }));
-}
+// Define the type for a single story fetched from Firestore
+type SuccessStory = {
+  id: string;
+  title: string;
+  author: string;
+  content: string;
+  status: 'pending_review' | 'approved';
+  // Optional snippet or imageId can be added later
+  snippet?: string;
+  imageId?: string;
+};
+
 
 export default function StoryPage({ params }: { params: { id: string } }) {
-  const story = stories.find((s) => s.id === params.id);
+  const { firestore } = useFirebase();
 
-  if (!story) {
+  // Memoize the document reference to prevent re-renders
+  const storyRef = useMemoFirebase(
+    () => (firestore ? doc(firestore, 'success_stories', params.id) : null),
+    [firestore, params.id]
+  );
+  
+  const { data: story, isLoading, error } = useDoc<SuccessStory>(storyRef);
+
+  if (isLoading) {
+    return (
+        <div className="flex justify-center items-center h-screen">
+            <Loader2 className="h-16 w-16 animate-spin text-primary" />
+        </div>
+    );
+  }
+  
+  if (error || !story || story.status !== 'approved') {
+    // Show notFound for errors, non-existent stories, or stories not yet approved
     notFound();
   }
-
-  const imageData = PlaceHolderImages.find(img => img.id === story.imageId);
 
   return (
     <div className="container mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 animate-in fade-in duration-500">
       <article>
         <header className="mb-12 text-center">
-            {imageData && (
                 <div className="mb-8 overflow-hidden rounded-lg shadow-lg aspect-video">
                 <Image
-                    src={imageData.imageUrl}
-                    alt={imageData.description}
+                    src={`https://picsum.photos/seed/${story.id}/1200/675`}
+                    alt={story.title}
                     width={1200}
                     height={675}
-                    data-ai-hint={imageData.imageHint}
+                    data-ai-hint="inspiring story placeholder"
                     className="w-full h-full object-cover"
                 />
                 </div>
-            )}
             <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
                 {story.title}
             </h1>
@@ -49,9 +71,6 @@ export default function StoryPage({ params }: { params: { id: string } }) {
         </header>
 
         <div className="prose prose-lg max-w-none mx-auto dark:prose-invert prose-p:leading-relaxed prose-headings:font-headline">
-            <p className="lead text-xl italic text-muted-foreground mb-8">
-                "{story.snippet}"
-            </p>
             {story.content.split('\n').map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
             ))}

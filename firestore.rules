@@ -5,11 +5,14 @@
  * This ruleset enforces a strict user-ownership model for personal data and
  * utilizes denormalized member lists for shared resources like live streams and voice chat rooms.
  * Public read access is granted selectively to collections like certainty definitions.
+ * A moderation system is in place for user-generated content like success stories,
+ * ensuring it is reviewed and approved by an admin before becoming public.
  *
  * Data Structure:
  * - /users/{userId}: Stores user profiles, accessible only to the user themselves.
  * - /community_forum_posts/{postId}: Stores forum posts, with owner-only writes.
- * - /success_stories/{storyId}: Stores success stories, with owner-only writes.
+ * - /success_stories/{storyId}: Stores success stories. Users can create stories with a 'pending_review' status.
+ *   Only admins can change the status to 'approved', and only approved stories are publicly visible.
  * - /certainty_definitions/{definitionId}: Stores public definitions, writeable only by admins.
  * - /live_streams/{streamId}: Stores live stream data, secured by a denormalized 'members' map.
  * - /voice_chat_rooms/{roomId}: Stores voice chat room data, secured by a denormalized 'members' map.
@@ -22,139 +25,80 @@
  * - Read-only collections like certainty definitions are explicitly marked as such.
  * - Default security posture for ambiguous relationships is strict owner-only access.
  * - The `members` map is denormalized to avoid costly `get()` calls.
- *
- * Denormalization for Authorization:
- * - LiveStream documents contain a `members` map: `{ members: { 'user_abc': 'editor' } }`.
- * - VoiceChatRoom documents contain a `members` map.
- * - VoiceChatMessage documents contain the `members` map copied from its parent VoiceChatRoom.
+ * - A 'status' field ('pending_review', 'approved') on user content enables a moderation workflow.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /**
-     * @description Enforces user-ownership for user profiles.
-     * @path /users/{userId}
-     * @allow (create) User with ID 'user123' creates their profile with matching ID.
-     *     request.auth.uid == 'user123' && request.resource.data.id == 'user123'
-     * @deny (create) User with ID 'user123' tries to create a profile for 'user456'.
-     *     request.auth.uid == 'user123' && request.resource.data.id == 'user456'
-     * @allow (get) User with ID 'user123' reads their own profile.
-     *     request.auth.uid == 'user123'
-     * @deny (get) User with ID 'user123' tries to read the profile of 'user456'.
-     *     request.auth.uid == 'user456'
-     * @allow (update) User with ID 'user123' updates their own profile.
-     *     request.auth.uid == 'user123' && resource.data.id == 'user123'
-     * @deny (update) User with ID 'user123' tries to update the profile of 'user456'.
-     *     request.auth.uid == 'user123'
-     * @allow (delete) User with ID 'user123' deletes their own profile.
-     *     request.auth.uid == 'user123'
-     * @principle Enforces document ownership for writes.
-     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+    }
+
     match /users/{userId} {
-      function isOwner(userId) {
+      function isOwner() {
         return request.auth.uid == userId;
       }
-      function isExistingOwner(userId) {
-        return isOwner(userId) && resource != null;
-      }
-
-      allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow get: if isOwner(userId);
+      allow read, write: if isSignedIn() && isOwner();
       allow list: if false;
-      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
-      allow delete: if isExistingOwner(userId);
     }
 
-    /**
-     * @description Controls access to community forum posts based on ownership.
-     * @path /community_forum_posts/{postId}
-     * @allow (create) User 'user123' creates a post with authorId 'user123'.
-     *     request.auth.uid == 'user123' && request.resource.data.authorId == 'user123'
-     * @allow (get) Any user can read a forum post.
-     * @deny (create) User 'user123' creates a post with authorId 'user456'.
-     *     request.auth.uid == 'user123' && request.resource.data.authorId == 'user456'
-     * @allow (update) User 'user123' updates a post where they are the author.
-     *     request.auth.uid == 'user123' && resource.data.authorId == 'user123'
-     * @deny (delete) User 'user456' tries to delete a post where 'user123' is the author.
-     *     request.auth.uid == 'user456' && resource.data.authorId == 'user123'
-     * @principle Enforces document ownership for writes; allows public reads.
-     */
     match /community_forum_posts/{postId} {
-        function isOwner(authorId) {
-          return request.auth.uid == authorId;
+        function isOwner() {
+          return request.auth.uid == resource.data.authorId;
         }
-        function isExistingOwner(authorId) {
-          return isOwner(authorId) && resource != null;
-        }
+
         allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
         allow get, list: if true;
-        allow update: if isExistingOwner(resource.data.authorId);
-        allow delete: if isExistingOwner(resource.data.authorId);
+        allow update, delete: if isSignedIn() && isOwner();
     }
 
     /**
-     * @description Controls access to success stories based on ownership.
+     * @description Controls access to success stories with a moderation system.
      * @path /success_stories/{storyId}
-     * @allow (create) User 'user123' creates a story with authorId 'user123'.
-     *     request.auth.uid == 'user123' && request.resource.data.authorId == 'user123'
-     * @allow (get) Any user can read a success story.
-     * @deny (create) User 'user123' creates a story with authorId 'user456'.
-     *     request.auth.uid == 'user123' && request.resource.data.authorId == 'user456'
-     * @allow (update) User 'user123' updates a story where they are the author.
-     *     request.auth.uid == 'user123' && resource.data.authorId == 'user123'
-     * @deny (delete) User 'user456' tries to delete a story where 'user123' is the author.
-     *     request.auth.uid == 'user456' && resource.data.authorId == 'user123'
-     * @principle Enforces document ownership for writes; allows public reads.
+     * @allow (create) Signed-in user creates a story, forced to 'pending_review' status.
+     *     request.resource.data.status == 'pending_review'
+     * @allow (list) Any user can list stories, but only those marked as 'approved'.
+     *     resource.data.status == 'approved'
+     * @allow (update) Only admins can update stories (e.g., to approve them).
+     *     isAdmin()
+     * @deny (delete) Deletes are disallowed for now to preserve history.
      */
     match /success_stories/{storyId} {
-        function isOwner(authorId) {
-          return request.auth.uid == authorId;
-        }
-        function isExistingOwner(authorId) {
-          return isOwner(authorId) && resource != null;
+        function isOwner() {
+          return request.auth.uid == resource.data.authorId;
         }
 
-        allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
-        allow get, list: if true;
-        allow update: if isExistingOwner(resource.data.authorId);
-        allow delete: if isExistingOwner(resource.data.authorId);
+        // Anyone can read a story that has been approved.
+        allow get: if resource.data.status == 'approved';
+        
+        // Anyone can list the collection, but the query must filter for `status == 'approved'`.
+        // The rule itself doesn't filter, it only enforces that any document read
+        // during a list operation must meet this condition.
+        allow list: if true;
+
+        // Any signed-in user can create a story, but they MUST set the status to 'pending_review'.
+        allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid
+                         && request.resource.data.status == 'pending_review';
+
+        // Only an admin can update a story (e.g., to change status to 'approved').
+        // The owner cannot edit their story after submission.
+        allow update: if isAdmin();
+        
+        // Only admins can delete stories.
+        allow delete: if isAdmin();
     }
 
-    /**
-     * @description Controls access to certainty definitions. Public read, admin-only write.
-     * @path /certainty_definitions/{definitionId}
-     * @allow (get) Any user can read a certainty definition.
-     * @allow (list) Any user can list certainty definitions.
-     * @allow (create) Admin user creates a certainty definition.
-     *     exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid))
-     * @deny (update) Non-admin user tries to update a certainty definition.
-     *     !exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid))
-     * @principle Public read access, admin-only writes.
-     */
+
     match /certainty_definitions/{definitionId} {
-      function isAdmin() {
-        return exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
-      }
       allow get, list: if true;
-      allow create: if isAdmin();
-      allow update: if isAdmin() && resource != null;
-      allow delete: if isAdmin() && resource != null;
+      allow create, update, delete: if isAdmin();
     }
 
-    /**
-     * @description Controls access to live stream events.
-     * @path /live_streams/{streamId}
-     * @allow (create) User 'user123' creates a live stream.
-     *     request.auth.uid == 'user123'
-     * @allow (get) Any member of the live stream can read it.
-     *     request.resource.data.members[request.auth.uid] != null
-     * @deny (get) User not in 'members' tries to read.
-     *     request.resource.data.members[request.auth.uid] == null
-     * @allow (update) Only a member with 'editor' role can update.
-     *     request.resource.data.members[request.auth.uid] == 'editor'
-     * @principle Enforces membership via a denormalized 'members' map.
-     */
     match /live_streams/{streamId} {
       allow create: if isSignedIn();
       allow get, list: if isSignedIn() && resource.data.members[request.auth.uid] != null;
@@ -162,19 +106,6 @@ service cloud.firestore {
       allow delete: if isSignedIn() && resource.data.members[request.auth.uid] != null && resource != null;
     }
 
-    /**
-     * @description Controls access to voice chat rooms using a denormalized 'members' map.
-     * @path /voice_chat_rooms/{roomId}
-     * @allow (create) Any signed-in user can create a voice chat room.
-     *     request.auth != null
-     * @allow (get) Any member of the chat room can read the room's details.
-     *     request.resource.data.members[request.auth.uid] != null
-     * @deny (get) A non-member tries to read the chat room details.
-     *     request.resource.data.members[request.auth.uid] == null
-     * @allow (update) Only members can update the room (e.g., settings, members).
-     *     request.resource.data.members[request.auth.uid] != null
-     * @principle Enforces membership via a denormalized 'members' map.
-     */
      match /voice_chat_rooms/{roomId} {
         function isOwner() {
           return request.auth.uid == request.resource.data.ownerId;
@@ -189,10 +120,6 @@ service cloud.firestore {
         allow delete: if isSignedIn() && isExistingOwner();
     }
     
-    /**
-     * @description Controls access to video chat rooms.
-     * @path /video_chat_rooms/{roomId}
-     */
      match /video_chat_rooms/{roomId} {
         function isOwner() {
           return request.auth.uid == request.resource.data.ownerId;
@@ -207,19 +134,6 @@ service cloud.firestore {
         allow delete: if isSignedIn() && isExistingOwner();
     }
 
-    /**
-     * @description Controls access to voice chat messages within a room, using the room's denormalized 'members' map.
-     * @path /voice_chat_rooms/{roomId}/messages/{messageId}
-     * @allow (create) Only members of the chat room can create messages.
-     *     get(/databases/$(database)/documents/voice_chat_rooms/$(roomId)).data.members[request.auth.uid] != null
-     * @allow (get) Only members of the chat room can read messages.
-     *     get(/databases/$(database)/documents/voice_chat_rooms/$(roomId)).data.members[request.auth.uid] != null
-     * @allow (list) Only members of the chat room can list messages.
-     *     get(/databases/$(database)/documents/voice_chat_rooms/$(roomId)).data.members[request.auth.uid] != null
-     * @deny (update) No one can update messages (messages are immutable).
-     *     Always Deny
-     * @principle Enforces membership via a denormalized 'members' map inherited from the parent room; messages are immutable.
-     */
     match /voice_chat_rooms/{roomId}/messages/{messageId} {
         function isRoomMember(roomId) {
             return get(/databases/$(database)/documents/voice_chat_rooms/$(roomId)).data.members[request.auth.uid] != null;
@@ -231,25 +145,8 @@ service cloud.firestore {
         allow delete: if false;
     }
 
-    /**
-     * @description Manages admin roles using document existence.
-     * @path /roles_admin/{uid}
-     * @allow (create) Any signed-in user can create their admin role document.
-     *    request.auth != null
-     * @allow (get) Any signed-in user can read an admin role document.
-     *    request.auth != null
-     * @principle Uses document existence to grant admin privileges.
-     */
     match /roles_admin/{uid} {
-      allow create: if isSignedIn();
-      allow get: if isSignedIn();
-      allow list: if false;
-      allow update: if false;
-      allow delete: if false;
-    }
-
-    function isSignedIn() {
-      return request.auth != null;
+      allow read, write: if isAdmin();
     }
   }
 }

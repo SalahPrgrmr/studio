@@ -70,6 +70,7 @@ export default function NewStoryPage() {
             ...values,
             authorId: user.uid,
             creationDate: new Date().toISOString(),
+            status: 'pending_review', // Set initial status
         });
 
         toast({
@@ -122,7 +123,7 @@ export default function NewStoryPage() {
                 اكتب قصتك
               </CardTitle>
               <CardDescription>
-                شارك قصة ملهمة عن رحلتك مع اليقين، أو قصة سمعتها وأثرت فيك.
+                شارك قصة ملهمة عن رحلتك مع اليقين، أو قصة سمعتها وأثرت فيك. سيتم مراجعة جميع المشاركات قبل نشرها للتأكد من ملاءمتها لمبادئ المنصة.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -171,20 +172,21 @@ export default function NewStoryPage() {
                 )}
               />
             </CardContent>
-            <CardFooter className="flex justify-start">
+            <CardFooter className="flex justify-between items-center">
               <Button type="submit" disabled={isSubmitting} size="lg">
                 {isSubmitting ? (
                   <>
                     <Loader2 className="ml-2 h-5 w-5 animate-spin" />
-                    جاري النشر...
+                    جاري الإرسال للمراجعة...
                   </>
                 ) : (
                   <>
                     <Send className="ml-2 h-5 w-5" />
-                    نشر القصة
+                    أرسل القصة للمراجعة
                   </>
                 )}
               </Button>
+              <p className="text-xs text-muted-foreground">تخضع المشاركة لشروط وأحكام النشر.</p>
             </CardFooter>
           </form>
         </Form>
