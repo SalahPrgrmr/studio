@@ -22,6 +22,7 @@ const navLinks = [
   { href: '/god-certainty', label: 'اليقين بالله' },
   { href: '/cosmic-signs', label: 'آيات الكون' },
   { href: '/stories', label: 'قصص نجاح' },
+  { href: '/self-guidance', label: 'إرشاد ذاتي' },
   { href: '/library', label: 'المكتبة' },
   { href: '/community', label: 'المجتمع' },
   { href: '/vr-journeys', label: 'رحلات VR' },
