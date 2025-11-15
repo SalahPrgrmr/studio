@@ -183,7 +183,7 @@ service cloud.firestore {
         }
 
         allow create: if isSignedIn() && isOwner();
-        allow get, list: if isSignedIn();
+        allow get, list: if true;
         allow update: if isSignedIn() && isExistingOwner();
         allow delete: if isSignedIn() && isExistingOwner();
     }
