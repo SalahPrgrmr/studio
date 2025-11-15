@@ -1,16 +1,16 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Map, Footprints, Telescope, BookHeart, Users, Milestone, TrendingUp } from 'lucide-react';
+import { Map, Footprints, Telescope, BookHeart, Users, Milestone, TrendingUp, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import CertaintyChart from '@/components/sections/certainty-chart';
 
 const journeySteps = [
   {
-    icon: <Footprints className="h-10 w-10 text-primary" />,
-    title: 'الخطوة الأولى: الاستكشاف والبحث',
-    description: 'تبدأ الرحلة بالشعور بالحاجة إلى معنى أعمق. في هذه المرحلة، قد تبدأ في طرح أسئلة كبيرة حول الحياة والوجود. صفحة "الاستقصاء" هي نقطة انطلاق ممتازة.',
-    link: '/survey',
-    linkLabel: 'ابدأ الاستقصاء'
+    icon: <BookOpen className="h-10 w-10 text-primary" />,
+    title: 'الخطوة الأولى: العلم والمعرفة',
+    description: 'تبدأ الرحلة بتطبيق الأمر الإلهي الأول في طريق اليقين: "فاعلم أنه لا إله إلا الله". المعرفة بالله وصفاته وكلماته هي حجر الأساس. صفحة "اليقين بالله" هي نقطة انطلاقك.',
+    link: '/god-certainty',
+    linkLabel: 'تعرف على الله'
   },
   {
     icon: <Telescope className="h-10 w-10 text-primary" />,
@@ -20,25 +20,25 @@ const journeySteps = [
     linkLabel: 'استكشف آيات الكون'
   },
   {
-    icon: <BookHeart className="h-10 w-10 text-primary" />,
-    title: 'الخطوة الثالثة: التعمق في المعرفة',
-    description: 'اليقين ينمو بالمعرفة. تعرف على الله من خلال أسمائه وصفاته وكلماته. صفحة "اليقين بالله" تقدم لك هذا الأساس.',
-    link: '/god-certainty',
-    linkLabel: 'تعرف على الله'
-  },
-  {
     icon: <Users className="h-10 w-10 text-primary" />,
-    title: 'الخطوة الرابعة: استلهام التجارب',
+    title: 'الخطوة الثالثة: استلهام التجارب',
     description: 'أنت لست وحدك في هذه الرحلة. اقرأ "قصص نجاح" لأشخاص آخرين وجدوا طريقهم، وانضم إلى "المجتمع" للتواصل والدعم.',
     link: '/stories',
     linkLabel: 'اقرأ قصص النجاح'
   },
   {
     icon: <Milestone className="h-10 w-10 text-primary" />,
-    title: 'الخطوة الخامسة: بناء مسارك الخاص',
+    title: 'الخطوة الرابعة: بناء مسارك الخاص',
     description: 'الآن، اجمع كل ما تعلمته وشعرت به لتبني "مسارك الشخصي". استخدم أداتنا المدعومة بالذكاء الاصطناعي لإنشاء خطة عملية تناسبك.',
     link: '/#personal-path',
     linkLabel: 'أنشئ مسارك الشخصي'
+  },
+    {
+    icon: <Footprints className="h-10 w-10 text-primary" />,
+    title: 'الخطوة الخامسة: الاستكشاف والبحث',
+    description: 'بعد بناء الأساس المعرفي، استمر في البحث والاستكشاف. صفحة "الاستقصاء" يمكن أن تساعدك على فهم مشاعرك وتحديد الأسئلة الأعمق في رحلتك.',
+    link: '/survey',
+    linkLabel: 'ابدأ الاستقصاء'
   },
 ];
 
