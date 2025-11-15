@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Map, Footprints, Telescope, Users, Milestone, TrendingUp, BookOpen, ShieldCheck, Heart, Search, Anchor, UserCheck, UserPlus } from 'lucide-react';
+import { Map, Footprints, Telescope, Users, Milestone, TrendingUp, BookOpen, ShieldCheck, Heart, Search, Anchor, UserCheck, UserPlus, Lightbulb, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import CertaintyChart from '@/components/sections/certainty-chart';
@@ -8,37 +8,37 @@ const journeySteps = [
   {
     icon: <BookOpen className="h-10 w-10 text-primary" />,
     title: 'الخطوة الأولى: العلم والمعرفة',
-    description: 'كل رحلة عظيمة تبدأ بخطوة معرفية. الأمر الإلهي الأول في طريق اليقين هو "فاعلم". هذه هي مرحلة بناء الأساس المتين من خلال التعلم والقراءة.',
+    description: 'كل رحلة تبدأ بالمعرفة. الأمر الإلهي الأول هو "فاعلم". هذه مرحلة بناء الأساس المتين بالتعلم عن الله ووحدانيته وصدق كلماته.',
     link: '/god-certainty',
     linkLabel: 'ابدأ بالمعرفة'
   },
   {
-    icon: <ShieldCheck className="h-10 w-10 text-primary" />,
-    title: 'الخطوة الثانية: اليقين بالتوحيد',
-    description: 'بعد العلم، يأتي دور ترسيخ اليقين بأن لهذا الكون خالق واحد. صفحة "اليقين بالله" هي مرجعك لفهم وحدانية الله وأسمائه وصفاته وعمق كلماته.',
-    link: '/god-certainty',
-    linkLabel: 'تعرف على الله'
-  },
-  {
     icon: <Telescope className="h-10 w-10 text-primary" />,
-    title: 'الخطوة الثالثة: التفكر في الكون',
-    description: 'التفكر هو تطبيق عملي للمعرفة. تأمل "البلاغ والإنذار المبين" من حولك لترى عظمة الخالق في كل شيء، مما يحول العلم النظري إلى يقين قلبي راسخ.',
-    link: '/cosmic-signs',
-    linkLabel: 'استكشف البلاغ والإنذار'
+    title: 'الخطوة الثانية: التصديق عبر التفكر',
+    description: 'التفكر في آيات الكون، من "البلاغ والإنذار المبين" إلى "النعم والآيات"، يحول العلم النظري إلى تصديق قلبي أولي بالخالق العظيم.',
+    link: '/blessings-and-signs',
+    linkLabel: 'تفكر في الآيات'
   },
   {
-    icon: <Users className="h-10 w-10 text-primary" />,
-    title: 'الخطوة الرابعة: استلهام التجارب',
-    description: 'أنت لست وحدك في هذه الرحلة. اقرأ "قصص نجاح" لأشخاص آخرين وجدوا طريقهم، وانضم إلى "المجتمع" للتواصل والدعم.',
+    icon: <Heart className="h-10 w-10 text-primary" />,
+    title: 'الخطوة الثالثة: الإيمان والعمل',
+    description: 'الإيمان ينمو بالعمل الصالح. استلهم من "قصص النجاح" وانضم إلى "المجتمع" لترى أثر الإيمان في حياة الناس وتحوله إلى عمل ملموس.',
     link: '/stories',
-    linkLabel: 'اقرأ قصص النجاح'
+    linkLabel: 'استلهم من التجارب'
   },
   {
-    icon: <Footprints className="h-10 w-10 text-primary" />,
-    title: 'الخطوة الخامسة: بناء مسارك الخاص',
-    description: 'الآن، اجمع كل ما تعلمته وشعرت به لتبني "مسارك الشخصي". استخدم أداتنا المدعومة بالذكاء الاصطناعي لإنشاء خطة عملية تناسبك.',
-    link: '/#personal-path',
-    linkLabel: 'أنشئ مسارك الشخصي'
+    icon: <CheckCircle className="h-10 w-10 text-primary" />,
+    title: 'الخطوة الرابعة: الوصول إلى اليقين',
+    description: 'عندما تجتمع المعرفة والتصديق والعمل، يصل القلب إلى مرحلة اليقين. استخدم "مسارك الشخصي" و "الإرشاد الذاتي" لترسيخ هذا الشعور.',
+    link: '/self-guidance',
+    linkLabel: 'عزز يقينك'
+  },
+  {
+    icon: <TrendingUp className="h-10 w-10 text-primary" />,
+    title: 'الخطوة الخامسة: التغذية الراجعة المستمرة',
+    description: 'اليقين يزيد وينقص. حافظ على منسوب عالٍ من اليقين من خلال مراجعة هذه الخطوات باستمرار، والتفكر، والعمل الصالح، للحفاظ على شعلة الإيمان متقدة.',
+    link: '/journey-of-certainty',
+    linkLabel: 'راجع رحلتك'
   },
 ];
 
