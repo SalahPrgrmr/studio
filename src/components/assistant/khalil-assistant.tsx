@@ -77,6 +77,8 @@ export default function KhalilAssistant() {
         <CardTitle className="font-headline text-3xl">خليل يرشدك</CardTitle>
         <CardDescription className="text-lg text-muted-foreground pt-2">
             مساحة آمنة لاستكشاف آلامك النفسية، وإيجاد طرق علاجها، والمساعدة في التغيير للأفضل.
+            <br />
+            دون التعرف على خصوصيتك ومعلوماتك الشخصية، فضفض بأمان وأخرج ما يتعبك.
         </CardDescription>
       </CardHeader>
       <CardContent>
