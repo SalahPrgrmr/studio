@@ -28,6 +28,7 @@ import { signOut } from 'firebase/auth';
 const navLinks = [
   { href: '/journey-of-certainty', label: 'رحلة اليقين' },
   { href: '/god-certainty', label: 'اليقين بالله' },
+  { href: '/blessings-and-signs', label: 'النعم والآيات' },
   { href: '/cosmic-signs', label: 'البلاغ والإنذار المبين' },
   { href: '/stories', label: 'قصص نجاح' },
   { href: '/self-guidance', label: 'إرشاد ذاتي' },
