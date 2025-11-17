@@ -7,6 +7,8 @@ import {
     Sheet,
     SheetContent,
     SheetHeader,
+    SheetTitle,
+    SheetDescription,
 } from '@/components/ui/sheet';
 import Logo from '@/components/logo';
 import { cn } from '@/lib/utils';
@@ -95,19 +97,24 @@ export function MoreNavSheet() {
     return (
         <Sheet open={isOpen} onOpenChange={onClose}>
             <SheetContent side="left" className="w-full max-w-xs p-0 bg-background/95 backdrop-blur-sm">
-                 <SheetHeader className="p-4 border-b">
-                    <Link
-                        href="/"
-                        onClick={onClose}
-                        className="flex items-center space-x-2 rtl:space-x-reverse"
-                    >
-                        <Logo className="h-6 w-6 text-primary" />
-                        <span className="font-bold font-headline text-xl">
-                            عين اليقين
-                        </span>
-                    </Link>
+                <SheetHeader className="p-4 border-b">
+                    <SheetTitle asChild>
+                        <Link
+                            href="/"
+                            onClick={onClose}
+                            className="flex items-center space-x-2 rtl:space-x-reverse"
+                        >
+                            <Logo className="h-6 w-6 text-primary" />
+                            <span className="font-bold font-headline text-xl">
+                                عين اليقين
+                            </span>
+                        </Link>
+                    </SheetTitle>
+                    <SheetDescription className="sr-only">
+                        قائمة التنقل الرئيسية للموقع.
+                    </SheetDescription>
                 </SheetHeader>
-                <nav className="flex flex-col space-y-1 p-4">
+                <nav className="flex flex-col space-y-1 p-4 overflow-y-auto h-[calc(100%-4.5rem)]">
                     {user && (
                          <Link href="/profile" onClick={onClose} className="flex items-center gap-3 rounded-lg p-3 mb-4 bg-muted/50 hover:bg-muted transition-colors">
                             <Avatar className="h-12 w-12 border-2 border-primary/50">
