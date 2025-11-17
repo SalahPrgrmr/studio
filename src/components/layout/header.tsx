@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { Globe, Languages, LogOut, Menu, User as UserIcon } from 'lucide-react';
+import { ExternalLink, Globe, Languages, LogOut, Menu, User as UserIcon } from 'lucide-react';
 import { useState } from 'react';
 
 import Logo from '@/components/logo';
@@ -36,6 +36,7 @@ const navLinks = [
   { href: '/library', label: 'المكتبة' },
   { href: '/community', label: 'المجتمع' },
   { href: '/vr-journeys', label: 'رحلات VR' },
+  { href: '/external-resources', label: 'روابط خارجية' },
 ];
 
 export default function Header() {
