@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, PenTool, Tv, Annoyed, Rocket, Brush, Globe, Languages } from "lucide-react";
+import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, PenTool, Tv, Annoyed, Rocket, Brush, Globe, Languages, View, Cube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
@@ -121,6 +121,20 @@ const activities = [
     title: "الترجمة والنشر باللغات",
     description: "هل تتقن لغة أخرى؟ ساعدنا في ترجمة محتوى المنصة ومقاطع الفيديو والمقالات لنصل برسالة اليقين إلى كل إنسان على وجه الأرض.",
     buttonLabel: "ساهم في الترجمة",
+    buttonLink: "/community/volunteers"
+  },
+  {
+    icon: <Film className="h-8 w-8 text-primary" />,
+    title: "إنتاج الرسوم والأفلام الكرتونية",
+    description: "هل لديك موهبة في التحريك أو صناعة الأفلام الكرتونية؟ ساهم في إنتاج محتوى جذاب ومؤثر للأطفال والشباب لغرس بذور اليقين في قلوبهم.",
+    buttonLabel: "ساهم في الإنتاج",
+    buttonLink: "/community/volunteers"
+  },
+  {
+    icon: <Cube className="h-8 w-8 text-primary" />,
+    title: "إنتاج مواد للواقع المعزز (AR)",
+    description: "للمهتمين بالتقنيات الحديثة، ساهم في تصميم تجارب تفاعلية باستخدام الواقع المعزز لإظهار آيات الله في الكون بطريقة مبتكرة وغامرة.",
+    buttonLabel: "ساهم في التطوير",
     buttonLink: "/community/volunteers"
   }
 ];
