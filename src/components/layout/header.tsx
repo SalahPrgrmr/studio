@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ExternalLink, Globe, Languages, LogOut, Menu, User as UserIcon, UserCircle2 } from 'lucide-react';
+import { ExternalLink, Globe, Languages, LogOut, Menu, User as UserIcon, UserCircle2, Activity } from 'lucide-react';
 import { useState } from 'react';
 
 import Logo from '@/components/logo';
