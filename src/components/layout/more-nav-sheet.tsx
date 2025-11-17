@@ -28,7 +28,8 @@ import {
     Sparkles,
     Waypoints,
     Activity,
-    View
+    View,
+    Mail
 } from 'lucide-react';
 import { useUser } from '@/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
@@ -64,6 +65,7 @@ const allNavLinks = [
   { href: '/practical-activities', label: 'أنشطة عملية', icon: Activity },
   { href: '/vr-journeys', label: 'رحلات VR', icon: View },
   { href: '/external-resources', label: 'مصادر خارجية', icon: Globe },
+  { href: '/contact', label: 'تواصل معنا', icon: Mail },
 ];
 
 export function MoreNavSheet() {

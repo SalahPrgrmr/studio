@@ -8,6 +8,7 @@ import {
   Menu,
   User as UserIcon,
   UserCircle2,
+  Mail,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -36,17 +37,9 @@ import type { Language } from '@/lib/i18n/settings';
 const navLinks = [
   { href: '/mission', labelKey: 'header.links.mission' },
   { href: '/journey-of-certainty', labelKey: 'header.links.journey' },
-  { href: '/god-certainty', labelKey: 'header.links.godCertainty' },
-  { href: '/blessings-and-signs', labelKey: 'header.links.blessings' },
-  { href: '/cosmic-signs', labelKey: 'header.links.cosmicSigns' },
   { href: '/stories', labelKey: 'header.links.stories' },
-  { href: '/self-guidance', labelKey: 'header.links.selfGuidance' },
-  { href: '/mahdi', labelKey: 'header.links.mahdi' },
-  { href: '/practical-activities', labelKey: 'header.links.activities' },
-  { href: '/library', labelKey: 'header.links.library' },
   { href: '/community', labelKey: 'header.links.community' },
-  { href: '/vr-journeys', labelKey: 'header.links.vrJourneys' },
-  { href: '/external-resources', labelKey: 'header.links.externalResources' },
+  { href: '/contact', labelKey: 'header.links.contact' },
 ];
 
 export default function Header() {
