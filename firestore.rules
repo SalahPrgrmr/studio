@@ -13,8 +13,7 @@ service cloud.firestore {
 
     // Volunteers Collection
     // - Anyone can read volunteer profiles.
-    // - Only signed-in users can create a volunteer profile for themselves.
-    // - Only the owner of a volunteer profile can update or delete it.
+    // - Only signed-in users can create/update a volunteer profile for themselves.
     match /volunteers/{volunteerId} {
       allow get, list: if true;
       allow create: if isSignedIn() && isOwner(volunteerId) && request.resource.data.id == volunteerId;
@@ -24,8 +23,7 @@ service cloud.firestore {
     
     // Members Collection
     // - Anyone can read member profiles.
-    // - Only signed-in users can create a member profile for themselves.
-    // - Only the owner of a member profile can update or delete it.
+    // - Only signed-in users can create/update a member profile for themselves.
     match /members/{memberId} {
       allow get, list: if true;
       allow create: if isSignedIn() && isOwner(memberId);
@@ -46,36 +44,40 @@ service cloud.firestore {
         allow read, write: if isSignedIn(); // Basic rule, can be refined based on event privacy
     }
 
-    // Success Stories
+    // Success Stories Collection
+    // - Anyone can read approved stories.
+    // - Only authenticated users can create stories (for review).
+    // - Admins (future) or owners can update/delete.
     match /success_stories/{storyId} {
-      // Anyone can read approved stories
       allow get: if resource.data.status == 'approved';
-      allow list: if true;
-      // Only authenticated users can create stories (for review)
-      allow create: if isSignedIn() && request.auth.uid == request.resource.data.authorId;
-      // Future: allow update/delete by owner or admin
-      allow update, delete: if false; 
+      allow list: if resource.data.status == 'approved'; // Should only list approved stories
+      allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
+      // Allow owner to update/delete their own story, might add admin role later.
+      allow update, delete: if isSignedIn() && isOwner(resource.data.authorId);
     }
     
-     // Voice Chat Rooms
+    // Voice Chat Rooms Collection
+    // - Anyone can read/list rooms.
+    // - Authenticated users can create rooms.
+    // - Owner or members can update (join/leave).
+    // - Only owner can delete.
     match /voice_chat_rooms/{roomId} {
-      allow read, list: if true;
-      allow create: if isSignedIn() && request.auth.uid == request.resource.data.ownerId;
-      // Allow owner or members to update (e.g. join/leave)
+      allow get, list: if true;
+      allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
       allow update: if isSignedIn() && (isOwner(resource.data.ownerId) || request.auth.uid in resource.data.members);
-      // Only owner can delete
       allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
     }
 
-    // Video Chat Rooms
+    // Video Chat Rooms Collection
+    // - Anyone can read/list rooms.
+    // - Authenticated users can create rooms.
+    // - Owner or members can update (join/leave).
+    // - Only owner can delete.
     match /video_chat_rooms/{roomId} {
-      allow read, list: if true;
-      allow create: if isSignedIn() && request.auth.uid == request.resource.data.ownerId;
-      // Allow owner or members to update (e.g. join/leave)
+      allow get, list: if true;
+      allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
       allow update: if isSignedIn() && (isOwner(resource.data.ownerId) || request.auth.uid in resource.data.members);
-       // Only owner can delete
       allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
     }
-
   }
 }

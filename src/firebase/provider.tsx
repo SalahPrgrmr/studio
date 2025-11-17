@@ -154,16 +154,44 @@ export const useFirebaseApp = (): FirebaseApp => {
   return firebaseApp;
 };
 
-type MemoFirebase <T> = T & {__memo?: boolean};
+/**
+ * A hook that memoizes a Firestore query or reference.
+ * This is crucial for preventing infinite loops in `useCollection` and `useDoc` hooks.
+ * It also tags the object with a `__memo` property for runtime checks.
+ *
+ * @template T - The type of the value to be memoized.
+ * @param factory - A function that returns the value to be memoized (e.g., a Firestore query).
+ * @param deps - An array of dependencies for `useMemo`.
+ * @returns The memoized value, tagged for verification.
+ */
+export function useMemoFirebase<T>(factory: () => T, deps: DependencyList): T {
+    const memoized = useMemo(() => {
+        const value = factory();
+        // Tag the object if it's an object or function, as these are reference types.
+        if (value !== null && (typeof value === 'object' || typeof value === 'function')) {
+            try {
+                // Use a non-enumerable property to avoid interfering with Firestore's internals
+                Object.defineProperty(value, '__memo', {
+                    value: true,
+                    writable: false,
+                    enumerable: false,
+                    configurable: false,
+                });
+            } catch (e) {
+                // If the object is frozen, this might fail. In that case, we can't tag it,
+                // but the memoization itself is still valuable.
+                // We'll proceed without the tag and rely on the developer to use the hook correctly.
+                if (process.env.NODE_ENV === 'development') {
+                    console.warn('useMemoFirebase: Could not tag a frozen object. Memoization is still active, but runtime verification is disabled for this object.', value);
+                }
+            }
+        }
+        return value;
+    }, deps);
 
-export function useMemoFirebase<T>(factory: () => T, deps: DependencyList): T | (MemoFirebase<T>) {
-  const memoized = useMemo(factory, deps);
-  
-  if(typeof memoized !== 'object' || memoized === null) return memoized;
-  (memoized as MemoFirebase<T>).__memo = true;
-  
-  return memoized;
+    return memoized;
 }
+
 
 /**
  * Hook specifically for accessing the authenticated user's state.

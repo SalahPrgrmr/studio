@@ -6,7 +6,7 @@ import { Separator } from '@/components/ui/separator';
 
 export default function Home() {
   return (
-    <div className="flex flex-col animate-in fade-in duration-500">
+    <div className="flex flex-col">
       <HeroSection />
       <main
         id="main-content"

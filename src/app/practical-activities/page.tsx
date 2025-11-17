@@ -1,5 +1,26 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, Rocket, Brush, Globe, Languages, View, Box, HelpCircle, Share2 } from "lucide-react";
+import { 
+    BookHeart, 
+    Sprout, 
+    Headphones, 
+    HandHeart, 
+    Users, 
+    PowerOff, 
+    Activity, 
+    Megaphone, 
+    Film, 
+    Clapperboard, 
+    Video, 
+    Briefcase, 
+    DollarSign, 
+    Rocket, 
+    Brush, 
+    Globe, 
+    Languages, 
+    Box, 
+    HelpCircle, 
+    Share2 
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Building, Book, Users, Tv, HeartPulse } from 'lucide-react';
+import { Building, Book, Users, Monitor, HeartPulse } from 'lucide-react';
 
 const partnerCategories = [
   {
@@ -28,7 +28,7 @@ const partnerCategories = [
   {
     title: 'القنوات والمراكز الإعلامية',
     description: 'شركاؤنا الإعلاميون يساهمون في نشر رسالة اليقين على أوسع نطاق من خلال الإنتاج والبث الرقمي والفضائي.',
-    icon: <Tv className="h-8 w-8 text-primary" />,
+    icon: <Monitor className="h-8 w-8 text-primary" />,
      examples: [
         'شبكة المجد الفضائية',
         'قناة الرسالة الفضائية',

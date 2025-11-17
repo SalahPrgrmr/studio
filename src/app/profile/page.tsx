@@ -61,7 +61,7 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="container mx-auto max-w-2xl text-center py-20">
+      <div className="container mx-auto max-w-2xl text-center py-20 animate-in fade-in duration-500">
         <Card>
           <CardHeader>
             <CardTitle>يجب عليك تسجيل الدخول</CardTitle>
@@ -201,5 +201,3 @@ export default function ProfilePage() {
     </div>
   );
 }
-
-    

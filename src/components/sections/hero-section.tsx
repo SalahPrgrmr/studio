@@ -9,7 +9,7 @@ export default function HeroSection() {
   };
   
   return (
-    <section className="w-full py-24 md:py-32 lg:py-40 bg-card border-b">
+    <section className="w-full py-24 md:py-32 lg:py-40 bg-card border-b animate-in fade-in duration-500">
       <div className="container px-4 md:px-6">
         <div className="mx-auto max-w-4xl text-center space-y-6">
           <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
