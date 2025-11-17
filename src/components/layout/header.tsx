@@ -33,6 +33,7 @@ const navLinks = [
   { href: '/cosmic-signs', label: 'البلاغ والإنذار' },
   { href: '/stories', label: 'قصص نجاح' },
   { href: '/self-guidance', label: 'إرشاد ذاتي' },
+  { href: '/mahdi', label: 'المهدي المنتظر' },
   { href: '/library', label: 'المكتبة' },
   { href: '/community', label: 'المجتمع' },
   { href: '/vr-journeys', label: 'رحلات VR' },
