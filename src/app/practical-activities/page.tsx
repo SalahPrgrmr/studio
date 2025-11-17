@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign } from "lucide-react";
+import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, PenTool, Tv, Annoyed, Rocket, Brush } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
@@ -88,6 +88,27 @@ const activities = [
     buttonLabel: "انضم كقائد مشروع",
     buttonLink: "/community/volunteers"
   },
+   {
+    icon: <Tv className="h-8 w-8 text-primary" />,
+    title: "إنتاج الميديا للمنصة",
+    description: "هل لديك خبرة في المونتاج، الرسوم المتحركة، أو إنتاج الصوتيات؟ ساهم في إنتاج محتوى إعلامي عالي الجودة يعزز رسالة اليقين ويصل لجمهور أوسع.",
+    buttonLabel: "ساهم في الإنتاج",
+    buttonLink: "/community/volunteers"
+  },
+  {
+    icon: <Rocket className="h-8 w-8 text-primary" />,
+    title: "التسويق والعلاقات العامة",
+    description: "لديك خبرة في التسويق الرقمي أو العلاقات العامة؟ ساعدنا في بناء استراتيجيات لنشر رسالة المنصة، والوصول إلى الشركاء، وتوسيع قاعدة المتابعين.",
+    buttonLabel: "انضم لفريق التسويق",
+    buttonLink: "/community/volunteers"
+  },
+  {
+    icon: <Brush className="h-8 w-8 text-primary" />,
+    title: "التصميم وتطوير المنصة",
+    description: "هل أنت مصمم واجهات، مطور تطبيقات، أو مبرمج؟ ساهم بمهاراتك التقنية في تحسين وتطوير تجربة المستخدم على المنصة، وإضافة ميزات جديدة.",
+    buttonLabel: "انضم لفريق التطوير",
+    buttonLink: "/community/volunteers"
+  }
 ];
 
 export default function PracticalActivitiesPage() {
