@@ -151,9 +151,9 @@ export default function Header() {
                 <Languages className="mr-2 h-4 w-4" />
                 <span>English</span>
               </DropdownMenuItem>
-              <DropdownMenuItem disabled>
+              <DropdownMenuItem>
                 <Languages className="mr-2 h-4 w-4" />
-                <span>العربية (soon)</span>
+                <span>العربية</span>
               </DropdownMenuItem>
               <DropdownMenuItem disabled>
                 <Languages className="mr-2 h-4 w-4" />
