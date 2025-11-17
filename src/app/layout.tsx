@@ -9,8 +9,9 @@ import { FirebaseClientProvider } from '@/firebase';
 import ChatAssistant from '@/components/assistant/chat-assistant';
 
 export const metadata: Metadata = {
-  title: 'عين اليقين',
-  description: 'منصة دعوية عالمية تهدف للتعريف بالله وبكلمة التوحيد "لا إله إلا الله" والوصول بها إلى عين اليقين.',
+  title: 'Eye of Certainty',
+  description:
+    'A global dawah platform aimed at introducing God and the concept of "La ilaha illa Allah" (There is no god but Allah) to reach the state of "Ayn al-Yaqin" (the Eye of Certainty).',
   manifest: '/manifest.json',
 };
 
@@ -32,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           'min-h-screen bg-background font-body antialiased',

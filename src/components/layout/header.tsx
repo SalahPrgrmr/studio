@@ -2,7 +2,16 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ExternalLink, Globe, Languages, LogOut, Menu, User as UserIcon, UserCircle2, Activity } from 'lucide-react';
+import {
+  ExternalLink,
+  Globe,
+  Languages,
+  LogOut,
+  Menu,
+  User as UserIcon,
+  UserCircle2,
+  Activity,
+} from 'lucide-react';
 import { useState } from 'react';
 
 import Logo from '@/components/logo';
@@ -26,19 +35,19 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { signOut } from 'firebase/auth';
 
 const navLinks = [
-  { href: '/mission', label: 'رسالتنا' },
-  { href: '/journey-of-certainty', label: 'رحلة اليقين' },
-  { href: '/god-certainty', label: 'اليقين بالله' },
-  { href: '/blessings-and-signs', label: 'النعم والآيات' },
-  { href: '/cosmic-signs', label: 'البلاغ والإنذار' },
-  { href: '/stories', label: 'قصص نجاح' },
-  { href: '/self-guidance', label: 'إرشاد ذاتي' },
-  { href: '/mahdi', label: 'المهدي المنتظر' },
-  { href: '/practical-activities', label: 'أنشطة عملية' },
-  { href: '/library', label: 'المكتبة' },
-  { href: '/community', label: 'المجتمع' },
-  { href: '/vr-journeys', label: 'رحلات VR' },
-  { href: '/external-resources', label: 'روابط خارجية' },
+  { href: '/mission', label: 'Our Mission' },
+  { href: '/journey-of-certainty', label: 'Journey of Certainty' },
+  { href: '/god-certainty', label: 'Certainty in God' },
+  { href: '/blessings-and-signs', label: 'Blessings & Signs' },
+  { href: '/cosmic-signs', label: 'Clarion Call' },
+  { href: '/stories', label: 'Success Stories' },
+  { href: '/self-guidance', label: 'Self-Guidance' },
+  { href: '/mahdi', label: 'The Mahdi' },
+  { href: '/practical-activities', label: 'Practical Activities' },
+  { href: '/library', label: 'Library' },
+  { href: '/community', label: 'Community' },
+  { href: '/vr-journeys', label: 'VR Journeys' },
+  { href: '/external-resources', label: 'External Resources' },
 ];
 
 export default function Header() {
@@ -52,12 +61,12 @@ export default function Header() {
     await signOut(auth);
     router.push('/');
   };
-  
+
   const getInitials = (name?: string | null) => {
     if (!name) return <UserIcon className="h-5 w-5" />;
     return name
       .split(' ')
-      .map(n => n[0])
+      .map((n) => n[0])
       .join('')
       .toUpperCase();
   };
@@ -81,11 +90,14 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 max-w-7xl items-center">
-        <div className="ml-4 flex items-center">
-          <Link href="/" className="ml-2 flex items-center justify-center space-x-2">
+        <div className="mr-4 flex items-center">
+          <Link
+            href="/"
+            className="mr-2 flex items-center justify-center space-x-2"
+          >
             <Logo className="h-6 w-6 text-primary" />
             <span className="font-bold font-headline inline-block text-lg">
-              عين اليقين
+              Eye of Certainty
             </span>
           </Link>
         </div>
@@ -99,19 +111,25 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         <div className="lg:hidden flex-1 flex justify-start">
-           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
-                <span className="sr-only">فتح القائمة</span>
+                <span className="sr-only">Open Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right">
+            <SheetContent side="left">
               <SheetHeader>
-                 <Link href="/" onClick={() => setIsSheetOpen(false)} className="flex items-center space-x-2">
-                    <Logo className="h-6 w-6 text-primary" />
-                    <span className="font-bold font-headline">عين اليقين</span>
-                  </Link>
+                <Link
+                  href="/"
+                  onClick={() => setIsSheetOpen(false)}
+                  className="flex items-center space-x-2"
+                >
+                  <Logo className="h-6 w-6 text-primary" />
+                  <span className="font-bold font-headline">
+                    Eye of Certainty
+                  </span>
+                </Link>
               </SheetHeader>
               <nav className="flex flex-col space-y-2 mt-6">
                 {navLinks.map((link) => (
@@ -122,27 +140,26 @@ export default function Header() {
           </Sheet>
         </div>
 
-
-        <div className="flex items-center justify-end space-x-reverse space-x-1 md:space-x-2">
+        <div className="flex items-center justify-end space-x-1 md:space-x-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Globe className="h-5 w-5" />
-                <span className="sr-only">تغيير اللغة</span>
+                <span className="sr-only">Change Language</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem>
-                <Languages className="ml-2 h-4 w-4" />
-                <span>العربية</span>
+                <Languages className="mr-2 h-4 w-4" />
+                <span>English</span>
               </DropdownMenuItem>
               <DropdownMenuItem disabled>
-                <Languages className="ml-2 h-4 w-4" />
-                <span>English (قريبًا)</span>
+                <Languages className="mr-2 h-4 w-4" />
+                <span>العربية (soon)</span>
               </DropdownMenuItem>
               <DropdownMenuItem disabled>
-                <Languages className="ml-2 h-4 w-4" />
-                <span>Español (قريبًا)</span>
+                <Languages className="mr-2 h-4 w-4" />
+                <span>Español (soon)</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -150,9 +167,15 @@ export default function Header() {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                <Button
+                  variant="ghost"
+                  className="relative h-8 w-8 rounded-full"
+                >
                   <Avatar className="h-8 w-8">
-                    <AvatarImage src={user.photoURL || ''} alt={user.displayName || 'User'} />
+                    <AvatarImage
+                      src={user.photoURL || ''}
+                      alt={user.displayName || 'User'}
+                    />
                     <AvatarFallback>{getInitials(user.displayName)}</AvatarFallback>
                   </Avatar>
                 </Button>
@@ -160,20 +183,20 @@ export default function Header() {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
                   <Link href="/profile">
-                    <UserCircle2 className="ml-2 h-4 w-4" />
-                    <span>ملفي الشخصي</span>
+                    <UserCircle2 className="mr-2 h-4 w-4" />
+                    <span>My Profile</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
-                  <LogOut className="ml-2 h-4 w-4" />
-                  <span>تسجيل الخروج</span>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Sign Out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Button asChild className="hidden sm:inline-flex">
-              <Link href="/login">تسجيل الدخول</Link>
+              <Link href="/login">Sign In</Link>
             </Button>
           )}
         </div>
