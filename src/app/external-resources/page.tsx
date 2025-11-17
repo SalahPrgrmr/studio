@@ -1,3 +1,4 @@
+
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Landmark, MessageSquare, BookOpen, GraduationCap } from "lucide-react";
@@ -9,7 +10,8 @@ const resourceCategories = [
     title: "مراكز إسلامية ومواقع دعوية",
     description: "ابحث عن مراكز إسلامية قريبة منك أو تصفح مواقع دعوية موثوقة للحصول على الدعم والإرشاد أو الدخول في الإسلام.",
     links: [
-      { name: "مثال: موقع دعوي موثوق (قريبًا)", href: "#" },
+      { name: "IslamHouse.com - للدعوة بلغات متعددة", href: "https://islamhouse.com/ar" },
+      { name: "موقع Muslim.org", href: "https://muslim.org/" },
     ]
   },
   {
@@ -17,15 +19,19 @@ const resourceCategories = [
     title: "مواقع للمناظرة والحوار",
     description: "مواقع متخصصة في الحوار بين الأديان والمناظرات الفكرية لاستكشاف الحقائق بعمق ومقارنة الأفكار.",
      links: [
-      { name: "مثال: منتدى حواري (قريبًا)", href: "#" },
+      { name: "موقع بينات - د. إياد قنيبي", href: "https://bayyenat.net/" },
+       { name: "Yaqeen Institute for Islamic Research", href: "https://yaqeeninstitute.org/" },
     ]
   },
   {
     icon: <BookOpen className="h-8 w-8 text-primary" />,
-    title: "مصادر للتفقه في الدين",
-    description: "مكتبات إلكترونية ومواقع علمية لتعلم الفقه الإسلامي وعلومه المختلفة من مصادرها الأصلية.",
+    title: "مصادر للتفقه في الدين والفتاوى",
+    description: "مكتبات إلكترونية ومواقع علمية لتعلم الفقه الإسلامي وعلومه المختلفة من مصادرها الأصلية الموثوقة.",
      links: [
-      { name: "مثال: مكتبة إلكترونية (قريبًا)", href: "#" },
+      { name: "موقع إسلام ويب - فتاوى ومقالات", href: "https://www.islamweb.net/ar/" },
+      { name: "موقع الإسلام سؤال وجواب", href: "https://islamqa.info/ar" },
+      { name: "موقع الدرر السنية - موسوعة علمية", href: "https://www.dorar.net/" },
+      { name: "موقع الشيخ ابن باز - فتاوى وعلم شرعي", href: "https://binbaz.org.sa/" },
     ]
   },
   {
@@ -33,7 +39,8 @@ const resourceCategories = [
     title: "منصات تعليمية",
     description: "دورات وبرامج تعليمية عبر الإنترنت لتعميق فهمك للدين الإسلامي والحضارة الإسلامية.",
      links: [
-      { name: "مثال: أكاديمية إسلامية (قريبًا)", href: "#" },
+      { name: "أكاديمية زاد - لتعليم العلوم الشرعية", href: "https://www.zad-academy.com/" },
+      { name: "الجامعة الإسلامية المفتوحة (IOU)", href: "https://iou.edu.gm/" },
     ]
   },
 ];
@@ -62,7 +69,7 @@ export default function ExternalResourcesPage() {
               <p className="text-muted-foreground mb-4">{category.description}</p>
               <div className="space-y-2">
                 {category.links.map(link => (
-                    <Button key={link.name} asChild variant="outline" className="w-full justify-start" disabled>
+                    <Button key={link.name} asChild variant="outline" className="w-full justify-start">
                         <Link href={link.href} target="_blank" rel="noopener noreferrer">
                              <ExternalLink className="ml-2 h-4 w-4" />
                             {link.name}
