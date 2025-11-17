@@ -1,10 +1,16 @@
 'use client';
 
-import { Globe, Download, AppWindow } from 'lucide-react';
+import { Globe, Download, AppWindow, Languages } from 'lucide-react';
 import Logo from '../logo';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { useEffect, useState } from 'react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -85,13 +91,13 @@ export default function Footer() {
   return (
     <footer className="bg-card border-t mt-12">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="col-span-2 md:col-span-1 flex flex-col items-start space-y-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+            <div className="col-span-2 lg:col-span-1 flex flex-col items-start space-y-4">
                 <Link href="/" className="flex items-center space-x-2 rtl:space-x-reverse mb-2">
                     <Logo className="h-8 w-8 text-primary" />
                     <span className="font-bold font-headline text-xl">عين اليقين</span>
                 </Link>
-                <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                <div className="flex items-center gap-2 flex-wrap">
                     {deferredPrompt && (
                     <Button onClick={handleInstallClick} variant="outline" size="sm">
                         <AppWindow className="ml-2 h-4 w-4" />
@@ -99,9 +105,27 @@ export default function Footer() {
                     </Button>
                     )}
                     <Button onClick={handleDownloadPDF} variant="outline" size="sm">
-                    <Download className="ml-2 h-4 w-4" />
-                    تحميل PDF
+                        <Download className="ml-2 h-4 w-4" />
+                        تحميل PDF
                     </Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                        <Button variant="outline" size="sm">
+                            <Globe className="ml-2 h-4 w-4" />
+                            اللغة
+                        </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start">
+                        <DropdownMenuItem>
+                            <Languages className="mr-2 h-4 w-4" />
+                            <span>العربية</span>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem disabled>
+                            <Languages className="mr-2 h-4 w-4" />
+                            <span>English (soon)</span>
+                        </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
             </div>
 
