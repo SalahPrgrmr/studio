@@ -1,6 +1,6 @@
 'use client';
 
-import { Globe, Download, AppWindow, Languages } from 'lucide-react';
+import { Globe, Download, AppWindow } from 'lucide-react';
 import Logo from '../logo';
 import Link from 'next/link';
 import { Button } from '../ui/button';
@@ -11,6 +11,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useLanguage, languages } from '@/lib/i18n/provider';
+import type { Language } from '@/lib/i18n/settings';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -23,29 +25,30 @@ interface BeforeInstallPromptEvent extends Event {
 
 const sitemapLinks = {
   platform: [
-    { href: '/mission', label: 'رسالتنا' },
-    { href: '/privacy-policy', label: 'سياسة الخصوصية' },
-    { href: '/terms-of-service', label: 'شروط الخدمة' },
+    { href: '/mission', labelKey: 'footer.links.mission' },
+    { href: '/privacy-policy', labelKey: 'footer.links.privacy' },
+    { href: '/terms-of-service', labelKey: 'footer.links.terms' },
   ],
   journey: [
-    { href: '/journey-of-certainty', label: 'خارطة طريق اليقين' },
-    { href: '/god-certainty', label: 'اليقين بالله' },
-    { href: '/blessings-and-signs', label: 'النعم والآيات' },
-    { href: '/cosmic-signs', label: 'البلاغ والإنذار' },
-    { href: '/self-guidance', label: 'الإرشاد الذاتي' },
-    { href: '/mahdi', label: 'المهدي' },
+    { href: '/journey-of-certainty', labelKey: 'footer.links.journeyMap' },
+    { href: '/god-certainty', labelKey: 'footer.links.godCertainty' },
+    { href: '/blessings-and-signs', labelKey: 'footer.links.blessings' },
+    { href: '/cosmic-signs', labelKey: 'footer.links.cosmicSigns' },
+    { href: '/self-guidance', labelKey: 'footer.links.selfGuidance' },
+    { href: '/mahdi', labelKey: 'footer.links.mahdi' },
   ],
   engagement: [
-      { href: '/stories', label: 'قصص النجاح' },
-      { href: '/practical-activities', label: 'أنشطة عملية' },
-      { href: '/library', label: 'المكتبة' },
-      { href: '/community', label: 'المجتمع' },
-      { href: '/vr-journeys', label: 'رحلات VR' },
-      { href: '/external-resources', label: 'مصادر خارجية' },
+      { href: '/stories', labelKey: 'footer.links.stories' },
+      { href: '/practical-activities', labelKey: 'footer.links.activities' },
+      { href: '/library', labelKey: 'footer.links.library' },
+      { href: '/community', labelKey: 'footer.links.community' },
+      { href: '/vr-journeys', labelKey: 'footer.links.vrJourneys' },
+      { href: '/external-resources', labelKey: 'footer.links.externalResources' },
   ]
 };
 
 export default function Footer() {
+  const { t, language, setLanguage, getDirection } = useLanguage();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
@@ -94,6 +97,12 @@ export default function Footer() {
         elementsToHide.forEach(el => (el as HTMLElement).style.display = '');
     });
   }
+  
+  const handleLanguageChange = (lang: Language) => {
+    setLanguage(lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = getDirection(lang);
+  };
 
   return (
     <footer className="bg-card border-t mt-12">
@@ -102,35 +111,33 @@ export default function Footer() {
             <div className="flex flex-col items-start space-y-4">
                 <Link href="/" className="flex items-center space-x-2 rtl:space-x-reverse mb-2">
                     <Logo className="h-8 w-8 text-primary" />
-                    <span className="font-bold font-headline text-xl">عين اليقين</span>
+                    <span className="font-bold font-headline text-xl">{t('appName')}</span>
                 </Link>
                 <div className="flex items-center gap-2 flex-wrap no-pdf">
                     {deferredPrompt && (
                     <Button onClick={handleInstallClick} variant="outline" size="sm">
                         <AppWindow className="ml-2 h-4 w-4" />
-                        تثبيت التطبيق
+                        {t('footer.installApp')}
                     </Button>
                     )}
                     <Button onClick={handleDownloadPDF} variant="outline" size="sm">
                         <Download className="ml-2 h-4 w-4" />
-                        تحميل PDF
+                        {t('footer.downloadPdf')}
                     </Button>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                         <Button variant="outline" size="sm">
                             <Globe className="ml-2 h-4 w-4" />
-                            اللغة
+                            {t('footer.language')}
                         </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="start">
-                        <DropdownMenuItem>
-                            <Languages className="mr-2 h-4 w-4" />
-                            <span>العربية</span>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem disabled>
-                            <Languages className="mr-2 h-4 w-4" />
-                            <span>English (soon)</span>
-                        </DropdownMenuItem>
+                        {languages.map((lang) => (
+                           <DropdownMenuItem key={lang.code} onClick={() => handleLanguageChange(lang.code)}>
+                             {lang.icon}
+                             <span>{lang.name}</span>
+                           </DropdownMenuItem>
+                         ))}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
@@ -138,12 +145,12 @@ export default function Footer() {
 
             <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 <div>
-                    <h3 className="font-headline font-semibold text-lg mb-4">المنصة</h3>
+                    <h3 className="font-headline font-semibold text-lg mb-4">{t('footer.headings.platform')}</h3>
                     <ul className="space-y-3">
                         {sitemapLinks.platform.map(link => (
                             <li key={link.href}>
                                 <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                                    {link.label}
+                                    {t(link.labelKey)}
                                 </Link>
                             </li>
                         ))}
@@ -151,12 +158,12 @@ export default function Footer() {
                 </div>
                 
                 <div>
-                    <h3 className="font-headline font-semibold text-lg mb-4">رحلة اليقين</h3>
+                    <h3 className="font-headline font-semibold text-lg mb-4">{t('footer.headings.journey')}</h3>
                     <ul className="space-y-3">
                         {sitemapLinks.journey.map(link => (
                             <li key={link.href}>
                                 <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                                    {link.label}
+                                    {t(link.labelKey)}
                                 </Link>
                             </li>
                         ))}
@@ -164,12 +171,12 @@ export default function Footer() {
                 </div>
                 
                 <div>
-                    <h3 className="font-headline font-semibold text-lg mb-4">التفاعل والمصادر</h3>
+                    <h3 className="font-headline font-semibold text-lg mb-4">{t('footer.headings.engagement')}</h3>
                     <ul className="space-y-3">
                         {sitemapLinks.engagement.map(link => (
                             <li key={link.href}>
                                 <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                                    {link.label}
+                                    {t(link.labelKey)}
                                 </Link>
                             </li>
                         ))}
@@ -181,10 +188,10 @@ export default function Footer() {
         <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
           <div className="flex items-center justify-center space-x-2 rtl:space-x-reverse mb-2">
             <Globe className="h-4 w-4" />
-            <span>نحن نحترم جميع الأديان والجنسيات.</span>
+            <span>{t('footer.respectMessage')}</span>
           </div>
           <span>
-            &copy; {new Date().getFullYear()} عين اليقين. جميع الحقوق محفوظة.
+            &copy; {new Date().getFullYear()} {t('appName')}. {t('footer.rightsReserved')}.
           </span>
         </div>
       </div>

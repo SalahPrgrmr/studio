@@ -1,0 +1,54 @@
+{
+  "appName": "Eye of Certainty",
+  "header": {
+    "openMenu": "Open Menu",
+    "changeLanguage": "Change Language",
+    "profile": "My Profile",
+    "signOut": "Sign Out",
+    "signIn": "Sign In",
+    "links": {
+      "mission": "Our Mission",
+      "journey": "Journey of Certainty",
+      "godCertainty": "Certainty in God",
+      "blessings": "Blessings & Signs",
+      "cosmicSigns": "The Message",
+      "stories": "Success Stories",
+      "selfGuidance": "Self-Guidance",
+      "mahdi": "The Mahdi",
+      "activities": "Practical Activities",
+      "library": "Library",
+      "community": "Community",
+      "vrJourneys": "VR Journeys",
+      "externalResources": "External Resources"
+    }
+  },
+  "footer": {
+    "installApp": "Install App",
+    "downloadPdf": "Download PDF",
+    "language": "Language",
+    "headings": {
+      "platform": "Platform",
+      "journey": "Journey of Certainty",
+      "engagement": "Engagement & Resources"
+    },
+    "links": {
+      "mission": "Our Mission",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "journeyMap": "Journey Roadmap",
+      "godCertainty": "Certainty in God",
+      "blessings": "Blessings & Signs",
+      "cosmicSigns": "The Message & Warning",
+      "selfGuidance": "Self-Guidance",
+      "mahdi": "The Mahdi",
+      "stories": "Success Stories",
+      "activities": "Practical Activities",
+      "library": "Library",
+      "community": "Community",
+      "vrJourneys": "VR Journeys",
+      "externalResources": "External Resources"
+    },
+    "respectMessage": "We respect all religions and nationalities.",
+    "rightsReserved": "All rights reserved"
+  }
+}

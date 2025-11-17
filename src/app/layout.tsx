@@ -10,6 +10,7 @@ import ChatAssistant from '@/components/assistant/chat-assistant';
 import BottomNavBar from '@/components/layout/bottom-nav-bar';
 import { MoreNavSheet } from '@/components/layout/more-nav-sheet';
 import App from './main';
+import { LanguageProvider } from '@/lib/i18n/provider';
 
 export const metadata: Metadata = {
   title: 'Eye of Certainty',
@@ -48,15 +49,17 @@ export default function RootLayout({
         )}
       >
         <FirebaseClientProvider>
-          <div className="relative flex min-h-dvh flex-col">
-            <Header />
-            <main className="flex-1 pb-20">{children}</main>
-            <Footer />
-            <BottomNavBar />
-            <MoreNavSheet />
-          </div>
-          <ChatAssistant />
-          <Toaster />
+          <LanguageProvider>
+            <div className="relative flex min-h-dvh flex-col">
+              <Header />
+              <main className="flex-1 pb-20">{children}</main>
+              <Footer />
+              <BottomNavBar />
+              <MoreNavSheet />
+            </div>
+            <ChatAssistant />
+            <Toaster />
+          </LanguageProvider>
         </FirebaseClientProvider>
       </body>
     </html>

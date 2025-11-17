@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   Globe,
-  Languages,
   LogOut,
   Menu,
   User as UserIcon,
@@ -31,33 +30,42 @@ import { cn } from '@/lib/utils';
 import { useFirebase } from '@/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { signOut } from 'firebase/auth';
+import { useLanguage, languages } from '@/lib/i18n/provider';
+import type { Language } from '@/lib/i18n/settings';
 
 const navLinks = [
-  { href: '/mission', label: 'رسالتنا' },
-  { href: '/journey-of-certainty', label: 'رحلة اليقين' },
-  { href: '/god-certainty', label: 'اليقين بالله' },
-  { href: '/blessings-and-signs', label: 'النعم والآيات' },
-  { href: '/cosmic-signs', label: 'البلاغ والإنذار' },
-  { href: '/stories', label: 'قصص النجاح' },
-  { href: '/self-guidance', label: 'الإرشاد الذاتي' },
-  { href: '/mahdi', label: 'المهدي' },
-  { href: '/practical-activities', label: 'أنشطة عملية' },
-  { href: '/library', label: 'المكتبة' },
-  { href: '/community', label: 'المجتمع' },
-  { href: '/vr-journeys', label: 'رحلات VR' },
-  { href: '/external-resources', label: 'مصادر خارجية' },
+  { href: '/mission', labelKey: 'header.links.mission' },
+  { href: '/journey-of-certainty', labelKey: 'header.links.journey' },
+  { href: '/god-certainty', labelKey: 'header.links.godCertainty' },
+  { href: '/blessings-and-signs', labelKey: 'header.links.blessings' },
+  { href: '/cosmic-signs', labelKey: 'header.links.cosmicSigns' },
+  { href: '/stories', labelKey: 'header.links.stories' },
+  { href: '/self-guidance', labelKey: 'header.links.selfGuidance' },
+  { href: '/mahdi', labelKey: 'header.links.mahdi' },
+  { href: '/practical-activities', labelKey: 'header.links.activities' },
+  { href: '/library', labelKey: 'header.links.library' },
+  { href: '/community', labelKey: 'header.links.community' },
+  { href: '/vr-journeys', labelKey: 'header.links.vrJourneys' },
+  { href: '/external-resources', labelKey: 'header.links.externalResources' },
 ];
 
 export default function Header() {
   const pathname = usePathname();
   const { user, auth } = useFirebase();
   const router = useRouter();
+  const { t, language, setLanguage, getDirection } = useLanguage();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleSignOut = async () => {
     if (!auth) return;
     await signOut(auth);
     router.push('/');
+  };
+
+  const handleLanguageChange = (lang: Language) => {
+    setLanguage(lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = getDirection(lang);
   };
 
   const getInitials = (name?: string | null) => {
@@ -69,7 +77,7 @@ export default function Header() {
       .toUpperCase();
   };
 
-  const NavLink = ({ href, label }: { href: string; label: string }) => (
+  const NavLink = ({ href, labelKey }: { href: string; labelKey: string }) => (
     <Link
       key={href}
       href={href}
@@ -81,7 +89,7 @@ export default function Header() {
           : 'text-muted-foreground'
       )}
     >
-      {label}
+      {t(labelKey)}
     </Link>
   );
 
@@ -91,11 +99,11 @@ export default function Header() {
         <div className="mr-4 flex items-center">
           <Link
             href="/"
-            className="ml-6 flex items-center justify-center space-x-2"
+            className="ml-6 flex items-center justify-center space-x-2 rtl:space-x-reverse"
           >
             <Logo className="h-6 w-6 text-primary" />
             <span className="font-bold font-headline inline-block text-lg">
-              عين اليقين
+              {t('appName')}
             </span>
           </Link>
         </div>
@@ -113,19 +121,19 @@ export default function Header() {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
-                <span className="sr-only">افتح القائمة</span>
+                <span className="sr-only">{t('header.openMenu')}</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
+            <SheetContent side={getDirection(language) === 'ltr' ? 'left' : 'right'}>
               <SheetHeader>
                 <Link
                   href="/"
                   onClick={() => setIsSheetOpen(false)}
-                  className="flex items-center space-x-2"
+                  className="flex items-center space-x-2 rtl:space-x-reverse"
                 >
                   <Logo className="h-6 w-6 text-primary" />
                   <span className="font-bold font-headline">
-                    عين اليقين
+                    {t('appName')}
                   </span>
                 </Link>
               </SheetHeader>
@@ -143,22 +151,16 @@ export default function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Globe className="h-5 w-5" />
-                <span className="sr-only">تغيير اللغة</span>
+                <span className="sr-only">{t('header.changeLanguage')}</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Languages className="mr-2 h-4 w-4" />
-                <span>العربية</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem disabled>
-                <Languages className="mr-2 h-4 w-4" />
-                <span>English (soon)</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem disabled>
-                <Languages className="mr-2 h-4 w-4" />
-                <span>Español (soon)</span>
-              </DropdownMenuItem>
+              {languages.map((lang) => (
+                <DropdownMenuItem key={lang.code} onClick={() => handleLanguageChange(lang.code)}>
+                  {lang.icon}
+                  <span>{lang.name}</span>
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -182,19 +184,19 @@ export default function Header() {
                 <DropdownMenuItem asChild>
                   <Link href="/profile">
                     <UserCircle2 className="mr-2 h-4 w-4" />
-                    <span>ملفي الشخصي</span>
+                    <span>{t('header.profile')}</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>تسجيل الخروج</span>
+                  <span>{t('header.signOut')}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Button asChild className="hidden sm:inline-flex">
-              <Link href="/login">تسجيل الدخول</Link>
+              <Link href="/login">{t('header.signIn')}</Link>
             </Button>
           )}
         </div>

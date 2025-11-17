@@ -1,0 +1,54 @@
+{
+  "appName": "عين اليقين",
+  "header": {
+    "openMenu": "افتح القائمة",
+    "changeLanguage": "تغيير اللغة",
+    "profile": "ملفي الشخصي",
+    "signOut": "تسجيل الخروج",
+    "signIn": "تسجيل الدخول",
+    "links": {
+      "mission": "رسالتنا",
+      "journey": "رحلة اليقين",
+      "godCertainty": "اليقين بالله",
+      "blessings": "النعم والآيات",
+      "cosmicSigns": "البلاغ والإنذار",
+      "stories": "قصص النجاح",
+      "selfGuidance": "الإرشاد الذاتي",
+      "mahdi": "المهدي",
+      "activities": "أنشطة عملية",
+      "library": "المكتبة",
+      "community": "المجتمع",
+      "vrJourneys": "رحلات VR",
+      "externalResources": "مصادر خارجية"
+    }
+  },
+  "footer": {
+    "installApp": "تثبيت التطبيق",
+    "downloadPdf": "تحميل PDF",
+    "language": "اللغة",
+    "headings": {
+      "platform": "المنصة",
+      "journey": "رحلة اليقين",
+      "engagement": "التفاعل والمصادر"
+    },
+    "links": {
+      "mission": "رسالتنا",
+      "privacy": "سياسة الخصوصية",
+      "terms": "شروط الخدمة",
+      "journeyMap": "خارطة طريق اليقين",
+      "godCertainty": "اليقين بالله",
+      "blessings": "النعم والآيات",
+      "cosmicSigns": "البلاغ والإنذار",
+      "selfGuidance": "الإرشاد الذاتي",
+      "mahdi": "المهدي",
+      "stories": "قصص النجاح",
+      "activities": "أنشطة عملية",
+      "library": "المكتبة",
+      "community": "المجتمع",
+      "vrJourneys": "رحلات VR",
+      "externalResources": "مصادر خارجية"
+    },
+    "respectMessage": "نحن نحترم جميع الأديان والجنسيات.",
+    "rightsReserved": "جميع الحقوق محفوظة"
+  }
+}
