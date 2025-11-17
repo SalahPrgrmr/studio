@@ -52,7 +52,7 @@ export default function Footer() {
       margin:       0.5,
       filename:     'eye-of-certainty.pdf',
       image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2 },
+      html2canvas:  { scale: 2, useCORS: true },
       jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
     html2pdf().from(element).set(opt).save();
@@ -63,7 +63,7 @@ export default function Footer() {
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
           <div className="flex items-center space-x-2 md:justify-start justify-center">
-            <Logo className="h-5 w-5 text-primary" />
+            <Logo className="h-6 w-6 text-primary" />
             <span className="font-bold font-headline">عين اليقين</span>
           </div>
           
