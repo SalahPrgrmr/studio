@@ -1,22 +1,54 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Building, Book, FlaskConical, Cpu } from 'lucide-react';
+import { Building, Book, Users, Tv } from 'lucide-react';
 
-const partnerTypes = [
+const partnerCategories = [
   {
-    title: 'المؤسسات التعليمية',
-    description: 'نتعاون مع الجامعات والمدارس لدمج مفاهيم اليقين والتفكير النقدي في المناهج التعليمية.',
+    title: 'الجهات الرسمية ووزارات الأوقاف',
+    description: 'نتعاون مع الجهات الرسمية في العالم الإسلامي لتنسيق الجهود وتوسيع نطاق رسالة اليقين.',
+    icon: <Building className="h-8 w-8 text-primary" />,
+    examples: [
+        'وزارة الشؤون الإسلامية (السعودية)',
+        'الهيئة العامة للشؤون الإسلامية (الإمارات)',
+        'وزارة الأوقاف (مصر)',
+        'وزارة الأوقاف (قطر)',
+    ],
+  },
+  {
+    title: 'العلماء والدعاة',
+    description: 'يشكل العلماء والدعاة حجر الزاوية في المحتوى العلمي والروحي للمنصة، ونعتز بشراكتهم في تقديم المعرفة الموثوقة.',
+    icon: <Users className="h-8 w-8 text-primary" />,
+    examples: [
+        'أ.د. خالد المصلح',
+        'الشيخ صالح المغامسي',
+        'د. محمد راتب النابلسي',
+        'الشيخ عثمان الخميس',
+        'Dr. Bilal Philips',
+        'Nouman Ali Khan',
+    ],
+  },
+  {
+    title: 'القنوات والمراكز الإعلامية',
+    description: 'شركاؤنا الإعلاميون يساهمون في نشر رسالة اليقين على أوسع نطاق من خلال الإنتاج والبث الرقمي والفضائي.',
+    icon: <Tv className="h-8 w-8 text-primary" />,
+     examples: [
+        'شبكة المجد الفضائية',
+        'قناة الرسالة الفضائية',
+        'قناة اقرأ الفضائية',
+        'مؤسسة بينه (Bayyinah)',
+        'موقع الدرر السنية',
+    ],
+  },
+   {
+    title: 'المؤسسات التعليمية والبحثية',
+    description: 'نعمل مع الجامعات والمراكز البحثية لتطوير المحتوى وإجراء الدراسات التي تعمق فهمنا لليقين وأثره.',
     icon: <Book className="h-8 w-8 text-primary" />,
-  },
-  {
-    title: 'المراكز البحثية',
-    description: 'نعمل مع الباحثين لدراسة أثر اليقين على الصحة النفسية والاجتماعية وتطوير أدوات قياس فعالة.',
-    icon: <FlaskConical className="h-8 w-8 text-primary" />,
-  },
-  {
-    title: 'الشركات التقنية',
-    description: 'نبحث عن شركاء تقنيين للمساهمة في تطوير المنصة وتقديم تجارب مبتكرة مثل الواقع الافتراضي والذكاء الاصطناعي.',
-    icon: <Cpu className="h-8 w-8 text-primary" />,
+     examples: [
+        'Yaqeen Institute',
+        'Zaytuna College',
+        'الجامعة الإسلامية المفتوحة (IOU)',
+        'أكاديمية زاد',
+    ],
   },
 ];
 
@@ -33,17 +65,19 @@ export default function PartnersPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-        {partnerTypes.map((type) => (
-          <Card key={type.title} className="text-center p-6 flex flex-col items-center shadow-md">
-            <div className="p-4 bg-primary/10 rounded-full mb-4">
-              {type.icon}
-            </div>
-            <CardHeader className="p-2">
-              <CardTitle className="font-headline text-2xl">{type.title}</CardTitle>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        {partnerCategories.map((category) => (
+          <Card key={category.title} className="flex flex-col shadow-md hover:shadow-lg transition-shadow duration-300">
+            <CardHeader className="flex flex-row items-center gap-4">
+               <div className="p-3 bg-primary/10 rounded-full">{category.icon}</div>
+              <CardTitle className="font-headline text-xl">{category.title}</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">{type.description}</p>
+            <CardContent className="flex-grow">
+              <p className="text-muted-foreground mb-4">{category.description}</p>
+              <ul className="space-y-2 list-disc list-inside text-sm">
+                {category.examples.map(example => <li key={example} className="font-semibold">{example}</li>)}
+                 <li className="text-muted-foreground">وغيرهم الكثير...</li>
+              </ul>
             </CardContent>
           </Card>
         ))}
