@@ -32,6 +32,86 @@
         "creationDate"
       ]
     },
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Stores user profile data, including gamification stats.",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The user's ID."
+        },
+        "points": {
+          "type": "number",
+          "description": "Total points accumulated by the user."
+        },
+        "currentTitle": {
+          "type": "string",
+          "description": "The user's current title."
+        },
+        "badges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of badge IDs the user has earned."
+        }
+      },
+      "required": [
+        "userId",
+        "points",
+        "currentTitle"
+      ]
+    },
+    "Badge": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Badge",
+      "type": "object",
+      "description": "Represents a badge that can be earned by users.",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "icon"
+      ]
+    },
+    "Title": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Title",
+      "type": "object",
+      "description": "Represents a title that can be achieved by users.",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "requiredPoints": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "requiredPoints"
+      ]
+    },
     "CommunityForumPost": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "CommunityForumPost",
@@ -94,6 +174,14 @@
           "type": "string",
           "description": "The date and time the success story was created.",
           "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending_review",
+            "approved",
+            "rejected"
+          ]
         }
       },
       "required": [
@@ -101,7 +189,8 @@
         "authorId",
         "title",
         "content",
-        "creationDate"
+        "creationDate",
+        "status"
       ]
     },
     "CertaintyDefinition": {
@@ -305,6 +394,54 @@
             {
               "name": "userId",
               "description": "The unique identifier of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/user_profiles/{userId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores user gamification and profile data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/badges/{badgeId}",
+        "definition": {
+          "entityName": "Badge",
+          "schema": {
+            "$ref": "#/backend/entities/Badge"
+          },
+          "description": "Stores badge definitions.",
+          "params": [
+            {
+              "name": "badgeId",
+              "description": "The unique identifier of the badge."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/titles/{titleId}",
+        "definition": {
+          "entityName": "Title",
+          "schema": {
+            "$ref": "#/backend/entities/Title"
+          },
+          "description": "Stores title definitions.",
+          "params": [
+            {
+              "name": "titleId",
+              "description": "The unique identifier of the title."
             }
           ]
         }

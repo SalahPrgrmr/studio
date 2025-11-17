@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { ExternalLink, Globe, Languages, LogOut, Menu, User as UserIcon } from 'lucide-react';
+import { ExternalLink, Globe, Languages, LogOut, Menu, User as UserIcon, UserCircle2 } from 'lucide-react';
 import { useState } from 'react';
 
 import Logo from '@/components/logo';
@@ -156,8 +156,11 @@ export default function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem disabled>
-                  <span className="font-medium">{user.displayName || 'مستخدم'}</span>
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">
+                    <UserCircle2 className="ml-2 h-4 w-4" />
+                    <span>ملفي الشخصي</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
@@ -176,3 +179,5 @@ export default function Header() {
     </header>
   );
 }
+
+    
