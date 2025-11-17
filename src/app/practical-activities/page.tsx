@@ -145,12 +145,31 @@ export default function PracticalActivitiesPage() {
       <div className="text-center mb-16">
         <Activity className="mx-auto h-16 w-16 text-primary mb-4" />
         <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
-          أنشطة عملية لترسيخ اليقين
+          الأنشطة العملية: إخراج ثمرة اليقين
         </h1>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-          اليقين ينمو بالعمل والتطبيق. اختر نشاطًا وابدأ اليوم في رحلتك العملية لتقوية إيمانك وتعميق اتصالك بالله.
+          بعد أن اكتسبت المعرفة والتصديق، حان وقت العمل. هذه الأنشطة هي الثمرة العملية لرحلتك، وهي الإجابة على السؤال الأهم.
         </p>
       </div>
+
+       <Card className="my-16 bg-secondary text-center p-8 md:p-12 rounded-2xl shadow-lg border-border">
+        <CardHeader>
+          <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
+              <HelpCircle className="h-10 w-10 text-primary" />
+          </div>
+          <CardTitle className="font-headline text-3xl font-bold mb-2 text-secondary-foreground">
+            كيف تنصر الله؟
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="max-w-3xl mx-auto">
+          <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+            توقف لحظة واسأل نفسك: كيف يمكنك أن تنصر الله لتحقيق مراده بتبليغ الإيمان اليقيني وتكون من جنوده؟ اختر النشاط الذي يلامس قلبك ويتوافق مع مهاراتك، واتخذ خطوتك الأولى اليوم.
+          </p>
+          <Button size="lg" asChild>
+            <Link href="/community/volunteers">انضم لجنود اليقين</Link>
+          </Button>
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {activities.map((activity) => (
@@ -171,26 +190,6 @@ export default function PracticalActivitiesPage() {
         ))}
       </div>
       
-       <Card className="my-16 bg-secondary text-center p-8 md:p-12 rounded-2xl shadow-lg border-border">
-        <CardHeader>
-          <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
-              <HelpCircle className="h-10 w-10 text-primary" />
-          </div>
-          <CardTitle className="font-headline text-3xl font-bold mb-2 text-secondary-foreground">
-            كيف تنصر الله؟
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="max-w-3xl mx-auto">
-          <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-            بعد استعراض هذه الأنشطة، توقف لحظة واسأل نفسك: كيف يمكنك أن تنصر الله لتحقيق مراده بتبليغ الإيمان اليقيني وتكون من جنوده؟ اختر النشاط الذي يلامس قلبك ويتوافق مع مهاراتك، واتخذ خطوتك الأولى اليوم.
-          </p>
-          <Button size="lg" asChild>
-            <Link href="/community/volunteers">انضم لجنود اليقين</Link>
-          </Button>
-        </CardContent>
-      </Card>
-
-
        <Card className="mt-20 bg-primary/5 text-center p-8 md:p-12 rounded-2xl shadow-lg border-primary/20">
         <CardHeader>
           <CardTitle className="font-headline text-3xl font-bold mb-4">
