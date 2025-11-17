@@ -3,6 +3,7 @@ import { Map, Telescope, Heart, CheckCircle, TrendingUp, Search, BookOpen, UserC
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import CertaintyChart from '@/components/sections/certainty-chart';
+import { ChartContainer } from '@/components/ui/chart';
 
 const journeySteps = [
   {
@@ -74,6 +75,17 @@ const specializedPaths = [
         link: '/practical-activities'
     }
 ];
+
+const chartConfig = {
+  certainty: {
+    label: 'مستوى اليقين',
+    color: 'hsl(var(--primary))',
+  },
+  happiness: {
+    label: 'السعادة والطمأنينة',
+    color: 'hsl(var(--accent))',
+  },
+};
 
 export default function JourneyOfCertaintyPage() {
   return (
@@ -163,7 +175,9 @@ export default function JourneyOfCertaintyPage() {
           </p>
         </CardHeader>
         <CardContent>
-          <CertaintyChart />
+          <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+            <CertaintyChart />
+          </ChartContainer>
         </CardContent>
       </Card>
     </div>
