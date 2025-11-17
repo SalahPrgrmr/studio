@@ -67,3 +67,14 @@ export type UserProfile = {
         audioContributions: number;
     };
 };
+
+export type SuccessStory = {
+  id: string;
+  title: string;
+  author: string;
+  authorId: string;
+  content: string;
+  creationDate: string;
+  status: 'pending_review' | 'approved';
+  imageId?: string;
+};

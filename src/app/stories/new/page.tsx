@@ -23,7 +23,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Send, ArrowLeft, PenSquare } from 'lucide-react';
-import { useFirebase, addDocumentNonBlocking, setDocumentNonBlocking } from '@/firebase';
+import { useFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, doc, runTransaction } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -68,19 +68,20 @@ export default function NewStoryPage() {
     const userProfileRef = doc(firestore, 'users', user.uid);
 
     try {
-        // Add the story
-        const storyDocRef = await addDocumentNonBlocking(storiesCollection, {
+        const storyPayload = {
             ...values,
             authorId: user.uid,
             creationDate: new Date().toISOString(),
-            status: 'pending_review',
-        });
+            status: 'pending_review' as const,
+        };
+
+        // Add the story using non-blocking write
+        const storyDocRefPromise = addDocumentNonBlocking(storiesCollection, storyPayload);
         
         // Update user's profile points and stats in a transaction
         await runTransaction(firestore, async (transaction) => {
             const userProfileDoc = await transaction.get(userProfileRef);
             if (!userProfileDoc.exists()) {
-                // If profile doesn't exist, create it (should be rare if profile page is visited first)
                 const newProfile = {
                     id: user.uid,
                     displayName: user.displayName || 'مستخدم جديد',
@@ -92,9 +93,10 @@ export default function NewStoryPage() {
                 };
                 transaction.set(userProfileRef, newProfile);
             } else {
-                const currentPoints = userProfileDoc.data().points || 0;
-                const currentStories = userProfileDoc.data().stats?.storiesPublished || 0;
-                const currentBadges = userProfileDoc.data().badges || [];
+                const currentData = userProfileDoc.data();
+                const currentPoints = currentData.points || 0;
+                const currentStories = currentData.stats?.storiesPublished || 0;
+                const currentBadges = currentData.badges || [];
                 
                 const newBadges = [...currentBadges];
                 if (!newBadges.includes('story_writer')) {
@@ -109,11 +111,14 @@ export default function NewStoryPage() {
             }
         });
 
+        // Wait for the story doc ref if needed for navigation
+        const storyDocRef = await storyDocRefPromise;
+
         toast({
             title: 'شكرًا لمشاركتك!',
             description: 'تم إرسال قصتك بنجاح وستظهر بعد المراجعة. لقد حصلت على 150 نقطة!',
         });
-        router.push('/stories');
+        router.push(`/stories/${storyDocRef.id}`);
 
     } catch(e: any) {
         console.error("Error submitting story and updating profile:", e);

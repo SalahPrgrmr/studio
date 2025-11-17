@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { PenSquare, Loader2, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useFirebase, useCollection, useMemoFirebase } from '@/firebase';
-import { collection, query, where } from 'firebase/firestore';
+import { collection, query, where, orderBy } from 'firebase/firestore';
 
 // Define a type for the story data fetched from Firestore
 type SuccessStory = {
@@ -15,6 +15,7 @@ type SuccessStory = {
   author: string;
   content: string;
   status: 'pending_review' | 'approved';
+  creationDate: string;
   // Assuming a snippet or imageId might be added later
   snippet?: string; 
   imageId?: string; 
@@ -31,7 +32,7 @@ export default function StoriesPage() {
   );
   
   const storiesQuery = useMemoFirebase(
-    () => (storiesCollection ? query(storiesCollection, where('status', '==', 'approved')) : null),
+    () => (storiesCollection ? query(storiesCollection, where('status', '==', 'approved'), orderBy('creationDate', 'desc')) : null),
     [storiesCollection]
   );
 
