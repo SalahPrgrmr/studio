@@ -15,6 +15,30 @@ interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
 }
 
+const sitemapLinks = {
+  platform: [
+    { href: '/mission', label: 'رسالتنا' },
+    { href: '/privacy-policy', label: 'سياسة الخصوصية' },
+    { href: '/terms-of-service', label: 'شروط الخدمة' },
+  ],
+  journey: [
+    { href: '/journey-of-certainty', label: 'خارطة طريق اليقين' },
+    { href: '/god-certainty', label: 'اليقين بالله' },
+    { href: '/blessings-and-signs', label: 'النعم والآيات' },
+    { href: '/cosmic-signs', label: 'البلاغ والإنذار' },
+    { href: '/self-guidance', label: 'الإرشاد الذاتي' },
+    { href: '/mahdi', label: 'المهدي' },
+  ],
+  engagement: [
+      { href: '/stories', label: 'قصص النجاح' },
+      { href: '/practical-activities', label: 'أنشطة عملية' },
+      { href: '/library', label: 'المكتبة' },
+      { href: '/community', label: 'المجتمع' },
+      { href: '/vr-journeys', label: 'رحلات VR' },
+      { href: '/external-resources', label: 'مصادر خارجية' },
+  ]
+};
+
 export default function Footer() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
 
@@ -60,42 +84,68 @@ export default function Footer() {
 
   return (
     <footer className="bg-card border-t mt-12">
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-          <div className="flex items-center space-x-2 md:justify-start justify-center">
-            <Logo className="h-6 w-6 text-primary" />
-            <span className="font-bold font-headline">عين اليقين</span>
-          </div>
-          
-          <div className="flex justify-center items-center gap-2">
-            {deferredPrompt && (
-              <Button onClick={handleInstallClick} variant="outline" size="sm">
-                <AppWindow className="ml-2 h-4 w-4" />
-                تحميل الموقع كتطبيق
-              </Button>
-            )}
-            <Button onClick={handleDownloadPDF} variant="outline" size="sm">
-              <Download className="ml-2 h-4 w-4" />
-              تحميل كملف PDF
-            </Button>
-          </div>
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="col-span-2 md:col-span-1 flex flex-col items-start space-y-4">
+                <Link href="/" className="flex items-center space-x-2 rtl:space-x-reverse mb-2">
+                    <Logo className="h-8 w-8 text-primary" />
+                    <span className="font-bold font-headline text-xl">عين اليقين</span>
+                </Link>
+                <div className="flex items-center space-x-2 rtl:space-x-reverse">
+                    {deferredPrompt && (
+                    <Button onClick={handleInstallClick} variant="outline" size="sm">
+                        <AppWindow className="ml-2 h-4 w-4" />
+                        تثبيت التطبيق
+                    </Button>
+                    )}
+                    <Button onClick={handleDownloadPDF} variant="outline" size="sm">
+                    <Download className="ml-2 h-4 w-4" />
+                    تحميل PDF
+                    </Button>
+                </div>
+            </div>
 
-          <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2 text-sm text-muted-foreground">
-            <Link
-              href="/privacy-policy"
-              className="hover:text-primary transition-colors"
-            >
-              سياسة الخصوصية
-            </Link>
-            <Link
-              href="/terms-of-service"
-              className="hover:text-primary transition-colors"
-            >
-              شروط الخدمة
-            </Link>
-          </div>
+            <div>
+                <h3 className="font-headline font-semibold text-lg mb-4">المنصة</h3>
+                <ul className="space-y-3">
+                    {sitemapLinks.platform.map(link => (
+                        <li key={link.href}>
+                            <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                                {link.label}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            
+            <div>
+                <h3 className="font-headline font-semibold text-lg mb-4">رحلة اليقين</h3>
+                <ul className="space-y-3">
+                    {sitemapLinks.journey.map(link => (
+                        <li key={link.href}>
+                            <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                                {link.label}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            
+            <div>
+                <h3 className="font-headline font-semibold text-lg mb-4">التفاعل والمصادر</h3>
+                <ul className="space-y-3">
+                    {sitemapLinks.engagement.map(link => (
+                        <li key={link.href}>
+                            <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                                {link.label}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
-        <div className="mt-6 border-t pt-6 text-center text-sm text-muted-foreground">
+
+        <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
           <div className="flex items-center justify-center space-x-2 mb-2">
             <Globe className="h-4 w-4" />
             <span>نحن نحترم جميع الأديان والجنسيات.</span>
