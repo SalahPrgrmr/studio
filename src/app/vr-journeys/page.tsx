@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { View, Telescope, Milestone, Sparkles } from 'lucide-react';
+import { View, Telescope, Milestone, Sparkles, Youtube } from 'lucide-react';
 import Image from 'next/image';
 
 const vrExperiences = [
@@ -39,6 +39,31 @@ export default function VRJourneysPage() {
           استعد لتجربة غامرة تنقلك إلى عوالم جديدة من التفكر والتأمل. تقنية الواقع الافتراضي تفتح أبوابًا جديدة لتعميق اليقين.
         </p>
       </div>
+
+      <Card className="mb-16 shadow-lg overflow-hidden">
+        <CardHeader className="text-center">
+            <CardTitle className="font-headline text-3xl flex items-center justify-center gap-3">
+                <Youtube className="h-8 w-8 text-red-600"/>
+                شاهد: رحلة من الأرض إلى الفضاء
+            </CardTitle>
+            <CardDescription>
+                هذا الفيديو يجسد فكرة الانطلاق في رحلة تتجاوز المألوف، وهو ما نهدف لتحقيقه عبر تجارب الواقع الافتراضي.
+            </CardDescription>
+        </CardHeader>
+        <CardContent>
+             <div className="aspect-video rounded-lg overflow-hidden border">
+                <iframe 
+                    className="w-full h-full"
+                    src="https://www.youtube.com/embed/N0wGv0pT34Y" 
+                    title="Cosmic Eye (Original video) - High definition" 
+                    frameBorder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerPolicy="strict-origin-when-cross-origin" 
+                    allowFullScreen>
+                </iframe>
+            </div>
+        </CardContent>
+      </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {vrExperiences.map((exp) => (
