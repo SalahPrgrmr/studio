@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Building, Book, Users, Tv } from 'lucide-react';
+import { Building, Book, Users, Tv, HeartPulse } from 'lucide-react';
 
 const partnerCategories = [
   {
@@ -23,8 +23,6 @@ const partnerCategories = [
         'الشيخ صالح المغامسي',
         'د. محمد راتب النابلسي',
         'الشيخ عثمان الخميس',
-        'Dr. Bilal Philips',
-        'Nouman Ali Khan',
     ],
   },
   {
@@ -36,7 +34,6 @@ const partnerCategories = [
         'قناة الرسالة الفضائية',
         'قناة اقرأ الفضائية',
         'مؤسسة بينه (Bayyinah)',
-        'موقع الدرر السنية',
     ],
   },
    {
@@ -50,6 +47,17 @@ const partnerCategories = [
         'أكاديمية زاد',
     ],
   },
+  {
+    title: 'مراكز الإرشاد النفسي والأطباء المسلمون',
+    description: 'نتعاون مع الخبراء في الصحة النفسية لتقديم دعم متكامل يجمع بين العلم والإيمان، ومساعدة الأفراد على تحقيق التوازن النفسي والروحي.',
+    icon: <HeartPulse className="h-8 w-8 text-primary" />,
+    examples: [
+        'د. طارق الحبيب',
+        'د. عبد الرحمن ذاكر الهاشمي',
+        'مؤسسة مطمئنة للاستشارات',
+        'موقع المستشار',
+    ],
+  }
 ];
 
 export default function PartnersPage() {
@@ -65,7 +73,7 @@ export default function PartnersPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
         {partnerCategories.map((category) => (
           <Card key={category.title} className="flex flex-col shadow-md hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center gap-4">
