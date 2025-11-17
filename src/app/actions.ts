@@ -2,7 +2,7 @@
 
 import { generatePersonalizedPath, GeneratePersonalizedPathInput } from '@/ai/flows/generate-personalized-path';
 import { askAssistant, AskAssistantInput } from '@/ai/flows/ask-assistant';
-import { getKhalilResponse as getKhalilResponseFlow, KhalilAssistantInput } from '@/ai/flows/khalil-assistant';
+import { getKhalilResponse, KhalilAssistantInput } from '@/ai/flows/khalil-assistant';
 import { personalPathSchema } from '@/lib/types';
 
 interface ActionResult {
@@ -56,7 +56,7 @@ export async function getAssistantResponse(
 }
 
 
-export async function getKhalilResponse(
+export async function getKhalilResponseFlow(
   input: KhalilAssistantInput
 ): Promise<AssistantActionResult> {
   if (!input.query || input.query.trim().length === 0) {
@@ -64,7 +64,7 @@ export async function getKhalilResponse(
   }
 
   try {
-    const result = await getKhalilResponseFlow(input);
+    const result = await getKhalilResponse(input);
     if (!result || !result.answer) {
       return { error: 'The assistant could not provide an answer. Please try again.' };
     }
