@@ -5,7 +5,7 @@ import { Bot, Send, Loader2, User, BrainCircuit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { getKhalilResponse } from '@/app/actions';
+import { getKhalilResponseFlow } from '@/app/actions';
 import { ScrollArea } from '../ui/scroll-area';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback } from '../ui/avatar';
@@ -44,7 +44,7 @@ export default function KhalilAssistant() {
     setIsLoading(true);
 
     try {
-      const res = await getKhalilResponse({ query: input, history: messages });
+      const res = await getKhalilResponseFlow({ query: input, history: messages });
       if (res.data) {
         const modelMessage: Message = { role: 'model', content: res.data.answer };
         setMessages(prev => [...prev, modelMessage]);
