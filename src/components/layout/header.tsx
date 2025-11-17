@@ -26,6 +26,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { signOut } from 'firebase/auth';
 
 const navLinks = [
+  { href: '/mission', label: 'رسالتنا' },
   { href: '/journey-of-certainty', label: 'رحلة اليقين' },
   { href: '/god-certainty', label: 'اليقين بالله' },
   { href: '/blessings-and-signs', label: 'النعم والآيات' },
