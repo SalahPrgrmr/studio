@@ -32,6 +32,24 @@ export type VoiceChatMessage = {
     senderId: string;
     message: string;
     timestamp: string;
-}
+};
 
-    
+export const volunteerSchema = z.object({
+  firstName: z.string().min(2, { message: "الاسم الأول مطلوب." }),
+  lastName: z.string().min(2, { message: "الاسم الأخير مطلوب." }),
+  email: z.string().email({ message: "البريد الإلكتروني غير صالح." }),
+  phoneNumber: z.string().optional(),
+  country: z.string().min(2, { message: "الدولة مطلوبة." }),
+  availability: z.enum(["few_hours_week", "part_time", "full_time"], {
+    errorMap: () => ({ message: "يرجى تحديد مدى توفرك." })
+  }),
+  skills: z.array(z.string()).min(1, { message: "يرجى تحديد مهارة واحدة على الأقل." }),
+  interests: z.array(z.string()).min(1, { message: "يرجى تحديد مجال اهتمام واحد على الأقل." }),
+  notes: z.string().optional(),
+});
+
+export type VolunteerFormValues = z.infer<typeof volunteerSchema>;
+
+export type Volunteer = VolunteerFormValues & {
+  id: string;
+};

@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Paintbrush, Mic, Video, Megaphone } from 'lucide-react';
+import { Paintbrush, Mic, Video, Megaphone, UserPlus } from 'lucide-react';
+import Link from 'next/link';
 
 const contributionAreas = [
   {
@@ -36,6 +37,26 @@ export default function VolunteersPage() {
           هنا يتم توزيع الأدوار للانطلاق في دعوة الناس إلى "لا إله إلا الله". هذا هو مقصد المنصة وغايتها الوحيدة والمستمرة، فكن جزءًا من هذا الواجب العظيم.
         </p>
       </div>
+      
+       <Card className="mb-16 bg-primary/5 text-center p-8 md:p-12 rounded-2xl shadow-lg border-primary/20">
+        <CardHeader>
+            <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
+                <UserPlus className="h-10 w-10 text-primary" />
+            </div>
+          <CardTitle className="font-headline text-3xl font-bold mb-2">
+            هل أنت مستعد لإخلاء مسؤوليتك أمام الله؟
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="max-w-3xl mx-auto">
+          <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+            "مَّنْ أَعْرَضَ عَنْهُ فَإِنَّهُ يَحْمِلُ يَوْمَ الْقِيَامَةِ وِزْرًا". لا تكن من المعرضين. انضم الآن وساهم في تبليغ الرسالة قبل فوات الأوان. قدم بياناتك ومهاراتك لنقوم بتوظيفها في المكان المناسب.
+          </p>
+          <Button size="lg" asChild>
+            <Link href="/community/volunteers/register">سجل كمتطوع الآن</Link>
+          </Button>
+        </CardContent>
+      </Card>
+
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         {contributionAreas.map((area, index) => (
@@ -49,18 +70,6 @@ export default function VolunteersPage() {
             </CardContent>
           </Card>
         ))}
-      </div>
-
-      <div className="text-center bg-card p-8 rounded-lg shadow-inner">
-        <h2 className="font-headline text-3xl font-bold mb-4">
-          هل أنت مستعد لإخلاء مسؤوليتك أمام الله؟
-        </h2>
-        <p className="max-w-3xl mx-auto text-muted-foreground text-lg leading-relaxed mb-6">
-          "مَّنْ أَعْرَضَ عَنْهُ فَإِنَّهُ يَحْمِلُ يَوْمَ الْقِيَامَةِ وِزْرًا". لا تكن من المعرضين. انضم الآن وساهم في تبليغ الرسالة قبل فوات الأوان.
-        </p>
-        <Button size="lg" disabled>
-          تواصل معنا للانضمام (قريبًا)
-        </Button>
       </div>
     </div>
   );

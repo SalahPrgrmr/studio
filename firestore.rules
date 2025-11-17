@@ -1,199 +1,81 @@
-/**
- * @file Firebase Security Rules for the Certainty Path platform.
- *
- * Core Philosophy:
- * This ruleset enforces a user-ownership model for volunteers and members,
- * while also securing partner, event, participant, and community forum data.
- * It prioritizes authorization independence and avoids complex `get()` calls
- * by denormalizing relevant authorization data within documents where appropriate.
- *
- * Data Structure:
- * - /volunteers/{volunteerId}: Stores volunteer information. Access is restricted to the
- *   volunteer themselves (owner) and potentially platform administrators (not yet implemented).
- * - /members/{memberId}: Stores member information. Access is restricted to the member
- *   themselves (owner) and potentially platform administrators (not yet implemented).
- * - /partners/{partnerId}: Stores partner information. Access is generally restricted
- *   to platform administrators (not explicitly implemented yet, so defaulted to false).
- * - /events/{eventId}: Stores event information. Access is restricted to event organizers or
- *   platform admins (not explicitly defined in schema, defaulted to false).
- * - /events/{eventId}/participants/{participantId}: Stores participant information.
- *   Access is restricted to event organizers and the participant themselves (owner, via eventId).
- * - /community_forum_posts/{postId}: Stores community forum posts. Access is restricted to
- *   the post's author (memberId) and potentially platform administrators (not implemented).
- *
- * Key Security Decisions:
- * - User-owned data (volunteers, members) is accessed via path-based ownership.
- * - Partner and Event data access is restricted due to the absence of owner or admin roles in the data model.
- * - The rules leverage denormalization, such as the `memberId` in `CommunityForumPost`, to
- *   enable efficient authorization without needing extra `get()` calls.
- * - Data validation is minimal during this prototyping phase, focusing on authorization
- *   and relational integrity (e.g., matching IDs in paths and documents).
- *
- * Denormalization for Authorization:
- * - `/community_forum_posts/{postId}` documents include a `memberId` field to track the
- *   post's author, allowing rules to directly check ownership without needing to query
- *   the `/members` collection.
- * - `/events/{eventId}/participants/{participantId}` documents include an `eventId` which allows
- *    rules to ensure that participants are tied to a specific event.
- *
- * Structural Segregation:
- * - Volunteers, members, partners, and events are stored in separate top-level collections
- *   to simplify security rules and accommodate different access control requirements.
- */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /**
-     * @description Grants access to volunteer documents based on ownership.
-     * @path /volunteers/{volunteerId}
-     * @allow (create) - Authenticated user creates a new volunteer document with their UID as the document ID.
-     * @allow (get, update, delete) - Authenticated user with UID matching the volunteerId can access/modify their own document.
-     * @deny (create) - Authenticated user attempts to create a volunteer document with an ID that doesn't match their UID.
-     * @deny (get, update, delete) - Authenticated user attempts to access/modify a volunteer document that doesn't belong to them.
-     * @principle Enforces document ownership for writes and reads. Validates relational integrity between path and document data.
-     */
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // Volunteers Collection
+    // - Anyone can read volunteer profiles.
+    // - Only signed-in users can create a volunteer profile for themselves.
+    // - Only the owner of a volunteer profile can update or delete it.
     match /volunteers/{volunteerId} {
-      // Helper function to check if the user is signed in
-      function isSignedIn() {
-        return request.auth != null;
-      }
-
-      // Helper function to check if the user is the owner of the document
-      function isOwner(volunteerId) {
-        return request.auth.uid == volunteerId;
-      }
-
-      // Helper function to check if the user is the owner of the document and if the document exists.
-      function isExistingOwner(volunteerId) {
-        return isOwner(volunteerId) && resource != null;
-      }
-
-      allow get: if true; // Allow anyone to read any volunteer document
-      allow list: if false; // No clientside listing of volunteer documents
-
-      allow create: if isSignedIn() && request.resource.data.id == request.auth.uid;
-      allow update: if isExistingOwner(volunteerId) && request.resource.data.id == resource.data.id;
-      allow delete: if isExistingOwner(volunteerId);
+      allow get, list: if true;
+      allow create: if isSignedIn() && isOwner(volunteerId) && request.resource.data.id == volunteerId;
+      allow update: if isSignedIn() && isOwner(volunteerId);
+      allow delete: if isSignedIn() && isOwner(volunteerId);
     }
-
-    /**
-     * @description Grants access to member documents based on ownership.
-     * @path /members/{memberId}
-     * @allow (create) - Authenticated user creates a new member document with their UID as the document ID.
-     * @allow (get, update, delete) - Authenticated user with UID matching the memberId can access/modify their own document.
-     * @deny (create) - Authenticated user attempts to create a member document with an ID that doesn't match their UID.
-     * @deny (get, update, delete) - Authenticated user attempts to access/modify a member document that doesn't belong to them.
-     * @principle Enforces document ownership for writes and reads. Validates relational integrity between path and document data.
-     */
+    
+    // Members Collection
+    // - Anyone can read member profiles.
+    // - Only signed-in users can create a member profile for themselves.
+    // - Only the owner of a member profile can update or delete it.
     match /members/{memberId} {
-      // Helper function to check if the user is signed in
-      function isSignedIn() {
-        return request.auth != null;
-      }
-
-      // Helper function to check if the user is the owner of the document
-      function isOwner(memberId) {
-        return request.auth.uid == memberId;
-      }
-
-      // Helper function to check if the user is the owner of the document and if the document exists.
-      function isExistingOwner(memberId) {
-        return isOwner(memberId) && resource != null;
-      }
-
-      allow get: if true; // Allow anyone to read any member document.
-      allow list: if false; // No clientside listing of member documents
-
-      allow create: if isSignedIn() && request.resource.data.id == request.auth.uid;
-      allow update: if isExistingOwner(memberId) && request.resource.data.id == resource.data.id;
-      allow delete: if isExistingOwner(memberId);
+      allow get, list: if true;
+      allow create: if isSignedIn() && isOwner(memberId);
+      allow update: if isSignedIn() && isOwner(memberId);
+      allow delete: if isSignedIn() && isOwner(memberId);
     }
-
-    /**
-     * @description Restricts access to partner documents.  Due to the lack of defined roles,
-     *   access is denied to all clients. This can be updated when admin roles are implemented.
-     * @path /partners/{partnerId}
-     * @deny (create, get, list, update, delete) - All operations are denied by default.
-     * @principle Restricts access to partner data until admin roles are defined.
-     */
+    
+    // Partners Collection
+    // - Anyone can read partner profiles.
+    // - Creating, updating, deleting partners might be admin-only in the future.
     match /partners/{partnerId} {
-      allow get: if false;
-      allow list: if false;
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
+        allow get, list: if true;
+        allow create, update, delete: if isSignedIn(); // Allow for now, tighten later.
     }
-
-    /**
-     * @description Grants access to participant documents within an event, based on eventId.
-     * @path /events/{eventId}/participants/{participantId}
-     * @allow (create) - Allows creation of a participant if the eventId matches the document's eventId.
-     * @allow (get, update, delete) - Allows access/modification if the document exists.
-     *   and the eventId matches. No owner check implemented.
-     * @deny (create) - Denies creation if the eventId does not match.
-     * @principle Enforces relational integrity between the document's eventId and the path.
-     */
+    
+    // Participants sub-collection
     match /events/{eventId}/participants/{participantId} {
-      // Helper function to check if the user is signed in
-      function isSignedIn() {
-        return request.auth != null;
-      }
-
-      allow get: if true; // Allow anyone to read any event participant.
-      allow list: if false; // No clientside listing of event participants.
-
-      allow create: if isSignedIn() && request.resource.data.eventId == eventId;
-      allow update: if resource != null && request.resource.data.eventId == eventId;
-      allow delete: if resource != null && request.resource.data.eventId == eventId;
+        allow read, write: if isSignedIn(); // Basic rule, can be refined based on event privacy
     }
 
-    /**
-     * @description Grants access to community forum posts based on the author (memberId).
-     * @path /community_forum_posts/{postId}
-     * @allow (create) - Allows creation of a post if the memberId matches the user's UID.
-     * @allow (get, update, delete) - Allows access/modification if the memberId matches the user's UID and the document exists.
-     * @deny (create) - Denies creation if the memberId does not match the user's UID.
-     * @deny (get, update, delete) - Denies access/modification if the memberId does not match the user's UID.
-     * @principle Enforces document ownership based on the memberId field.
-     */
-    match /community_forum_posts/{postId} {
-      // Helper function to check if the user is signed in
-      function isSignedIn() {
-        return request.auth != null;
-      }
-
-      // Helper function to check if the user is the owner of the document
-      function isOwner(memberId) {
-        return request.auth.uid == memberId;
-      }
-
-      // Helper function to check if the user is the owner of the document and if the document exists.
-      function isExistingOwner(memberId) {
-        return isOwner(memberId) && resource.data.memberId == request.auth.uid && resource != null;
-      }
-
-      allow get: if true; // Allow anyone to read any community forum post.
-      allow list: if false; // No clientside listing of community forum posts
-
-      allow create: if isSignedIn() && request.resource.data.memberId == request.auth.uid;
-      allow update: if isExistingOwner(resource.data.memberId);
-      allow delete: if isExistingOwner(resource.data.memberId);
+    // Success Stories
+    match /success_stories/{storyId} {
+      // Anyone can read approved stories
+      allow get: if resource.data.status == 'approved';
+      allow list: if true;
+      // Only authenticated users can create stories (for review)
+      allow create: if isSignedIn() && request.auth.uid == request.resource.data.authorId;
+      // Future: allow update/delete by owner or admin
+      allow update, delete: if false; 
+    }
+    
+     // Voice Chat Rooms
+    match /voice_chat_rooms/{roomId} {
+      allow read, list: if true;
+      allow create: if isSignedIn() && request.auth.uid == request.resource.data.ownerId;
+      // Allow owner or members to update (e.g. join/leave)
+      allow update: if isSignedIn() && (isOwner(resource.data.ownerId) || request.auth.uid in resource.data.members);
+      // Only owner can delete
+      allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
     }
 
-    /**
-     * @description Restricts access to event documents. Due to the lack of defined roles,
-     *   access is denied to all clients. This can be updated when admin roles are implemented.
-     * @path /events/{eventId}
-     * @deny (create, get, list, update, delete) - All operations are denied by default.
-     * @principle Restricts access to event data until admin roles are defined.
-     */
-    match /events/{eventId} {
-      allow get: if false;
-      allow list: if false;
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
+    // Video Chat Rooms
+    match /video_chat_rooms/{roomId} {
+      allow read, list: if true;
+      allow create: if isSignedIn() && request.auth.uid == request.resource.data.ownerId;
+      // Allow owner or members to update (e.g. join/leave)
+      allow update: if isSignedIn() && (isOwner(resource.data.ownerId) || request.auth.uid in resource.data.members);
+       // Only owner can delete
+      allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
     }
+
   }
 }
