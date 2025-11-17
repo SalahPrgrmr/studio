@@ -91,8 +91,8 @@ export default function Footer() {
   return (
     <footer className="bg-card border-t mt-12">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
-            <div className="col-span-2 lg:col-span-1 flex flex-col items-start space-y-4">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
+            <div className="flex flex-col items-start space-y-4 lg:w-1/4">
                 <Link href="/" className="flex items-center space-x-2 rtl:space-x-reverse mb-2">
                     <Logo className="h-8 w-8 text-primary" />
                     <span className="font-bold font-headline text-xl">عين اليقين</span>
@@ -129,43 +129,45 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div>
-                <h3 className="font-headline font-semibold text-lg mb-4">المنصة</h3>
-                <ul className="space-y-3">
-                    {sitemapLinks.platform.map(link => (
-                        <li key={link.href}>
-                            <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                                {link.label}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            
-            <div>
-                <h3 className="font-headline font-semibold text-lg mb-4">رحلة اليقين</h3>
-                <ul className="space-y-3">
-                    {sitemapLinks.journey.map(link => (
-                        <li key={link.href}>
-                            <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                                {link.label}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-            
-            <div>
-                <h3 className="font-headline font-semibold text-lg mb-4">التفاعل والمصادر</h3>
-                <ul className="space-y-3">
-                    {sitemapLinks.engagement.map(link => (
-                        <li key={link.href}>
-                            <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
-                                {link.label}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+            <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 className="font-headline font-semibold text-lg mb-4">المنصة</h3>
+                    <ul className="space-y-3">
+                        {sitemapLinks.platform.map(link => (
+                            <li key={link.href}>
+                                <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                                    {link.label}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 className="font-headline font-semibold text-lg mb-4">رحلة اليقين</h3>
+                    <ul className="space-y-3">
+                        {sitemapLinks.journey.map(link => (
+                            <li key={link.href}>
+                                <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                                    {link.label}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 className="font-headline font-semibold text-lg mb-4">التفاعل والمصادر</h3>
+                    <ul className="space-y-3">
+                        {sitemapLinks.engagement.map(link => (
+                            <li key={link.href}>
+                                <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                                    {link.label}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
 
