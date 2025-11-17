@@ -82,22 +82,29 @@ export default function Footer() {
       margin:       0.5,
       filename:     'eye-of-certainty.pdf',
       image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true },
+      html2canvas:  { scale: 2, useCORS: true, logging: false },
       jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
-    html2pdf().from(element).set(opt).save();
+    // Temporarily hide elements that shouldn't be in the PDF
+    const elementsToHide = document.querySelectorAll('.no-pdf');
+    elementsToHide.forEach(el => (el as HTMLElement).style.display = 'none');
+    
+    html2pdf().from(element).set(opt).save().then(() => {
+        // Show elements again after PDF generation
+        elementsToHide.forEach(el => (el as HTMLElement).style.display = '');
+    });
   }
 
   return (
     <footer className="bg-card border-t mt-12">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-            <div className="flex flex-col items-start space-y-4 lg:w-1/4">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-16">
+            <div className="flex flex-col items-start space-y-4">
                 <Link href="/" className="flex items-center space-x-2 rtl:space-x-reverse mb-2">
                     <Logo className="h-8 w-8 text-primary" />
                     <span className="font-bold font-headline text-xl">عين اليقين</span>
                 </Link>
-                <div className="flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-2 flex-wrap no-pdf">
                     {deferredPrompt && (
                     <Button onClick={handleInstallClick} variant="outline" size="sm">
                         <AppWindow className="ml-2 h-4 w-4" />
@@ -129,7 +136,7 @@ export default function Footer() {
                 </div>
             </div>
 
-            <div className="flex-1 grid grid-cols-2 md:grid-cols-3 gap-8">
+            <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                 <div>
                     <h3 className="font-headline font-semibold text-lg mb-4">المنصة</h3>
                     <ul className="space-y-3">
@@ -172,7 +179,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
-          <div className="flex items-center justify-center space-x-2 mb-2">
+          <div className="flex items-center justify-center space-x-2 rtl:space-x-reverse mb-2">
             <Globe className="h-4 w-4" />
             <span>نحن نحترم جميع الأديان والجنسيات.</span>
           </div>
