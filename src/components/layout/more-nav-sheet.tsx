@@ -29,7 +29,9 @@ import {
     Waypoints,
     Activity,
     View,
-    Mail
+    Mail,
+    Lock,
+    Gavel
 } from 'lucide-react';
 import { useUser } from '@/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
@@ -54,27 +56,33 @@ const mainNavLinks = [
     { href: '/library', label: 'المكتبة', icon: Library },
 ];
 
-const allNavLinks = [
-  { href: '/mission', label: 'رسالتنا', icon: Target },
-  { href: '/god-certainty', label: 'اليقين بالله', icon: ShieldCheck },
-  { href: '/blessings-and-signs', label: 'النعم والآيات', icon: Eye },
-  { href: '/cosmic-signs', label: 'البلاغ والإنذار', icon: AlertTriangle },
-  { href: '/stories', label: 'قصص النجاح', icon: HeartHandshake },
-  { href: '/self-guidance', label: 'الإرشاد الذاتي', icon: Sparkles },
-  { href: '/mahdi', label: 'المهدي', icon: Waypoints },
-  { href: '/practical-activities', label: 'أنشطة عملية', icon: Activity },
-  { href: '/vr-journeys', label: 'رحلات VR', icon: View },
-  { href: '/external-resources', label: 'مصادر خارجية', icon: Globe },
-  { href: '/contact', label: 'تواصل معنا', icon: Mail },
-];
+const sitemapLinks = {
+  platform: [
+    { href: '/mission', label: 'رسالتنا', icon: Target },
+    { href: '/contact', label: 'تواصل معنا', icon: Mail },
+    { href: '/privacy-policy', label: 'سياسة الخصوصية', icon: Lock },
+    { href: '/terms-of-service', label: 'شروط الخدمة', icon: Gavel },
+  ],
+  journey: [
+    { href: '/god-certainty', label: 'اليقين بالله', icon: ShieldCheck },
+    { href: '/blessings-and-signs', label: 'النعم والآيات', icon: Eye },
+    { href: '/cosmic-signs', label: 'البلاغ والإنذار', icon: AlertTriangle },
+    { href: '/self-guidance', label: 'الإرشاد الذاتي', icon: Sparkles },
+    { href: '/mahdi', label: 'المهدي', icon: Waypoints },
+  ],
+  engagement: [
+      { href: '/stories', label: 'قصص النجاح', icon: HeartHandshake },
+      { href: '/practical-activities', label: 'أنشطة عملية', icon: Activity },
+      { href: '/vr-journeys', label: 'رحلات VR', icon: View },
+      { href: '/external-resources', label: 'مصادر خارجية', icon: Globe },
+  ]
+};
 
 export function MoreNavSheet() {
     const { isOpen, onClose } = useNavSheet();
     const pathname = usePathname();
     const { user } = useUser();
     
-    const profileLink = { href: '/profile', label: 'ملفي الشخصي', icon: UserCircle2, requiresAuth: true };
-
     const NavLink = ({ href, label, icon: Icon, requiresAuth }: { href: string; label: string; icon: React.ElementType, requiresAuth?: boolean }) => {
         const isDisabled = requiresAuth && !user;
         return (
@@ -84,7 +92,7 @@ export function MoreNavSheet() {
                 onClick={!isDisabled ? onClose : (e) => e.preventDefault()}
                 className={cn(
                     'flex items-center gap-4 text-base font-medium transition-colors hover:text-primary px-3 py-3 rounded-md',
-                    pathname === href // Use exact match for active state
+                    pathname === href
                     ? 'text-primary bg-primary/10'
                     : 'text-foreground/80 hover:text-primary',
                     isDisabled && 'text-muted-foreground cursor-not-allowed opacity-50'
@@ -118,7 +126,7 @@ export function MoreNavSheet() {
                 </SheetHeader>
                 <nav className="flex flex-col space-y-1 p-4 overflow-y-auto h-[calc(100%-4.5rem)]">
                     {user && (
-                         <Link href="/profile" onClick={onClose} className="flex items-center gap-3 rounded-lg p-3 mb-4 bg-muted/50 hover:bg-muted transition-colors">
+                         <Link href="/profile" onClick={onClose} className="flex items-center gap-3 rounded-lg p-3 mb-2 bg-muted/50 hover:bg-muted transition-colors">
                             <Avatar className="h-12 w-12 border-2 border-primary/50">
                                 <AvatarImage src={user.photoURL || undefined} alt={user.displayName || 'User'} />
                                 <AvatarFallback>{user.displayName?.charAt(0).toUpperCase()}</AvatarFallback>
@@ -134,12 +142,26 @@ export function MoreNavSheet() {
                     {mainNavLinks.map((link) => (
                         <NavLink key={link.href} {...link} />
                     ))}
-                     {!user && <NavLink {...profileLink} />}
+                    {!user && <NavLink href="/profile" label="ملفي الشخصي" icon={UserCircle2} requiresAuth />}
 
-                    <Separator className="my-4" />
+                    <Separator className="my-3" />
+                    
+                    <h3 className="px-3 py-2 text-xs font-semibold uppercase text-muted-foreground tracking-wider">المنصة</h3>
+                    {sitemapLinks.platform.map((link) => (
+                        <NavLink key={link.href} {...link} />
+                    ))}
 
-                    <h3 className="px-3 py-2 text-xs font-semibold uppercase text-muted-foreground tracking-wider">استكشف المنصة</h3>
-                    {allNavLinks.map((link) => (
+                    <Separator className="my-3" />
+
+                    <h3 className="px-3 py-2 text-xs font-semibold uppercase text-muted-foreground tracking-wider">رحلة اليقين</h3>
+                    {sitemapLinks.journey.map((link) => (
+                        <NavLink key={link.href} {...link} />
+                    ))}
+
+                    <Separator className="my-3" />
+                    
+                    <h3 className="px-3 py-2 text-xs font-semibold uppercase text-muted-foreground tracking-wider">التفاعل والمصادر</h3>
+                    {sitemapLinks.engagement.map((link) => (
                         <NavLink key={link.href} {...link} />
                     ))}
                 </nav>
