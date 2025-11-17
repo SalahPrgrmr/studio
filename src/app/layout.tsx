@@ -10,7 +10,7 @@ import ChatAssistant from '@/components/assistant/chat-assistant';
 
 export const metadata: Metadata = {
   title: 'عين اليقين',
-  description: 'رحلتك الشخصية نحو الوضوح والسعادة والرفاهية.',
+  description: 'منصة دعوية عالمية تهدف للتعريف بالله وبكلمة التوحيد "لا إله إلا الله" والوصول بها إلى عين اليقين.',
   manifest: '/manifest.json',
 };
 
