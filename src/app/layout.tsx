@@ -9,6 +9,7 @@ import { FirebaseClientProvider } from '@/firebase';
 import ChatAssistant from '@/components/assistant/chat-assistant';
 import BottomNavBar from '@/components/layout/bottom-nav-bar';
 import { MoreNavSheet } from '@/components/layout/more-nav-sheet';
+import App from './main';
 
 export const metadata: Metadata = {
   title: 'Eye of Certainty',
@@ -36,6 +37,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" suppressHydrationWarning>
+      <head>
+        <App />
+      </head>
       <body
         className={cn(
           'min-h-screen bg-background font-body antialiased',
