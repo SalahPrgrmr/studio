@@ -1,115 +1,209 @@
 {
   "entities": {
-    "User": {
+    "Volunteer": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "User",
+      "title": "Volunteer",
       "type": "object",
-      "description": "Represents a user of the Eye of Certainty platform.",
+      "description": "Represents a volunteer contributing to the platform.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the User entity."
+          "description": "Unique identifier for the volunteer."
         },
-        "userName": {
+        "firstName": {
           "type": "string",
-          "description": "The user's username."
+          "description": "First name of the volunteer."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the volunteer."
         },
         "email": {
           "type": "string",
-          "description": "The user's email address.",
+          "description": "Email address of the volunteer.",
           "format": "email"
         },
-        "creationDate": {
+        "phoneNumber": {
           "type": "string",
-          "description": "The date and time the user was created.",
-          "format": "date-time"
+          "description": "Phone number of the volunteer."
+        },
+        "address": {
+          "type": "string",
+          "description": "Address of the volunteer."
+        },
+        "availability": {
+          "type": "string",
+          "description": "Volunteer's availability (e.g., days of the week, hours)."
+        },
+        "skills": {
+          "type": "array",
+          "description": "List of skills the volunteer possesses.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interests": {
+          "type": "array",
+          "description": "Volunteer's interests related to the platform's mission.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string",
+          "description": "Any notes about the volunteer (e.g., special needs, past experience)."
         }
       },
       "required": [
         "id",
-        "userName",
+        "firstName",
+        "lastName",
         "email",
-        "creationDate"
+        "availability"
       ]
     },
-    "UserProfile": {
+    "Member": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "UserProfile",
+      "title": "Member",
       "type": "object",
-      "description": "Stores user profile data, including gamification stats.",
+      "description": "Represents a registered member of the platform.",
       "properties": {
-        "userId": {
+        "id": {
           "type": "string",
-          "description": "The user's ID."
+          "description": "Unique identifier for the member."
         },
-        "points": {
-          "type": "number",
-          "description": "Total points accumulated by the user."
-        },
-        "currentTitle": {
+        "firstName": {
           "type": "string",
-          "description": "The user's current title."
+          "description": "First name of the member."
         },
-        "badges": {
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the member."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the member.",
+          "format": "email"
+        },
+        "joinDate": {
+          "type": "string",
+          "description": "Date when the member joined the platform.",
+          "format": "date-time"
+        },
+        "interests": {
           "type": "array",
+          "description": "Member's interests related to the platform's mission.",
           "items": {
             "type": "string"
-          },
-          "description": "Array of badge IDs the user has earned."
+          }
+        },
+        "communityForumPosts": {
+          "type": "array",
+          "description": "References to CommunityForumPost. (Relationship: Member 1:N CommunityForumPost)",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [
-        "userId",
-        "points",
-        "currentTitle"
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "joinDate"
       ]
     },
-    "Badge": {
+    "Partner": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Badge",
+      "title": "Partner",
       "type": "object",
-      "description": "Represents a badge that can be earned by users.",
+      "description": "Represents an organization partnering with the platform.",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "description": "Unique identifier for the partner organization."
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "Name of the partner organization."
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "description": "Description of the partner organization."
         },
-        "icon": {
-          "type": "string"
+        "website": {
+          "type": "string",
+          "description": "Website URL of the partner organization.",
+          "format": "uri"
+        },
+        "contactEmail": {
+          "type": "string",
+          "description": "Contact email address for the partner organization.",
+          "format": "email"
+        },
+        "partnershipStartDate": {
+          "type": "string",
+          "description": "Date when the partnership started.",
+          "format": "date-time"
+        },
+        "partnershipEndDate": {
+          "type": "string",
+          "description": "Date when the partnership is scheduled to end (if applicable).",
+          "format": "date-time"
         }
       },
       "required": [
         "id",
         "name",
         "description",
-        "icon"
+        "contactEmail",
+        "partnershipStartDate"
       ]
     },
-    "Title": {
+    "Participant": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Title",
+      "title": "Participant",
       "type": "object",
-      "description": "Represents a title that can be achieved by users.",
+      "description": "Represents a participant in a platform event or activity.",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "description": "Unique identifier for the participant."
         },
-        "name": {
-          "type": "string"
+        "firstName": {
+          "type": "string",
+          "description": "First name of the participant."
         },
-        "requiredPoints": {
-          "type": "number"
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the participant."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the participant.",
+          "format": "email"
+        },
+        "eventId": {
+          "type": "string",
+          "description": "Reference to Event. (Relationship: Event 1:N Participant)"
+        },
+        "registrationDate": {
+          "type": "string",
+          "description": "Date when the participant registered for the event.",
+          "format": "date-time"
+        },
+        "feedback": {
+          "type": "string",
+          "description": "Feedback provided by the participant after the event."
         }
       },
       "required": [
         "id",
-        "name",
-        "requiredPoints"
+        "firstName",
+        "lastName",
+        "email",
+        "eventId",
+        "registrationDate"
       ]
     },
     "CommunityForumPost": {
@@ -120,257 +214,73 @@
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the CommunityForumPost entity."
+          "description": "Unique identifier for the forum post."
         },
-        "authorId": {
+        "memberId": {
           "type": "string",
-          "description": "Reference to the User who created the post. (Relationship: User 1:N CommunityForumPost)"
+          "description": "Reference to Member. (Relationship: Member 1:N CommunityForumPost)"
         },
         "title": {
           "type": "string",
-          "description": "The title of the forum post."
+          "description": "Title of the forum post."
         },
         "content": {
           "type": "string",
-          "description": "The content of the forum post."
+          "description": "Content of the forum post."
         },
-        "creationDate": {
+        "postDate": {
           "type": "string",
-          "description": "The date and time the post was created.",
+          "description": "Date and time when the post was created.",
           "format": "date-time"
         }
       },
       "required": [
         "id",
-        "authorId",
+        "memberId",
         "title",
         "content",
-        "creationDate"
+        "postDate"
       ]
     },
-    "SuccessStory": {
+    "Event": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "SuccessStory",
+      "title": "Event",
       "type": "object",
-      "description": "Represents a success story shared on the platform.",
+      "description": "Represents an event hosted by the platform.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the SuccessStory entity."
+          "description": "Unique identifier for the event."
         },
-        "authorId": {
+        "name": {
           "type": "string",
-          "description": "Reference to the User who shared the success story. (Relationship: User 1:N SuccessStory)"
-        },
-        "title": {
-          "type": "string",
-          "description": "The title of the success story."
-        },
-        "content": {
-          "type": "string",
-          "description": "The content of the success story."
-        },
-        "creationDate": {
-          "type": "string",
-          "description": "The date and time the success story was created.",
-          "format": "date-time"
-        },
-        "status": {
-          "type": "string",
-          "enum": [
-            "pending_review",
-            "approved",
-            "rejected"
-          ]
-        }
-      },
-      "required": [
-        "id",
-        "authorId",
-        "title",
-        "content",
-        "creationDate",
-        "status"
-      ]
-    },
-    "CertaintyDefinition": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "CertaintyDefinition",
-      "type": "object",
-      "description": "Represents a definition of certainty or a related concept.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the CertaintyDefinition entity."
-        },
-        "term": {
-          "type": "string",
-          "description": "The term being defined."
-        },
-        "definition": {
-          "type": "string",
-          "description": "The definition of the term."
-        },
-        "language": {
-          "type": "string",
-          "description": "The language of the definition."
-        }
-      },
-      "required": [
-        "id",
-        "term",
-        "definition",
-        "language"
-      ]
-    },
-    "LiveStream": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "LiveStream",
-      "type": "object",
-      "description": "Represents a live stream event on the platform.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the LiveStream entity."
-        },
-        "title": {
-          "type": "string",
-          "description": "The title of the live stream."
+          "description": "Name of the event."
         },
         "description": {
           "type": "string",
-          "description": "A description of the live stream content."
+          "description": "Description of the event."
+        },
+        "location": {
+          "type": "string",
+          "description": "Location of the event."
         },
         "startTime": {
           "type": "string",
-          "description": "The date and time the live stream is scheduled to start.",
+          "description": "Starting time of the event.",
           "format": "date-time"
         },
-        "hostId": {
+        "endTime": {
           "type": "string",
-          "description": "Reference to the User hosting the live stream. (Relationship: User 1:N LiveStream)"
+          "description": "Ending time of the event.",
+          "format": "date-time"
         }
       },
       "required": [
         "id",
-        "title",
+        "name",
         "description",
         "startTime",
-        "hostId"
-      ]
-    },
-    "VoiceChatRoom": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "VoiceChatRoom",
-      "type": "object",
-      "description": "Represents a voice chat room on the platform.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the VoiceChatRoom entity."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the voice chat room."
-        },
-        "description": {
-          "type": "string",
-          "description": "A description of the voice chat room."
-        },
-        "creationDate": {
-          "type": "string",
-          "description": "The date and time the voice chat room was created.",
-          "format": "date-time"
-        },
-        "ownerId": {
-          "type": "string",
-          "description": "Reference to the User who owns the voice chat room. (Relationship: User 1:N VoiceChatRoom)"
-        },
-        "members": {
-          "type": "object"
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "description",
-        "creationDate",
-        "ownerId"
-      ]
-    },
-    "VideoChatRoom": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "VideoChatRoom",
-      "type": "object",
-      "description": "Represents a video chat room on the platform.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the VideoChatRoom entity."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the video chat room."
-        },
-        "presenter": {
-          "type": "string",
-          "description": "The name of the presenter or host."
-        },
-        "creationDate": {
-          "type": "string",
-          "description": "The date and time the video chat room was created.",
-          "format": "date-time"
-        },
-        "ownerId": {
-          "type": "string",
-          "description": "Reference to the User who owns the video chat room."
-        },
-        "members": {
-          "type": "object"
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "presenter",
-        "creationDate",
-        "ownerId"
-      ]
-    },
-    "VoiceChatMessage": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "VoiceChatMessage",
-      "type": "object",
-      "description": "Represents a voice chat message in a voice chat room.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the VoiceChatMessage entity."
-        },
-        "roomId": {
-          "type": "string",
-          "description": "Reference to the VoiceChatRoom the message belongs to. (Relationship: VoiceChatRoom 1:N VoiceChatMessage)"
-        },
-        "senderId": {
-          "type": "string",
-          "description": "Reference to the User who sent the message. (Relationship: User 1:N VoiceChatMessage)"
-        },
-        "message": {
-          "type": "string",
-          "description": "The text content of the voice chat message."
-        },
-        "timestamp": {
-          "type": "string",
-          "description": "The date and time the message was sent.",
-          "format": "date-time"
-        }
-      },
-      "required": [
-        "id",
-        "roomId",
-        "senderId",
-        "message",
-        "timestamp"
+        "endTime"
       ]
     }
   },
@@ -383,65 +293,69 @@
   "firestore": {
     "structure": [
       {
-        "path": "/users/{userId}",
+        "path": "/volunteers/{volunteerId}",
         "definition": {
-          "entityName": "User",
+          "entityName": "Volunteer",
           "schema": {
-            "$ref": "#/backend/entities/User"
+            "$ref": "#/backend/entities/Volunteer"
           },
-          "description": "Stores user profiles. Access is restricted to the user themselves (path-based ownership).",
+          "description": "Stores volunteer information. Accessible only to authenticated users who own the volunteer data or have admin privileges (not defined in schema but assumed).",
           "params": [
             {
-              "name": "userId",
-              "description": "The unique identifier of the user."
+              "name": "volunteerId",
+              "description": "Unique identifier for the volunteer document."
             }
           ]
         }
       },
       {
-        "path": "/user_profiles/{userId}",
+        "path": "/members/{memberId}",
         "definition": {
-          "entityName": "UserProfile",
+          "entityName": "Member",
           "schema": {
-            "$ref": "#/backend/entities/UserProfile"
+            "$ref": "#/backend/entities/Member"
           },
-          "description": "Stores user gamification and profile data.",
+          "description": "Stores member information. Accessible only to the member themselves or admins.",
           "params": [
             {
-              "name": "userId",
-              "description": "The unique identifier of the user."
+              "name": "memberId",
+              "description": "Unique identifier for the member document."
             }
           ]
         }
       },
       {
-        "path": "/badges/{badgeId}",
+        "path": "/partners/{partnerId}",
         "definition": {
-          "entityName": "Badge",
+          "entityName": "Partner",
           "schema": {
-            "$ref": "#/backend/entities/Badge"
+            "$ref": "#/backend/entities/Partner"
           },
-          "description": "Stores badge definitions.",
+          "description": "Stores partner organization information. Accessible to authorized platform administrators.",
           "params": [
             {
-              "name": "badgeId",
-              "description": "The unique identifier of the badge."
+              "name": "partnerId",
+              "description": "Unique identifier for the partner organization document."
             }
           ]
         }
       },
       {
-        "path": "/titles/{titleId}",
+        "path": "/events/{eventId}/participants/{participantId}",
         "definition": {
-          "entityName": "Title",
+          "entityName": "Participant",
           "schema": {
-            "$ref": "#/backend/entities/Title"
+            "$ref": "#/backend/entities/Participant"
           },
-          "description": "Stores title definitions.",
+          "description": "Stores participant information for each event. Includes denormalized 'eventId' for authorization. Access controlled based on event membership (not explicitly defined in schema).",
           "params": [
             {
-              "name": "titleId",
-              "description": "The unique identifier of the title."
+              "name": "eventId",
+              "description": "Unique identifier for the event."
+            },
+            {
+              "name": "participantId",
+              "description": "Unique identifier for the participant document."
             }
           ]
         }
@@ -453,133 +367,32 @@
           "schema": {
             "$ref": "#/backend/entities/CommunityForumPost"
           },
-          "description": "Stores community forum posts. Access can be controlled based on the `authorId` and a `status` field (e.g., 'public', 'private').",
+          "description": "Stores community forum posts. Includes denormalized 'memberId' to track the post's author.  Authorization can be extended using a members map if collaborative editing is required (not shown in schema).",
           "params": [
             {
               "name": "postId",
-              "description": "The unique identifier of the forum post."
+              "description": "Unique identifier for the forum post."
             }
           ]
         }
       },
       {
-        "path": "/success_stories/{storyId}",
+        "path": "/events/{eventId}",
         "definition": {
-          "entityName": "SuccessStory",
+          "entityName": "Event",
           "schema": {
-            "$ref": "#/backend/entities/SuccessStory"
+            "$ref": "#/backend/entities/Event"
           },
-          "description": "Stores success stories.  Access can be controlled based on the `authorId` and a `status` field.",
+          "description": "Stores event information. Access controlled based on event organizers or platform admins (not defined in schema).",
           "params": [
             {
-              "name": "storyId",
-              "description": "The unique identifier of the success story."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/certainty_definitions/{definitionId}",
-        "definition": {
-          "entityName": "CertaintyDefinition",
-          "schema": {
-            "$ref": "#/backend/entities/CertaintyDefinition"
-          },
-          "description": "Stores certainty definitions. Read access is generally public. Write access is restricted to admins (DBAC via /roles_admin/{uid}).",
-          "params": [
-            {
-              "name": "definitionId",
-              "description": "The unique identifier of the certainty definition."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/live_streams/{streamId}",
-        "definition": {
-          "entityName": "LiveStream",
-          "schema": {
-            "$ref": "#/backend/entities/LiveStream"
-          },
-          "description": "Stores live stream events. Includes denormalized 'members' map for authorization independence.",
-          "params": [
-            {
-              "name": "streamId",
-              "description": "The unique identifier of the live stream."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/voice_chat_rooms/{roomId}",
-        "definition": {
-          "entityName": "VoiceChatRoom",
-          "schema": {
-            "$ref": "#/backend/entities/VoiceChatRoom"
-          },
-          "description": "Stores voice chat rooms. Includes denormalized 'members' map for authorization independence.",
-          "params": [
-            {
-              "name": "roomId",
-              "description": "The unique identifier of the voice chat room."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/video_chat_rooms/{roomId}",
-        "definition": {
-          "entityName": "VideoChatRoom",
-          "schema": {
-            "$ref": "#/backend/entities/VideoChatRoom"
-          },
-          "description": "Stores video chat rooms.",
-          "params": [
-            {
-              "name": "roomId",
-              "description": "The unique identifier of the video chat room."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/voice_chat_rooms/{roomId}/messages/{messageId}",
-        "definition": {
-          "entityName": "VoiceChatMessage",
-          "schema": {
-            "$ref": "#/backend/entities/VoiceChatMessage"
-          },
-          "description": "Stores voice chat messages within a specific room. Includes denormalized 'members' map from the parent room for authorization independence.",
-          "params": [
-            {
-              "name": "roomId",
-              "description": "The unique identifier of the voice chat room."
-            },
-            {
-              "name": "messageId",
-              "description": "The unique identifier of the voice chat message."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/roles_admin/{uid}",
-        "definition": {
-          "entityName": "role",
-          "schema": {
-            "$ref": "#/backend/entities/User"
-          },
-          "description": "Collection used for DBAC (Database-Based Access Control).  Presence of a document indicates admin role.",
-          "params": [
-            {
-              "name": "uid",
-              "description": "User ID of the administrator."
+              "name": "eventId",
+              "description": "Unique identifier for the event."
             }
           ]
         }
       }
     ],
-    "reasoning": "The Firestore data structure is designed to provide a secure and scalable platform for the Eye of Certainty application. It emphasizes authorization independence and clear security rules. The key aspects of the structure are as follows:\n\n1.  **User Data:** User data is stored in `/users/{userId}` using path-based ownership. This allows for simple security rules based on `request.auth.uid == userId`. No denormalization is required here as access is directly tied to the user's ID.\n\n2.  **Community Forum Posts:** Community forum posts are stored in `/community_forum_posts/{postId}`. The `authorId` is stored within each document. List operations can be secured by limiting access to authorized users or making certain posts public based on a `status` field. (e.g., `status: 'public'` or `status: 'private'`).\n\n3.  **Success Stories:** Similar to forum posts, success stories are stored in `/success_stories/{storyId}`. The `authorId` field ensures clear ownership. Again, using a `status` field can control list access for different user roles.\n\n4.  **Certainty Definitions:** Certainty definitions are stored in `/certainty_definitions/{definitionId}`. These are intended as global, read-only data. Write access would be restricted to admin roles (enforced via a separate `/roles_admin/{uid}` collection - DBAC).\n\n5.  **Live Streams:** Live streams are stored in `/live_streams/{streamId}`. The `hostId` field indicates the owner. A `members` map can be added to handle collaborative live streams, with denormalization of this `members` map into each live stream document. This achieves authorization independence.\n\n6.  **Voice Chat Rooms:** Voice chat rooms are stored in `/voice_chat_rooms/{roomId}`. The `ownerId` field indicates the owner. The `members` map is crucial for authorization. Denormalization is applied: the `members` map is copied from the root document into every `/voice_chat_rooms/{roomId}` document to ensure authorization independence.\n\n7.  **Voice Chat Messages:** Voice chat messages are stored in `/voice_chat_rooms/{roomId}/messages/{messageId}`. Critically, the `members` map from the parent `/voice_chat_rooms/{roomId}` document is denormalized into EACH message. This ensures authorization independence: rules do not need to `get()` the parent room to check membership. QAPs are met because listing messages requires membership in the room, enforced by the denormalized `members` map on each message.\n\nThis structure supports the core design principles by:\n\n*   **Authorization Independence:** Achieved through denormalizing the `members` map in Live Streams and Voice Chat Messages, eliminating the need for `get()` calls in security rules.\n*   **Clarity of Intent:** The structure clearly separates user-owned data, collaborative data, and global data, making security rules more readable and maintainable.\n*   **DBAC:** Roles are managed via document existence in the `/roles_admin/{uid}` collection.\n*   **QAPs:** Segregation (different collections for different access needs) and membership models (denormalized `members` maps) enable secure `list` operations.\n*   **Invariants:** Timestamps are included, and ownership is explicitly modeled with `ownerId` and `authorId` fields."
+    "reasoning": "The Firestore structure is designed to manage volunteers, members, partners, participants, community forum posts, and events for the Certainty Path platform. It prioritizes authorization independence and efficient data retrieval, following the core design principles outlined. The structure incorporates path-based ownership and membership maps where appropriate, and it avoids `get()` calls in security rules by denormalizing relevant authorization data. \n\n**Authorization Independence:** Access control is enforced at each collection level without relying on parent document data. For example, access to user-specific data is controlled via path-based rules (`/users/{userId}/volunteers/{volunteerId}`). Collaborative data like the community forum can use a membership map within documents, allowing secure access without complex hierarchical rules. Event participants are linked to specific events via `eventId` which allows participants list reads to be secured by event-level membership, when needed.\n\n**Structural Segregation:** Data with different access requirements is stored in separate collections to simplify security rules. For example, volunteers are stored separately from members, partners, and participants, as they likely require different access controls. This approach ensures a homogeneous security posture within each collection.\n\n**Access Modeling:** User-owned data is structured using hierarchical paths (`/users/{userId}/drafts/{draftId}`). Collaborative data uses a membership map (e.g., if Events had collaborative aspects, a `members` map could be added to grant edit access). Global roles are managed through dedicated collections (not explicitly defined in the current entities, but can be added, e.g., `/roles_admin/{uid}`).\n\n**QAPs Support:** The structure facilitates secure `list` operations through structural segregation and the use of membership maps. For instance, listing volunteers associated with a specific user is secured by the `/users/{userId}/volunteers` path. Listing events with participant data can be secured by limiting access to participants based on event-level authorization, if needed (e.g., only members of the event can view the participant list).\n"
   }
 }
-    
