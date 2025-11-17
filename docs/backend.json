@@ -1,5 +1,71 @@
 {
   "entities": {
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User Profile",
+      "type": "object",
+      "description": "Stores public-facing user profile information, stats, and achievements.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user, same as the user's UID."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user's public display name."
+        },
+        "photoURL": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the user's profile picture."
+        },
+        "points": {
+          "type": "number",
+          "description": "Gamification points earned by the user.",
+          "default": 0
+        },
+        "title": {
+          "type": "string",
+          "description": "The current title or rank of the user based on points.",
+          "default": "مستكشف"
+        },
+        "badges": {
+          "type": "array",
+          "description": "A list of badge IDs the user has earned.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "stats": {
+          "type": "object",
+          "properties": {
+            "storiesPublished": { "type": "number", "default": 0 },
+            "forumPosts": { "type": "number", "default": 0 },
+            "audioContributions": { "type": "number", "default": 0 }
+          }
+        }
+      },
+      "required": ["id", "displayName", "points", "title"]
+    },
+    "SuccessStory": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Success Story",
+      "type": "object",
+      "description": "Represents a user-submitted story of their journey to certainty.",
+      "properties": {
+        "title": { "type": "string" },
+        "author": { "type": "string" },
+        "authorId": { "type": "string" },
+        "content": { "type": "string" },
+        "creationDate": { "type": "string", "format": "date-time" },
+        "status": {
+          "type": "string",
+          "enum": ["pending_review", "approved"]
+        },
+        "imageId": { "type": "string" }
+      },
+      "required": ["title", "author", "authorId", "content", "creationDate", "status"]
+    },
     "Volunteer": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Volunteer",
@@ -10,187 +76,58 @@
           "type": "string",
           "description": "Unique identifier for the volunteer, same as the user's UID."
         },
-        "firstName": {
-          "type": "string",
-          "description": "First name of the volunteer."
-        },
-        "lastName": {
-          "type": "string",
-          "description": "Last name of the volunteer."
-        },
-        "email": {
-          "type": "string",
-          "description": "Email address of the volunteer.",
-          "format": "email"
-        },
-        "phoneNumber": {
-          "type": "string",
-          "description": "Phone number of the volunteer."
-        },
-        "country": {
-          "type": "string",
-          "description": "Country of residence for the volunteer."
-        },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phoneNumber": { "type": "string" },
+        "country": { "type": "string" },
         "availability": {
           "type": "string",
-          "enum": ["few_hours_week", "part_time", "full_time"],
-          "description": "Volunteer's availability (e.g., a few hours a week, part-time, full-time)."
+          "enum": ["few_hours_week", "part_time", "full_time"]
         },
-        "skills": {
-          "type": "array",
-          "description": "List of skills the volunteer possesses.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "interests": {
-          "type": "array",
-          "description": "Volunteer's interests related to the platform's mission.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "notes": {
-          "type": "string",
-          "description": "Any notes about the volunteer (e.g., special needs, past experience)."
-        }
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "interests": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": "string" }
       },
-      "required": [
-        "id",
-        "firstName",
-        "lastName",
-        "email",
-        "availability",
-        "skills"
-      ]
+      "required": ["id", "firstName", "lastName", "email", "availability", "skills", "interests"]
     },
-    "Member": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Member",
-      "type": "object",
-      "description": "Represents a registered member of the platform.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the member."
+    "VoiceChatRoom": {
+        "title": "Voice Chat Room",
+        "type": "object",
+        "description": "Represents a live audio chat room.",
+        "properties": {
+            "name": { "type": "string" },
+            "description": { "type": "string" },
+            "ownerId": { "type": "string" },
+            "creationDate": { "type": "string", "format": "date-time" },
+            "members": {
+                "type": "object",
+                "additionalProperties": {
+                    "type": "string",
+                    "enum": ["owner", "speaker", "listener"]
+                }
+            }
         },
-        "firstName": {
-          "type": "string",
-          "description": "First name of the member."
-        },
-        "lastName": {
-          "type": "string",
-          "description": "Last name of the member."
-        },
-        "email": {
-          "type": "string",
-          "description": "Email address of the member.",
-          "format": "email"
-        },
-        "joinDate": {
-          "type": "string",
-          "description": "Date when the member joined the platform.",
-          "format": "date-time"
-        },
-        "interests": {
-          "type": "array",
-          "description": "Member's interests related to the platform's mission.",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "id",
-        "firstName",
-        "lastName",
-        "email",
-        "joinDate"
-      ]
+        "required": ["name", "ownerId", "creationDate", "members"]
     },
-    "Partner": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Partner",
-      "type": "object",
-      "description": "Represents an organization partnering with the platform.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the partner organization."
+    "VideoChatRoom": {
+        "title": "Video Chat Room",
+        "type": "object",
+        "description": "Represents a live video broadcast room.",
+        "properties": {
+            "name": { "type": "string" },
+            "presenter": { "type": "string" },
+            "ownerId": { "type": "string" },
+            "creationDate": { "type": "string", "format": "date-time" },
+            "members": {
+                "type": "object",
+                "additionalProperties": {
+                    "type": "string",
+                    "enum": ["owner", "viewer"]
+                }
+            }
         },
-        "name": {
-          "type": "string",
-          "description": "Name of the partner organization."
-        },
-        "description": {
-          "type": "string",
-          "description": "Description of the partner organization."
-        },
-        "website": {
-          "type": "string",
-          "description": "Website URL of the partner organization.",
-          "format": "uri"
-        },
-        "contactEmail": {
-          "type": "string",
-          "description": "Contact email address for the partner organization.",
-          "format": "email"
-        },
-        "partnershipStartDate": {
-          "type": "string",
-          "description": "Date when the partnership started.",
-          "format": "date-time"
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "description",
-        "contactEmail",
-        "partnershipStartDate"
-      ]
-    },
-    "Participant": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Participant",
-      "type": "object",
-      "description": "Represents a participant in a platform event or activity.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the participant."
-        },
-        "firstName": {
-          "type": "string",
-          "description": "First name of the participant."
-        },
-        "lastName": {
-          "type": "string",
-          "description": "Last name of the participant."
-        },
-        "email": {
-          "type": "string",
-          "description": "Email address of the participant.",
-          "format": "email"
-        },
-        "eventId": {
-          "type": "string",
-          "description": "Reference to Event."
-        },
-        "registrationDate": {
-          "type": "string",
-          "description": "Date when the participant registered for the event.",
-          "format": "date-time"
-        }
-      },
-      "required": [
-        "id",
-        "firstName",
-        "lastName",
-        "email",
-        "eventId",
-        "registrationDate"
-      ]
+        "required": ["name", "presenter", "ownerId", "creationDate", "members"]
     }
   },
   "auth": {
@@ -201,21 +138,25 @@
     ]
   },
   "firestore": {
+    "/users/{userId}": {
+        "schema": { "$ref": "#/entities/UserProfile" },
+        "description": "Stores public user profile data, including gamification stats and badges."
+    },
+    "/success_stories/{storyId}": {
+        "schema": { "$ref": "#/entities/SuccessStory" },
+        "description": "Stores user-submitted success stories. Requires admin approval."
+    },
     "/volunteers/{volunteerId}": {
       "schema": { "$ref": "#/entities/Volunteer" },
       "description": "Stores volunteer registration information. Each document ID is the UID of the user."
     },
-    "/members/{memberId}": {
-      "schema": { "$ref": "#/entities/Member" },
-      "description": "Stores member information."
+    "/voice_chat_rooms/{roomId}": {
+        "schema": { "$ref": "#/entities/VoiceChatRoom" },
+        "description": "Stores data for live voice chat rooms."
     },
-    "/partners/{partnerId}": {
-      "schema": { "$ref": "#/entities/Partner" },
-      "description": "Stores partner organization information."
-    },
-    "/events/{eventId}/participants/{participantId}": {
-      "schema": { "$ref": "#/entities/Participant" },
-      "description": "Stores participant information for each event."
+    "/video_chat_rooms/{roomId}": {
+        "schema": { "$ref": "#/entities/VideoChatRoom" },
+        "description": "Stores data for live video broadcast rooms."
     }
   }
 }

@@ -23,8 +23,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Send, ArrowLeft, PenSquare } from 'lucide-react';
-import { useFirebase, addDocumentNonBlocking } from '@/firebase';
-import { collection } from 'firebase/firestore';
+import { useFirebase, addDocumentNonBlocking, setDocumentNonBlocking } from '@/firebase';
+import { collection, doc, runTransaction } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -65,22 +65,66 @@ export default function NewStoryPage() {
     setIsSubmitting(true);
     
     const storiesCollection = collection(firestore, 'success_stories');
-    addDocumentNonBlocking(storiesCollection, {
-        ...values,
-        authorId: user.uid,
-        creationDate: new Date().toISOString(),
-        status: 'pending_review', // Set initial status
-    }).then(() => {
+    const userProfileRef = doc(firestore, 'users', user.uid);
+
+    try {
+        // Add the story
+        const storyDocRef = await addDocumentNonBlocking(storiesCollection, {
+            ...values,
+            authorId: user.uid,
+            creationDate: new Date().toISOString(),
+            status: 'pending_review',
+        });
+        
+        // Update user's profile points and stats in a transaction
+        await runTransaction(firestore, async (transaction) => {
+            const userProfileDoc = await transaction.get(userProfileRef);
+            if (!userProfileDoc.exists()) {
+                // If profile doesn't exist, create it (should be rare if profile page is visited first)
+                const newProfile = {
+                    id: user.uid,
+                    displayName: user.displayName || 'مستخدم جديد',
+                    photoURL: user.photoURL || '',
+                    points: 150, // Points for first story
+                    title: 'مستكشف',
+                    badges: ['story_writer'],
+                    stats: { storiesPublished: 1, forumPosts: 0, audioContributions: 0 },
+                };
+                transaction.set(userProfileRef, newProfile);
+            } else {
+                const currentPoints = userProfileDoc.data().points || 0;
+                const currentStories = userProfileDoc.data().stats?.storiesPublished || 0;
+                const currentBadges = userProfileDoc.data().badges || [];
+                
+                const newBadges = [...currentBadges];
+                if (!newBadges.includes('story_writer')) {
+                    newBadges.push('story_writer');
+                }
+
+                transaction.update(userProfileRef, {
+                    points: currentPoints + 150,
+                    'stats.storiesPublished': currentStories + 1,
+                    badges: newBadges
+                });
+            }
+        });
+
         toast({
             title: 'شكرًا لمشاركتك!',
-            description: 'تم إرسال قصتك بنجاح وستظهر بعد المراجعة.',
+            description: 'تم إرسال قصتك بنجاح وستظهر بعد المراجعة. لقد حصلت على 150 نقطة!',
         });
         router.push('/stories');
-    }).catch(() => {
-      // Error is handled globally by non-blocking update
-    }).finally(() => {
+
+    } catch(e: any) {
+        console.error("Error submitting story and updating profile:", e);
+        toast({
+            variant: "destructive",
+            title: "حدث خطأ",
+            description: "لم نتمكن من حفظ قصتك. يرجى المحاولة مرة أخرى."
+        });
+    } finally {
         setIsSubmitting(false);
-    });
+    }
   }
   
   if (!user) {
@@ -120,7 +164,7 @@ export default function NewStoryPage() {
                 اكتب قصتك
               </CardTitle>
               <CardDescription>
-                شارك قصة ملهمة عن رحلتك مع اليقين، أو قصة سمعتها وأثرت فيك. سيتم مراجعة جميع المشاركات قبل نشرها للتأكد من ملاءمتها لمبادئ المنصة.
+                شارك قصة ملهمة عن رحلتك مع اليقين، أو قصة سمعتها وأثرت فيك. سيتم مراجعة جميع المشاركات قبل النشر.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">

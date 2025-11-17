@@ -53,3 +53,17 @@ export type VolunteerFormValues = z.infer<typeof volunteerSchema>;
 export type Volunteer = VolunteerFormValues & {
   id: string;
 };
+
+export type UserProfile = {
+    id: string;
+    displayName: string;
+    photoURL: string;
+    points: number;
+    title: string;
+    badges: string[];
+    stats: {
+        storiesPublished: number;
+        forumPosts: number;
+        audioContributions: number;
+    };
+};

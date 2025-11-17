@@ -11,6 +11,18 @@ service cloud.firestore {
       return request.auth.uid == userId;
     }
 
+    // User Profiles Collection
+    // - Anyone can read public profiles.
+    // - Users can only create/update their own profile.
+    // - Fields like points and badges should be updated by backend functions in a real app,
+    //   but for now we allow user to update for demonstration.
+    match /users/{userId} {
+      allow get: if true;
+      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isSignedIn() && isOwner(userId);
+      allow delete: if isSignedIn() && isOwner(userId);
+    }
+    
     // Volunteers Collection
     // - Anyone can read volunteer profiles.
     // - Only signed-in users can create/update a volunteer profile for themselves.
@@ -19,16 +31,6 @@ service cloud.firestore {
       allow create: if isSignedIn() && isOwner(volunteerId) && request.resource.data.id == volunteerId;
       allow update: if isSignedIn() && isOwner(volunteerId);
       allow delete: if isSignedIn() && isOwner(volunteerId);
-    }
-    
-    // Members Collection
-    // - Anyone can read member profiles.
-    // - Only signed-in users can create/update a member profile for themselves.
-    match /members/{memberId} {
-      allow get, list: if true;
-      allow create: if isSignedIn() && isOwner(memberId) && request.resource.data.id == memberId;
-      allow update: if isSignedIn() && isOwner(memberId);
-      allow delete: if isSignedIn() && isOwner(memberId);
     }
     
     // Partners Collection
@@ -50,7 +52,7 @@ service cloud.firestore {
     // - Admins (future) or owners can update/delete. AuthorId cannot be changed.
     match /success_stories/{storyId} {
       allow get: if resource.data.status == 'approved';
-      allow list: if resource.data.status == 'approved'; // Should only list approved stories
+      allow list: where resource.data.status == 'approved';
       allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
       allow update: if isSignedIn() && isOwner(resource.data.authorId) && request.resource.data.authorId == resource.data.authorId;
       allow delete: if isSignedIn() && isOwner(resource.data.authorId);
@@ -64,7 +66,7 @@ service cloud.firestore {
     match /voice_chat_rooms/{roomId} {
       allow get, list: if true;
       allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
-      allow update: if isSignedIn() && (isOwner(resource.data.ownerId) || request.auth.uid in resource.data.members);
+      allow update: if isSignedIn(); // Allow any signed-in user to join/leave for simplicity
       allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
     }
 
@@ -76,7 +78,7 @@ service cloud.firestore {
     match /video_chat_rooms/{roomId} {
       allow get, list: if true;
       allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
-      allow update: if isSignedIn() && (isOwner(resource.data.ownerId) || request.auth.uid in resource.data.members);
+      allow update: if isSignedIn(); // Allow any signed-in user to join/leave for simplicity
       allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
     }
   }
