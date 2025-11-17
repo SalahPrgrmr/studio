@@ -41,10 +41,10 @@ export default function StoriesPage() {
     <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 animate-in fade-in duration-500">
       <div className="text-center mb-12">
         <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
-          قصص التحول
+          قصص التحول واليقين
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
-          اقرأ قصصًا ملهمة من أفراد وجدوا طريقهم إلى اليقين.
+          اقرأ قصصًا ملهمة من أفراد وجدوا طريقهم إلى اليقين بالله وكيف تغيرت حياتهم.
         </p>
       </div>
 
@@ -92,7 +92,7 @@ export default function StoriesPage() {
                       alt={story.title}
                       width={600}
                       height={400}
-                      data-ai-hint="inspiring story placeholder"
+                      data-ai-hint="faith spiritual journey"
                       className="w-full h-full object-cover"
                     />
                   </div>

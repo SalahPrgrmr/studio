@@ -12,7 +12,7 @@ const bookContent = [
     author: 'علي بن جابر الفيفي',
     type: 'كتاب',
     thumbnailUrl: 'https://picsum.photos/seed/book1/400/600',
-    thumbnailHint: 'spiritual book cover',
+    thumbnailHint: 'islamic spiritual book',
   },
   {
     id: 2,
@@ -20,7 +20,7 @@ const bookContent = [
     author: 'فريق المنصة',
     type: 'مقالة',
     thumbnailUrl: 'https://picsum.photos/seed/book2/400/600',
-    thumbnailHint: 'abstract thought concept',
+    thumbnailHint: 'thoughtful abstract art',
   },
   {
     id: 3,
@@ -28,7 +28,7 @@ const bookContent = [
     author: 'د. سامي عامري',
     type: 'ملخص كتاب',
     thumbnailUrl: 'https://picsum.photos/seed/book3/400/600',
-    thumbnailHint: 'philosophy book cover',
+    thumbnailHint: 'philosophy logic book',
   },
 ];
 
@@ -41,7 +41,7 @@ export default function BookLibraryPage() {
           مكتبة الكتب والمقالات
         </h1>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-          اغرس بذور المعرفة في قلبك من خلال قراءات مختارة بعناية.
+          اغرس بذور المعرفة في قلبك من خلال قراءات مختارة بعناية لتعميق اليقين.
         </p>
       </div>
 

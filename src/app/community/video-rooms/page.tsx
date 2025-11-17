@@ -80,10 +80,10 @@ export default function VideoRoomsPage() {
       <div className="text-center mb-12">
         <Video className="mx-auto h-16 w-16 text-primary mb-4" />
         <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
-          غرف البث المرئي
+          غرف البث المرئي المباشر
         </h1>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-          شاهد ورش عمل ولقاءات مباشرة تساهم في تعميق فهمك لرحلة اليقين.
+          شاهد ورش عمل ولقاءات مباشرة تساهم في تعميق فهمك لرحلة اليقين وتوحيد الله.
         </p>
       </div>
 

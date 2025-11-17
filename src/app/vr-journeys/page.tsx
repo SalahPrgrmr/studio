@@ -9,14 +9,14 @@ const vrExperiences = [
     description: 'استكشف عظمة الكون، شاهد النجوم والمجرات عن قرب، وتأمل في دقة الخلق من منظور لم تختبره من قبل.',
     icon: <Telescope className="h-8 w-8 text-primary" />,
     thumbnailUrl: 'https://picsum.photos/seed/vr-galaxy/600/400',
-    thumbnailHint: 'galaxy nebula',
+    thumbnailHint: 'galaxy nebula space',
   },
   {
     title: 'محاكاة الكعبة المشرفة',
     description: 'عش تجربة روحانية فريدة من خلال زيارة افتراضية للكعبة المشرفة، واشعر بأجواء الطواف والصلاة في هذا المكان المقدس.',
     icon: <Milestone className="h-8 w-8 text-primary" />,
     thumbnailUrl: 'https://picsum.photos/seed/vr-kaaba/600/400',
-    thumbnailHint: 'kaaba mecca',
+    thumbnailHint: 'kaaba mecca islam',
   },
   {
     title: 'التأمل على قمة جبل',
@@ -33,10 +33,10 @@ export default function VRJourneysPage() {
       <div className="text-center mb-12">
         <View className="mx-auto h-16 w-16 text-primary mb-4" />
         <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
-          رحلات اليقين عبر الواقع الافتراضي
+          رحلات اليقين عبر الواقع الافتراضي (VR)
         </h1>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-          استعد لتجربة غامرة تنقلك إلى عوالم جديدة من التفكر والتأمل. تقنية الواقع الافتراضي تفتح أبوابًا جديدة لتعميق اليقين.
+          استعد لتجربة غامرة تنقلك إلى عوالم جديدة من التفكر والتأمل. تقنية الواقع الافتراضي تفتح أبوابًا جديدة لتعميق اليقين بالله.
         </p>
       </div>
 

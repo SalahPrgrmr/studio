@@ -32,10 +32,10 @@ export default function MissionPage() {
       <div className="text-center mb-16">
         <Target className="mx-auto h-16 w-16 text-primary mb-4" />
         <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
-          رسالتنا وهدفنا
+          رسالتنا: التعريف بالله وبكلمة التوحيد
         </h1>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-          التعريف بالله وبكلمة "لا إله إلا الله" لجميع الناس.
+          "لا إله إلا الله" هي أساس كل شيء، وهدفنا هو إيصال هذا المفهوم الصافي إلى كل إنسان.
         </p>
       </div>
       

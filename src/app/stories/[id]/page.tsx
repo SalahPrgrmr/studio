@@ -55,7 +55,7 @@ export default function StoryPage({ params }: { params: { id: string } }) {
                     alt={story.title}
                     width={1200}
                     height={675}
-                    data-ai-hint="inspiring story placeholder"
+                    data-ai-hint="inspiring spiritual journey"
                     className="w-full h-full object-cover"
                 />
                 </div>

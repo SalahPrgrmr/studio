@@ -38,10 +38,10 @@ export default function VideoLibraryPage() {
       <div className="text-center mb-12">
         <Video className="mx-auto h-16 w-16 text-primary mb-4" />
         <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
-          مكتبة الفيديو
+          مكتبة الفيديو: شاهد وتفكر
         </h1>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-          شاهد محتوى مرئيًا يجمع بين الإلهام والمعرفة ليعمق فهمك لآيات الكون.
+          شاهد محتوى مرئيًا يجمع بين الإلهام والمعرفة ليعمق فهمك لآيات الكون وعظمة الخالق.
         </p>
       </div>
 
