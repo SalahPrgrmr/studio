@@ -33,19 +33,19 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { signOut } from 'firebase/auth';
 
 const navLinks = [
-  { href: '/mission', label: 'Our Mission' },
-  { href: '/journey-of-certainty', label: 'Journey of Certainty' },
-  { href: '/god-certainty', label: 'Certainty in God' },
-  { href: '/blessings-and-signs', label: 'Blessings & Signs' },
-  { href: '/cosmic-signs', label: 'Clarion Call' },
-  { href: '/stories', label: 'Success Stories' },
-  { href: '/self-guidance', label: 'Self-Guidance' },
-  { href: '/mahdi', label: 'The Mahdi' },
-  { href: '/practical-activities', label: 'Practical Activities' },
-  { href: '/library', label: 'Library' },
-  { href: '/community', label: 'Community' },
-  { href: '/vr-journeys', label: 'VR Journeys' },
-  { href: '/external-resources', label: 'External Resources' },
+  { href: '/mission', label: 'رسالتنا' },
+  { href: '/journey-of-certainty', label: 'رحلة اليقين' },
+  { href: '/god-certainty', label: 'اليقين بالله' },
+  { href: '/blessings-and-signs', label: 'النعم والآيات' },
+  { href: '/cosmic-signs', label: 'البلاغ والإنذار' },
+  { href: '/stories', label: 'قصص النجاح' },
+  { href: '/self-guidance', label: 'الإرشاد الذاتي' },
+  { href: '/mahdi', label: 'المهدي' },
+  { href: '/practical-activities', label: 'أنشطة عملية' },
+  { href: '/library', label: 'المكتبة' },
+  { href: '/community', label: 'المجتمع' },
+  { href: '/vr-journeys', label: 'رحلات VR' },
+  { href: '/external-resources', label: 'مصادر خارجية' },
 ];
 
 export default function Header() {
@@ -91,11 +91,11 @@ export default function Header() {
         <div className="mr-4 flex items-center">
           <Link
             href="/"
-            className="mr-2 flex items-center justify-center space-x-2"
+            className="ml-6 flex items-center justify-center space-x-2"
           >
             <Logo className="h-6 w-6 text-primary" />
             <span className="font-bold font-headline inline-block text-lg">
-              Eye of Certainty
+              عين اليقين
             </span>
           </Link>
         </div>
@@ -113,7 +113,7 @@ export default function Header() {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="h-6 w-6" />
-                <span className="sr-only">Open Menu</span>
+                <span className="sr-only">افتح القائمة</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left">
@@ -125,7 +125,7 @@ export default function Header() {
                 >
                   <Logo className="h-6 w-6 text-primary" />
                   <span className="font-bold font-headline">
-                    Eye of Certainty
+                    عين اليقين
                   </span>
                 </Link>
               </SheetHeader>
@@ -143,21 +143,21 @@ export default function Header() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Globe className="h-5 w-5" />
-                <span className="sr-only">Change Language</span>
+                <span className="sr-only">تغيير اللغة</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem>
                 <Languages className="mr-2 h-4 w-4" />
-                <span>English</span>
+                <span>العربية</span>
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Languages className="mr-2 h-4 w-4" />
-                <span>العربية</span>
+                <span>English</span>
               </DropdownMenuItem>
               <DropdownMenuItem disabled>
                 <Languages className="mr-2 h-4 w-4" />
-                <span>Español (soon)</span>
+                <span>Español (قريبًا)</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -182,19 +182,19 @@ export default function Header() {
                 <DropdownMenuItem asChild>
                   <Link href="/profile">
                     <UserCircle2 className="mr-2 h-4 w-4" />
-                    <span>My Profile</span>
+                    <span>ملفي الشخصي</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Sign Out</span>
+                  <span>تسجيل الخروج</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Button asChild className="hidden sm:inline-flex">
-              <Link href="/login">Sign In</Link>
+              <Link href="/login">تسجيل الدخول</Link>
             </Button>
           )}
         </div>
