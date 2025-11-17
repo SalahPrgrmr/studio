@@ -99,11 +99,11 @@ export default function ImageLibraryPage() {
                  <Image src={image.imageUrl} alt={image.title} fill className="object-contain" data-ai-hint={image.imageHint} />
                </div>
                <DialogFooter className="sm:justify-start gap-2 pt-4">
-                  <Button variant="outline" disabled>
+                  <Button variant="outline">
                     <Download className="ml-2 h-4 w-4" />
                     تحميل
                   </Button>
-                  <Button variant="outline" disabled>
+                  <Button variant="outline">
                     <Share2 className="ml-2 h-4 w-4" />
                     مشاركة
                   </Button>
@@ -130,7 +130,7 @@ export default function ImageLibraryPage() {
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
             شارك صورة التقطتها أو تصميمًا أبدعته ويعكس معنى من معاني اليقين أو آية من آيات الله في الكون.
           </p>
-          <Button size="lg" disabled>
+          <Button size="lg">
             ارفع صورتك (قريبًا)
           </Button>
         </CardContent>

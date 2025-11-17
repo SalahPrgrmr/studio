@@ -225,7 +225,7 @@ export default function PracticalActivitiesPage() {
               <p className="text-muted-foreground leading-relaxed">{activity.description}</p>
             </CardContent>
             <div className="p-6 pt-0 text-center">
-                <Button asChild disabled={activity.buttonLink === '#'}>
+                <Button asChild variant={activity.buttonLink === '#' ? 'secondary' : 'default'} disabled={activity.buttonLink === '#'}>
                     <Link href={activity.buttonLink}>{activity.buttonLabel}</Link>
                 </Button>
             </div>

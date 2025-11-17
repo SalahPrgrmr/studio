@@ -67,15 +67,15 @@ export default function VideoLibraryPage() {
               <CardDescription>تقديم: {video.presenter}</CardDescription>
             </CardHeader>
             <CardFooter className="mt-auto flex-wrap gap-2">
-              <Button className="flex-1" disabled>
+              <Button className="flex-1">
                 <PlayCircle className="ml-2 h-5 w-5" />
                 شاهد الآن
               </Button>
-               <Button variant="outline" className="flex-auto" disabled>
+               <Button variant="outline" className="flex-auto">
                 <Download className="ml-2 h-4 w-4" />
                 تحميل
               </Button>
-               <Button variant="ghost" className="flex-auto" disabled>
+               <Button variant="ghost" className="flex-auto">
                 <Share2 className="ml-2 h-4 w-4" />
                 مشاركة
               </Button>
@@ -96,7 +96,7 @@ export default function VideoLibraryPage() {
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
            سواء كان فيلمًا وثائقيًا قصيرًا، أو رسالة مؤثرة، أو شرحًا لمفهوم علمي يظهر عظمة الخلق، نرحب بمشاركاتك.
           </p>
-          <Button size="lg" disabled>
+          <Button size="lg">
             ارفع الفيديو الخاص بك (قريبًا)
           </Button>
         </CardContent>

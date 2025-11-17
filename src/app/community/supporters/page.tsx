@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { HandHeart, Rocket, Server, Users, Award } from 'lucide-react';
+import Link from 'next/link';
 
 const supportTiers = [
   {
@@ -76,8 +77,8 @@ export default function SupportersPage() {
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
             "عين اليقين" هو مشروع غير ربحي يعتمد على كرم داعميه لتسخير نعمهم في سبيل الله. إذا كنت تؤمن برسالتنا وترغب في المساهمة في استمراريتها، فإننا نرحب بدعمك.
           </p>
-          <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" disabled>
-            ادعم المشروع (قريبًا)
+          <Button size="lg" asChild>
+            <Link href="/contact">ادعم المشروع</Link>
           </Button>
         </CardContent>
       </Card>

@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Button } from '@/components/ui/button';
 import { View, Telescope, Milestone, Sparkles, Youtube } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const vrExperiences = [
   {
@@ -100,8 +101,8 @@ export default function VRJourneysPage() {
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
             نعمل بجد لتطوير هذه التجارب الفريدة التي ستكون متاحة قريبًا. ستتمكن من استخدام نظارات الواقع الافتراضي للانغماس في رحلات تعزز إيمانك وتوسع آفاقك.
           </p>
-          <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" disabled>
-            احصل على إشعار عند الإطلاق
+          <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+            <Link href="/contact">احصل على إشعار عند الإطلاق</Link>
           </Button>
         </CardContent>
       </Card>

@@ -54,15 +54,15 @@ export default function AudioLibraryPage() {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Button disabled>
+              <Button>
                 <Play className="ml-2 h-4 w-4" />
                 استمع
               </Button>
-               <Button variant="outline" disabled>
+               <Button variant="outline">
                 <Download className="ml-2 h-4 w-4" />
                 تحميل
               </Button>
-               <Button variant="ghost" disabled>
+               <Button variant="ghost">
                 <Share2 className="ml-2 h-4 w-4" />
                 مشاركة
               </Button>
@@ -83,7 +83,7 @@ export default function AudioLibraryPage() {
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
             شارك بمحاضرة، تأمل، أو أي مادة صوتية تعتقد أنها قد تساهم في رحلة اليقين للآخرين.
           </p>
-          <Button size="lg" disabled>
+          <Button size="lg">
             ارفع مشاركتك الصوتية (قريبًا)
           </Button>
         </CardContent>

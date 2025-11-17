@@ -58,27 +58,24 @@ export default function BookLibraryPage() {
                 />
             </div>
             <CardHeader>
-              <CardTitle className="font-headline text-xl">{book.title}</CardTitle>
-              <CardDescription>
+              <CardTitle className="font-headline text-xl h-14 line-clamp-2">{book.title}</CardTitle>
+              <CardDescription className="pt-2">
                 <span className="flex items-center gap-2">
                   {book.type === 'كتاب' ? <BookMarked className="h-4 w-4" /> : <FileText className="h-4 w-4" />}
                   {book.type} - {book.author}
                 </span>
                 </CardDescription>
             </CardHeader>
-            <CardContent className="flex-grow">
-              {/* Maybe a short description here in the future */}
-            </CardContent>
-            <CardFooter className="flex-wrap gap-2">
-              <Button className="flex-1" disabled>
+            <CardFooter className="mt-auto flex-wrap gap-2">
+              <Button className="flex-1">
                 <BookOpen className="ml-2 h-4 w-4" />
                 قراءة
               </Button>
-               <Button variant="outline" className="flex-1" disabled>
+               <Button variant="outline" className="flex-auto">
                 <Download className="ml-2 h-4 w-4" />
                 تحميل
               </Button>
-               <Button variant="ghost" disabled>
+               <Button variant="ghost" className="flex-auto">
                 <Share2 className="ml-2 h-4 w-4" />
                 مشاركة
               </Button>
@@ -99,7 +96,7 @@ export default function BookLibraryPage() {
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
             نحن نبحث دائمًا عن كتب ومقالات تثري العقل وتغذي الروح. شاركنا توصياتك أو أعمالك.
           </p>
-          <Button size="lg" disabled>
+          <Button size="lg">
             ارفع مشاركتك (قريبًا)
           </Button>
         </CardContent>

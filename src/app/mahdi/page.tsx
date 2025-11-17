@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Waypoints, Compass, UserCheck, Globe } from 'lucide-react';
+import { Waypoints, Compass, UserCheck, Globe, Users } from 'lucide-react';
 import Link from 'next/link';
 
 export default function MahdiPage() {
@@ -32,14 +32,14 @@ export default function MahdiPage() {
       
       <Card className="mb-12 bg-card border-secondary shadow-md">
         <CardHeader>
-            <CardTitle className="font-headline text-3xl text-center text-secondary-foreground flex items-center justify-center gap-3">
-                <UserCheck className="h-8 w-8" />
+            <CardTitle className="font-headline text-2xl text-center text-secondary-foreground flex items-center justify-center gap-3">
+                <Users className="h-8 w-8" />
                 كن من السابقين السابقين
             </CardTitle>
         </CardHeader>
         <CardContent>
-            <p className="text-center text-lg md:text-xl leading-relaxed max-w-4xl mx-auto text-muted-foreground">
-                المهدي سيختاره الله ويصلحه في ليلة. لا تقلق نفسك، فهذا من تقدير الله وتدبيره. دورك هو أن تكون مع "السابقين السابقين" في الإيمان والعمل الصالح والتبليغ، لتكون من المقربين إلى خليفة الله عند ظهوره.
+            <p className="text-center text-lg leading-relaxed max-w-4xl mx-auto text-muted-foreground">
+                المهدي سيختاره الله ويصلحه في ليلة واحدة. هذا من تقدير الله وتدبيره، فلا تقلق نفسك به. دورك هو أن تسعى لتكون مع "السابقين السابقين" في الإيمان والعمل الصالح والتبليغ، لتكون من المقربين إلى خليفة الله عند ظهوره، وتنال شرف الإمامة في الدين.
             </p>
         </CardContent>
       </Card>

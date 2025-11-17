@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 config();
 
-import '@/ai/flows/generate-personalized-path.ts';
-import '@/ai/flows/ask-assistant.ts';
-import '@/ai/flows/khalil-assistant.ts';
+import './flows/generate-personalized-path.js';
+import './flows/ask-assistant.js';
+import './flows/khalil-assistant.js';

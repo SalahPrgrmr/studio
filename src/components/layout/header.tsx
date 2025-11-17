@@ -9,6 +9,7 @@ import {
   User as UserIcon,
   UserCircle2,
   Mail,
+  Loader2,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -28,7 +29,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
-import { useFirebase } from '@/firebase';
+import { useFirebase, useUser } from '@/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { signOut } from 'firebase/auth';
 import { useLanguage, languages } from '@/lib/i18n/provider';
@@ -44,7 +45,8 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
-  const { user, auth } = useFirebase();
+  const { auth } = useFirebase();
+  const { user, isUserLoading } = useUser();
   const router = useRouter();
   const { t, language, setLanguage, getDirection } = useLanguage();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -87,7 +89,7 @@ export default function Header() {
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 no-pdf">
       <div className="container flex h-16 max-w-7xl items-center">
         <div className="mr-4 flex items-center">
           <Link
@@ -157,7 +159,11 @@ export default function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {user ? (
+          {isUserLoading ? (
+            <div className="h-8 w-8 flex items-center justify-center">
+                <Loader2 className="h-5 w-5 animate-spin" />
+            </div>
+          ) : user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button

@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Building, Book, Users, Monitor, HeartPulse } from 'lucide-react';
+import Link from 'next/link';
 
 const partnerCategories = [
   {
@@ -101,8 +102,8 @@ export default function PartnersPage() {
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
             إذا كانت مؤسستك تشاركنا نفس الرؤية والقيم، وكنتم ترغبون في التعاون معنا لنشر اليقين وبناء مجتمع أفضل، يسعدنا تواصلكم معنا.
           </p>
-          <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground" disabled>
-            تواصل معنا (قريبًا)
+          <Button size="lg" asChild>
+            <Link href="/contact">تواصل معنا</Link>
           </Button>
         </CardContent>
       </Card>
