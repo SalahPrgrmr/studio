@@ -64,26 +64,23 @@ export default function NewStoryPage() {
     }
     setIsSubmitting(true);
     
-    try {
-        const storiesCollection = collection(firestore, 'success_stories');
-        await addDocumentNonBlocking(storiesCollection, {
-            ...values,
-            authorId: user.uid,
-            creationDate: new Date().toISOString(),
-            status: 'pending_review', // Set initial status
-        });
-
+    const storiesCollection = collection(firestore, 'success_stories');
+    addDocumentNonBlocking(storiesCollection, {
+        ...values,
+        authorId: user.uid,
+        creationDate: new Date().toISOString(),
+        status: 'pending_review', // Set initial status
+    }).then(() => {
         toast({
             title: 'شكرًا لمشاركتك!',
             description: 'تم إرسال قصتك بنجاح وستظهر بعد المراجعة.',
         });
-        
         router.push('/stories');
-
-    } catch (e) {
-        // Error is handled globally
+    }).catch(() => {
+      // Error is handled globally by non-blocking update
+    }).finally(() => {
         setIsSubmitting(false);
-    }
+    });
   }
   
   if (!user) {

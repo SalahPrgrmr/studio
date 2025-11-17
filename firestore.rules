@@ -26,17 +26,17 @@ service cloud.firestore {
     // - Only signed-in users can create/update a member profile for themselves.
     match /members/{memberId} {
       allow get, list: if true;
-      allow create: if isSignedIn() && isOwner(memberId);
+      allow create: if isSignedIn() && isOwner(memberId) && request.resource.data.id == memberId;
       allow update: if isSignedIn() && isOwner(memberId);
       allow delete: if isSignedIn() && isOwner(memberId);
     }
     
     // Partners Collection
     // - Anyone can read partner profiles.
-    // - Creating, updating, deleting partners might be admin-only in the future.
+    // - Creating, updating, deleting partners is restricted to authenticated users.
     match /partners/{partnerId} {
         allow get, list: if true;
-        allow create, update, delete: if isSignedIn(); // Allow for now, tighten later.
+        allow create, update, delete: if isSignedIn();
     }
     
     // Participants sub-collection
@@ -46,14 +46,14 @@ service cloud.firestore {
 
     // Success Stories Collection
     // - Anyone can read approved stories.
-    // - Only authenticated users can create stories (for review).
-    // - Admins (future) or owners can update/delete.
+    // - Only authenticated users can create stories for themselves (for review).
+    // - Admins (future) or owners can update/delete. AuthorId cannot be changed.
     match /success_stories/{storyId} {
       allow get: if resource.data.status == 'approved';
       allow list: if resource.data.status == 'approved'; // Should only list approved stories
       allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
-      // Allow owner to update/delete their own story, might add admin role later.
-      allow update, delete: if isSignedIn() && isOwner(resource.data.authorId);
+      allow update: if isSignedIn() && isOwner(resource.data.authorId) && request.resource.data.authorId == resource.data.authorId;
+      allow delete: if isSignedIn() && isOwner(resource.data.authorId);
     }
     
     // Voice Chat Rooms Collection
