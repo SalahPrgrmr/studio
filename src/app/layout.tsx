@@ -8,6 +8,7 @@ import Footer from '@/components/layout/footer';
 import { FirebaseClientProvider } from '@/firebase';
 import ChatAssistant from '@/components/assistant/chat-assistant';
 import BottomNavBar from '@/components/layout/bottom-nav-bar';
+import { MoreNavSheet } from '@/components/layout/more-nav-sheet';
 
 export const metadata: Metadata = {
   title: 'Eye of Certainty',
@@ -48,6 +49,7 @@ export default function RootLayout({
             <main className="flex-1 pb-20">{children}</main>
             <Footer />
             <BottomNavBar />
+            <MoreNavSheet />
           </div>
           <ChatAssistant />
           <Toaster />
