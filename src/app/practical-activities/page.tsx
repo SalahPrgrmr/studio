@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, PenTool, Tv, Annoyed, Rocket, Brush } from "lucide-react";
+import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, PenTool, Tv, Annoyed, Rocket, Brush, Globe, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
@@ -107,6 +107,20 @@ const activities = [
     title: "التصميم وتطوير المنصة",
     description: "هل أنت مصمم واجهات، مطور تطبيقات، أو مبرمج؟ ساهم بمهاراتك التقنية في تحسين وتطوير تجربة المستخدم على المنصة، وإضافة ميزات جديدة.",
     buttonLabel: "انضم لفريق التطوير",
+    buttonLink: "/community/volunteers"
+  },
+  {
+    icon: <Globe className="h-8 w-8 text-primary" />,
+    title: "سفراء اليقين",
+    description: "كن ممثلاً لمنصة اليقين في بلدك، مدينتك، أو منطقتك. ساهم في بناء مجتمع محلي، وتنظيم لقاءات، وتوزيع المواد الدعوية على أرض الواقع.",
+    buttonLabel: "كن سفيرًا لليقين",
+    buttonLink: "/community/volunteers"
+  },
+  {
+    icon: <Languages className="h-8 w-8 text-primary" />,
+    title: "الترجمة والنشر باللغات",
+    description: "هل تتقن لغة أخرى؟ ساعدنا في ترجمة محتوى المنصة ومقاطع الفيديو والمقالات لنصل برسالة اليقين إلى كل إنسان على وجه الأرض.",
+    buttonLabel: "ساهم في الترجمة",
     buttonLink: "/community/volunteers"
   }
 ];
