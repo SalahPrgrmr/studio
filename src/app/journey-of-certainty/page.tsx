@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Map, Telescope, Heart, CheckCircle, TrendingUp, Search, BookOpen, UserCheck, Anchor, UserPlus } from 'lucide-react';
+import { Map, Telescope, Heart, CheckCircle, TrendingUp, Search, BookOpen, UserCheck, Anchor, UserPlus, Briefcase } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import CertaintyChart from '@/components/sections/certainty-chart';
@@ -22,9 +22,9 @@ const journeySteps = [
   {
     icon: <Heart className="h-10 w-10 text-primary" />,
     title: 'الخطوة الثالثة: الإيمان والعمل',
-    description: 'الإيمان ينمو بالعمل الصالح. استلهم من "قصص النجاح" وانضم إلى "المجتمع" لترى أثر الإيمان في حياة الناس وتحوله إلى عمل ملموس.',
+    description: 'الإيمان ينمو بالعمل الصالح. استلهم من "قصص النجاح"، انضم إلى "المجتمع"، وطبق "الأنشطة العملية" لتحويل إيمانك إلى واقع ملموس.',
     link: '/stories',
-    linkLabel: 'استلهم من التجارب'
+    linkLabel: 'استلهم وطبق'
   },
   {
     icon: <CheckCircle className="h-10 w-10 text-primary" />,
@@ -66,6 +66,12 @@ const specializedPaths = [
         title: 'رحلة اليقين للمحتاجين والمضطرين',
         description: 'طريق مباشر وسريع للاتصال بالله والوصول إلى اليقين من خلال بوابة الدعاء والافتقار في أوقات الشدة.',
         link: '/journey-of-certainty/for-the-needy'
+    },
+    {
+        icon: <Briefcase className="h-8 w-8 text-primary" />,
+        title: 'منهج التوظيف التخصصي',
+        description: 'مسار لأصحاب المهارات والكفاءات الذين يرغبون في تسخير قدراتهم لدعم ونصرة رسالة اليقين من خلال الأنشطة العملية.',
+        link: '/practical-activities'
     }
 ];
 
@@ -125,7 +131,7 @@ export default function JourneyOfCertaintyPage() {
                   كل شخص يبدأ من نقطة مختلفة. اختر المسار الذي يناسبك الآن.
               </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {specializedPaths.map((path) => (
                   <Link href={path.link} key={path.title} className="block group">
                       <Card className="h-full shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col">
