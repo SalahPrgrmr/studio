@@ -103,6 +103,13 @@ const activities = [
     buttonLink: "/community/supporters"
   },
   {
+    icon: <Rocket className="h-8 w-8 text-primary" />,
+    title: "تمويل ونشر الإعلانات والحملات الواسعة",
+    description: "ساهم في تمويل ورعاية الحملات الإعلانية الكبرى على المنصات العالمية لإيصال رسالة اليقين إلى الملايين.",
+    buttonLabel: "ساهم في الحملات",
+    buttonLink: "/community/supporters"
+  },
+  {
     icon: <Briefcase className="h-8 w-8 text-primary" />,
     title: "القيادة والإشراف على المشاريع",
     description: "إذا كنت تملك الخبرة في إدارة المشاريع والقيادة، يمكنك المساهمة في الإشراف على مبادرات ومشاريع المنصة لضمان تحقيق أهدافها بكفاءة.",
