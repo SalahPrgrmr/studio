@@ -30,7 +30,7 @@ const navLinks = [
   { href: '/journey-of-certainty', label: 'رحلة اليقين' },
   { href: '/god-certainty', label: 'اليقين بالله' },
   { href: '/blessings-and-signs', label: 'النعم والآيات' },
-  { href: '/cosmic-signs', label: 'البلاغ والإنذار المبين' },
+  { href: '/cosmic-signs', label: 'البلاغ والإنذار' },
   { href: '/stories', label: 'قصص نجاح' },
   { href: '/self-guidance', label: 'إرشاد ذاتي' },
   { href: '/library', label: 'المكتبة' },
@@ -89,14 +89,14 @@ export default function Header() {
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="flex-1 items-center space-x-1 hidden md:flex">
+        <nav className="flex-1 items-center space-x-1 hidden lg:flex">
           {navLinks.map((link) => (
             <NavLink key={link.href} {...link} />
           ))}
         </nav>
 
         {/* Mobile Navigation */}
-        <div className="md:hidden flex-1 flex justify-start">
+        <div className="lg:hidden flex-1 flex justify-start">
            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -179,5 +179,3 @@ export default function Header() {
     </header>
   );
 }
-
-    
