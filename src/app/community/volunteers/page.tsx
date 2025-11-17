@@ -1,27 +1,27 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Paintbrush, Mic, Film, Heart } from 'lucide-react';
+import { Paintbrush, Mic, Film, Heart, Megaphone, Users, Video } from 'lucide-react';
 
 const contributionAreas = [
   {
+    icon: <Megaphone className="h-8 w-8 text-primary" />,
+    title: 'الحشد والتبليغ المباشر',
+    description: 'الانضمام إلى فرق ميدانية أو إلكترونية للدعوة المباشرة، وتذكير الناس بكلمة التوحيد، وإقامة الحجة عليهم.',
+  },
+  {
     icon: <Paintbrush className="h-8 w-8 text-primary" />,
-    title: 'صناعة المحتوى',
-    description: 'هل لديك موهبة في الكتابة أو التصميم؟ ساهم بمقالات أو رسومات أو قصص ملهمة تثري رحلة الآخرين نحو اليقين.',
+    title: 'صناعة المحتوى الإنذاري',
+    description: 'هل لديك موهبة في الكتابة أو التصميم؟ ساهم بمقالات ورسومات وقصص تركز على الإنذار وضرورة العودة إلى الله.',
   },
   {
     icon: <Mic className="h-8 w-8 text-primary" />,
-    title: 'المؤثرون والسفراء',
-    description: 'إذا كان لديك صوت مسموع وتأثير إيجابي، يمكنك أن تكون سفيرًا لـ "عين اليقين" وتساعد في نشر رسالتنا.',
+    title: 'المؤثرون والدعاة',
+    description: 'إذا كان لديك صوت مسموع وتأثير، يمكنك أن تكون من المبلغين عن الله، وتستخدم منصتك للدعوة إلى سبيله.',
   },
   {
-    icon: <Film className="h-8 w-8 text-primary" />,
-    title: 'إنتاج الفيديو',
-    description: 'هل تجيد المونتاج أو صناعة الفيديو؟ ساهم بإنتاج محتوى مرئي جذاب يساعد على توصيل المفاهيم بطريقة مؤثرة.',
-  },
-  {
-    icon: <Heart className="h-8 w-8 text-primary" />,
-    title: 'الدعم المجتمعي',
-    description: 'كن جزءًا من فريق الدعم الذي يساعد الأعضاء الجدد، ويجيب على استفساراتهم، ويحافظ على بيئة إيجابية وداعمة.',
+    icon: <Video className="h-8 w-8 text-primary" />,
+    title: 'إنتاج المرئيات التحذيرية',
+    description: 'هل تجيد المونتاج أو صناعة الفيديو؟ ساهم بإنتاج محتوى مرئي قصير ومؤثر، يركز على رسالة الإنذار والبلاغ المبين.',
   },
 ];
 
@@ -30,10 +30,10 @@ export default function VolunteersPage() {
     <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 animate-in fade-in duration-500">
       <div className="text-center mb-12">
         <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
-          المتطوعون والمؤثرون
+          توزيع مهام التذكير والحشد والتبليغ والإنذار
         </h1>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-          كن جزءًا من التغيير الإيجابي. انضم إلينا للمساهمة في بناء ونشر رسالة اليقين.
+          هنا يتم توزيع الأدوار للانطلاق في دعوة الناس إلى "لا إله إلا الله". هذا هو مقصد المنصة وغايتها الوحيدة والمستمرة، فكن جزءًا من هذا الواجب العظيم.
         </p>
       </div>
 
@@ -53,13 +53,13 @@ export default function VolunteersPage() {
 
       <div className="text-center bg-card p-8 rounded-lg shadow-inner">
         <h2 className="font-headline text-3xl font-bold mb-4">
-          هل أنت مستعد للمساهمة؟
+          هل أنت مستعد لإخلاء مسؤوليتك أمام الله؟
         </h2>
         <p className="max-w-3xl mx-auto text-muted-foreground text-lg leading-relaxed mb-6">
-          إذا كنت ترى أن لديك الموهبة أو الشغف للمساهمة في أي من هذه المجالات، يسعدنا أن نسمع منك. تواصل معنا لنبدأ معًا.
+          "مَّنْ أَعْرَضَ عَنْهُ فَإِنَّهُ يَحْمِلُ يَوْمَ الْقِيَامَةِ وِزْرًا". لا تكن من المعرضين. انضم الآن وساهم في تبليغ الرسالة قبل فوات الأوان.
         </p>
         <Button size="lg" disabled>
-          تواصل معنا (قريبًا)
+          تواصل معنا للانضمام (قريبًا)
         </Button>
       </div>
     </div>
