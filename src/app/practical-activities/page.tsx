@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, PenTool, Tv, Annoyed, Rocket, Brush, Globe, Languages, View, Cube } from "lucide-react";
+import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, PenTool, Tv, Rocket, Brush, Globe, Languages, View, Box } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
@@ -131,7 +131,7 @@ const activities = [
     buttonLink: "/community/volunteers"
   },
   {
-    icon: <Cube className="h-8 w-8 text-primary" />,
+    icon: <Box className="h-8 w-8 text-primary" />,
     title: "إنتاج مواد للواقع المعزز (AR)",
     description: "للمهتمين بالتقنيات الحديثة، ساهم في تصميم تجارب تفاعلية باستخدام الواقع المعزز لإظهار آيات الله في الكون بطريقة مبتكرة وغامرة.",
     buttonLabel: "ساهم في التطوير",
