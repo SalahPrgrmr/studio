@@ -37,7 +37,7 @@ export default function PersonalPathForm() {
     if (actionResult.error) {
       toast({
         variant: 'destructive',
-        title: 'خطأ في إنشاء المسار',
+        title: 'Error creating path',
         description: actionResult.error,
       });
     } else if (actionResult.data) {
@@ -53,10 +53,10 @@ export default function PersonalPathForm() {
     <section id="personal-path" className="w-full">
       <div className="text-center space-y-4 mb-12">
         <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
-          أنشئ <span className="text-primary">مسارك الشخصي</span>
+          Create <span className="text-primary">Your Personal Path</span>
         </h2>
         <p className="max-w-3xl mx-auto text-muted-foreground text-lg">
-          أجب على بعض الأسئلة وسيقوم الذكاء الاصطناعي لدينا بإنشاء مجموعة مخصصة من الخطوات العملية لتوجيه رحلتك نحو اليقين.
+          Answer a few questions and our AI will generate a custom set of actionable steps to guide your journey toward certainty.
         </p>
       </div>
       <Card className="max-w-4xl mx-auto shadow-lg">
@@ -64,10 +64,10 @@ export default function PersonalPathForm() {
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 font-headline text-2xl">
-                <User className="h-6 w-6" /> أخبرنا عن نفسك
+                <User className="h-6 w-6" /> Tell Us About Yourself
               </CardTitle>
               <CardDescription>
-                كلما شاركت أكثر، كلما كان مسارك شخصيًا أكثر. جميع المعلومات خاصة.
+                The more you share, the more personalized your path will be. All information is private.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -77,11 +77,11 @@ export default function PersonalPathForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex items-center gap-2 text-base">
-                      <PenLine className="h-4 w-4" /> معتقداتك الحالية
+                      <PenLine className="h-4 w-4" /> Your Current Beliefs
                     </FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="على سبيل المثال، وجهات نظرك الروحية أو الفلسفية أو الشخصية حول الحياة والعالم..."
+                        placeholder="e.g., your spiritual, philosophical, or personal views on life and the world..."
                         className="resize-none"
                         rows={4}
                         {...field}
@@ -97,11 +97,11 @@ export default function PersonalPathForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex items-center gap-2 text-base">
-                      <PenLine className="h-4 w-4" /> خلفيتك وتجاربك
+                      <PenLine className="h-4 w-4" /> Your Background & Experiences
                     </FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="على سبيل المثال، نشأتك الثقافية، أحداث حياتك الهامة، أو مسيرتك المهنية..."
+                        placeholder="e.g., your cultural upbringing, significant life events, or career path..."
                         className="resize-none"
                         rows={4}
                         {...field}
@@ -117,11 +117,11 @@ export default function PersonalPathForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex items-center gap-2 text-base">
-                      <PenLine className="h-4 w-4" /> تطلعاتك وأهدافك
+                      <PenLine className="h-4 w-4" /> Your Aspirations & Goals
                     </FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder="على سبيل المثال، ما تأمل في تحقيقه، الشخص الذي تريد أن تصبحه، أو التأثير الذي ترغب في إحداثه..."
+                        placeholder="e.g., what you hope to achieve, the person you want to become, or the impact you want to make..."
                         className="resize-none"
                         rows={4}
                         {...field}
@@ -137,12 +137,12 @@ export default function PersonalPathForm() {
                 {isLoading ? (
                   <>
                     <Loader2 className="ml-2 h-5 w-5 animate-spin" />
-                    جاري الإنشاء...
+                    Generating...
                   </>
                 ) : (
                   <>
                     <Sparkles className="ml-2 h-5 w-5" />
-                    أنشئ المسار
+                    Generate Path
                   </>
                 )}
               </Button>
@@ -155,7 +155,7 @@ export default function PersonalPathForm() {
         <Card className="max-w-4xl mx-auto mt-8 shadow-lg animate-pulse" id="ai-result-card">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2 font-headline text-2xl">
-                    <Bot className="h-6 w-6" /> مسارك الشخصي
+                    <Bot className="h-6 w-6" /> Your Personal Path
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -171,9 +171,9 @@ export default function PersonalPathForm() {
         <Card id="ai-result-card" className="max-w-4xl mx-auto mt-8 shadow-lg animate-in fade-in duration-500">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 font-headline text-2xl">
-              <Bot className="h-6 w-6 text-primary" /> مسارك الشخصي
+              <Bot className="h-6 w-6 text-primary" /> Your Personal Path
             </CardTitle>
-            <CardDescription>إليك بعض الخطوات التي أنشأها الذكاء الاصطناعي والمصممة خصيصًا لرحلتك.</CardDescription>
+            <CardDescription>Here are some AI-generated steps tailored for your journey.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="prose prose-blue max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: result.replace(/\n/g, '<br />') }} />

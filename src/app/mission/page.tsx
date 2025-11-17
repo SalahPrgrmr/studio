@@ -6,23 +6,23 @@ import Link from 'next/link';
 const principles = [
     {
         icon: <Globe className="h-8 w-8 text-primary" />,
-        title: "الحياد والاحترام",
-        description: "نحن منصة محايدة تحترم جميع الأديان والثقافات والجنسيات. هدفنا هو بناء الجسور وتعزيز التفاهم المشترك.",
+        title: "Neutrality and Respect",
+        description: "We are a neutral platform that respects all religions, cultures, and nationalities. Our goal is to build bridges and promote mutual understanding.",
     },
     {
         icon: <BookOpen className="h-8 w-8 text-primary" />,
-        title: "المعرفة الموثوقة",
-        description: "نسعى لتقديم محتوى مبني على المعرفة الموثوقة والتفكير المنطقي، مع تبسيط المفاهيم العميقة لتكون في متناول الجميع.",
+        title: "Reliable Knowledge",
+        description: "We strive to provide content based on reliable knowledge and logical thinking, simplifying deep concepts to make them accessible to everyone.",
     },
     {
         icon: <Users className="h-8 w-8 text-primary" />,
-        title: "قوة المجتمع",
-        description: "نؤمن بأن رحلة اليقين تكون أعمق وأكثر ثباتًا عندما تكون ضمن مجتمع داعم من خلال المنتديات والغرف التفاعلية وفرص التطوع.",
+        title: "The Power of Community",
+        description: "We believe the journey of certainty is deeper and more stable within a supportive community through forums, interactive rooms, and volunteer opportunities.",
     },
     {
         icon: <Heart className="h-8 w-8 text-primary" />,
-        title: "مشروع غير ربحي",
-        description: "عين اليقين هي مبادرة غير ربحية، تعتمد على جهود المتطوعين ودعم المجتمع للاستمرار في تقديم رسالتها مجانًا للجميع.",
+        title: "Non-Profit Project",
+        description: "Eye of Certainty is a non-profit initiative, relying on the efforts of volunteers and community support to continue delivering its message for free.",
     }
 ]
 
@@ -32,20 +32,20 @@ export default function MissionPage() {
       <div className="text-center mb-16">
         <Target className="mx-auto h-16 w-16 text-primary mb-4" />
         <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
-          رسالتنا وهدفنا
+          Our Mission and Goal
         </h1>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-          التعريف بالله وبكلمة "لا إله إلا الله" وإيصالها للناس كافة.
+          To introduce God and the message of "La ilaha illa Allah" (There is no god but Allah) to all people.
         </p>
       </div>
       
       <Card className="mb-16 shadow-lg bg-primary/5 border-primary/20">
         <CardHeader>
-            <CardTitle className="font-headline text-3xl text-center text-primary">ما هي عين اليقين؟</CardTitle>
+            <CardTitle className="font-headline text-3xl text-center text-primary">What is Eye of Certainty?</CardTitle>
         </CardHeader>
         <CardContent>
             <p className="text-center text-lg md:text-xl leading-relaxed max-w-4xl mx-auto text-foreground">
-                "عين اليقين" هي منصة دعوية عالمية، محايدة وغير ربحية، رسالتها الأساسية هي التعريف بالله وبكلمة التوحيد "لا إله إلا الله" وحده لا شريك له، والسعي للوصول في هذا التعريف إلى مرحلة "عين اليقين"، ثم إيصال هذه الرسالة الصافية إلى الناس أجمعين بمختلف لغاتهم وثقافاتهم. نحن نوفر الأدوات المعرفية، والمحتوى الموثوق، والمجتمع الداعم لمساعدة كل باحث عن الحقيقة على بناء قناعات راسخة تنير دربه في الحياة.
+                "Eye of Certainty" is a global, neutral, non-profit dawah platform. Its primary mission is to introduce God and the concept of Tawhid—"La ilaha illa Allah" (There is no god but Allah), He alone, with no partner—and to strive to reach the level of "Ayn al-Yaqin" (the Eye of Certainty) in this understanding. It then aims to deliver this pure message to all people, in their diverse languages and cultures. We provide the knowledge tools, reliable content, and supportive community to help every truth-seeker build firm convictions that illuminate their path in life.
             </p>
         </CardContent>
       </Card>
@@ -53,7 +53,7 @@ export default function MissionPage() {
 
       <div className="mb-20">
         <h2 className="font-headline text-3xl font-bold text-center mb-12 flex items-center justify-center gap-3">
-          مبادئنا الأساسية
+          Our Core Principles
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {principles.map((principle) => (
@@ -71,10 +71,10 @@ export default function MissionPage() {
       </div>
 
        <div className="text-center mt-16 pt-8 border-t">
-          <h2 className="font-headline text-2xl font-bold mb-4">هل أنت مستعد لبدء رحلتك؟</h2>
-          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">استكشف خارطة طريق رحلة اليقين وابدأ خطوتك الأولى نحو حياة أكثر طمأنينة وثباتًا.</p>
+          <h2 className="font-headline text-2xl font-bold mb-4">Ready to start your journey?</h2>
+          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">Explore the Journey of Certainty Roadmap and take your first step toward a more secure and stable life.</p>
           <Button asChild size="lg">
-            <Link href="/journey-of-certainty">اكتشف خارطة الطريق</Link>
+            <Link href="/journey-of-certainty">Discover the Roadmap</Link>
           </Button>
         </div>
 
