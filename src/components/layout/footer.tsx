@@ -5,7 +5,6 @@ import Logo from '../logo';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { useEffect, useState } from 'react';
-import html2pdf from 'html2pdf.js';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -46,7 +45,8 @@ export default function Footer() {
     }
   };
   
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
+    const html2pdf = (await import('html2pdf.js')).default;
     const element = document.body;
     const opt = {
       margin:       0.5,
