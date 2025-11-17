@@ -145,8 +145,8 @@ export default function ContactPage() {
                      <div className="flex items-start gap-4">
                         <Phone className="h-5 w-5 mt-1 text-primary"/>
                          <div>
-                            <h4 className="font-semibold text-foreground">الهاتف (قريبًا)</h4>
-                            <p>+1 (000) 000-0000</p>
+                            <h4 className="font-semibold text-foreground">الهاتف</h4>
+                            <a href="tel:784420004" className="hover:text-primary" dir="ltr">784 420 004</a>
                         </div>
                     </div>
                 </CardContent>
