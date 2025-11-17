@@ -2,7 +2,7 @@
 
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import { User, Loader2, AlertTriangle } from 'lucide-react';
+import { User, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useFirebase, useDoc, useMemoFirebase } from '@/firebase';

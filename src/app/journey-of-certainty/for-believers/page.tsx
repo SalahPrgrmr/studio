@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { TrendingUp, ShieldCheck, Heart, MessageSquare } from "lucide-react";
+import { TrendingUp, ShieldCheck, Heart } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 

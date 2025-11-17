@@ -8,7 +8,7 @@ import {
   CardDescription,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Video, Clapperboard, PlayCircle, Eye, User, PlusCircle, Loader2 } from 'lucide-react';
+import { Video, Clapperboard, PlayCircle, Eye, PlusCircle, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {

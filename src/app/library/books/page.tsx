@@ -95,7 +95,7 @@ export default function BookLibraryPage() {
             هل لديك كتاب أو مقال مفيد؟
           </CardTitle>
         </CardHeader>
-        <CardContent className="max-w-3xl mx-auto">
+        <CardContent>
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
             نحن نبحث دائمًا عن كتب ومقالات تثري العقل وتغذي الروح. شاركنا توصياتك أو أعمالك.
           </p>

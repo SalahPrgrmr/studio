@@ -53,9 +53,9 @@ export default function LibraryPage() {
                 </div>
               </CardHeader>
               <CardContent className="flex-grow">
-                <CardDescription className="text-base">
+                <p className="text-muted-foreground text-base">
                   {section.description}
-                </CardDescription>
+                </p>
               </CardContent>
             </Card>
           </Link>

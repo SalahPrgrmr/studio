@@ -126,7 +126,7 @@ export default function ImageLibraryPage() {
             هل لديك صورة ملهمة؟
           </CardTitle>
         </CardHeader>
-        <CardContent className="max-w-3xl mx-auto">
+        <CardContent>
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
             شارك صورة التقطتها أو تصميمًا أبدعته ويعكس معنى من معاني اليقين أو آية من آيات الله في الكون.
           </p>

@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Footprints, Waypoints, Compass, UserCheck, Globe, ShieldCheck, CheckCircle } from 'lucide-react';
+import { Waypoints, Compass, UserCheck, Globe } from 'lucide-react';
 import Link from 'next/link';
 
 export default function MahdiPage() {
@@ -33,7 +33,7 @@ export default function MahdiPage() {
       <Card className="mb-12 bg-card border-secondary shadow-md">
         <CardHeader>
             <CardTitle className="font-headline text-3xl text-center text-secondary-foreground flex items-center justify-center gap-3">
-                <CheckCircle className="h-8 w-8" />
+                <UserCheck className="h-8 w-8" />
                 كن من السابقين السابقين
             </CardTitle>
         </CardHeader>

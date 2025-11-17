@@ -92,7 +92,7 @@ export default function VideoLibraryPage() {
             هل لديك فيديو ملهم؟
           </CardTitle>
         </CardHeader>
-        <CardContent className="max-w-3xl mx-auto">
+        <CardContent>
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
            سواء كان فيلمًا وثائقيًا قصيرًا، أو رسالة مؤثرة، أو شرحًا لمفهوم علمي يظهر عظمة الخلق، نرحب بمشاركاتك.
           </p>

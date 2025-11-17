@@ -1,5 +1,5 @@
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, PenTool, Tv, Rocket, Brush, Globe, Languages, View, Box, HelpCircle, Share2 } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, Rocket, Brush, Globe, Languages, View, Box, HelpCircle, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
@@ -89,7 +89,7 @@ const activities = [
     buttonLink: "/community/volunteers"
   },
    {
-    icon: <Tv className="h-8 w-8 text-primary" />,
+    icon: <Video className="h-8 w-8 text-primary" />,
     title: "إنتاج الميديا للمنصة",
     description: "هل لديك خبرة في المونتاج، الرسوم المتحركة، أو إنتاج الصوتيات؟ ساهم في إنتاج محتوى إعلامي عالي الجودة يعزز رسالة اليقين ويصل لجمهور أوسع.",
     buttonLabel: "ساهم في الإنتاج",

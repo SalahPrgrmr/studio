@@ -1,7 +1,7 @@
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Landmark, MessageSquare, BookOpen, GraduationCap, BookMarked, BookText, Footprints, Users } from "lucide-react";
+import { ExternalLink, Landmark, MessageSquare, BookOpen, GraduationCap, BookMarked, BookText, Users } from "lucide-react";
 import Link from 'next/link';
 
 const resourceCategories = [

@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Map, Footprints, Telescope, Users, Milestone, TrendingUp, BookOpen, ShieldCheck, Heart, Search, Anchor, UserCheck, UserPlus, Lightbulb, CheckCircle } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Map, Telescope, Heart, CheckCircle, TrendingUp, Search, BookOpen, UserCheck, Anchor, UserPlus } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import CertaintyChart from '@/components/sections/certainty-chart';
@@ -136,9 +136,9 @@ export default function JourneyOfCertaintyPage() {
                               </div>
                           </CardHeader>
                           <CardContent className="flex-grow">
-                              <CardDescription>
+                              <p className="text-muted-foreground">
                                   {path.description}
-                              </CardDescription>
+                              </p>
                           </CardContent>
                       </Card>
                   </Link>
@@ -152,9 +152,9 @@ export default function JourneyOfCertaintyPage() {
             <TrendingUp className="h-8 w-8 text-primary" />
             نمو اليقين وفوائده
           </CardTitle>
-          <CardDescription className="text-base pt-2">
+          <p className="text-muted-foreground text-base pt-2">
             هذا الرسم البياني يوضح كيف أن مستوى اليقين ينمو مع مرور الوقت والممارسة، على الرغم من أنه قد يواجه تقلبات. كلما زاد اليقين، زادت معه السعادة والطمأنينة.
-          </CardDescription>
+          </p>
         </CardHeader>
         <CardContent>
           <CertaintyChart />

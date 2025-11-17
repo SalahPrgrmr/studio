@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Paintbrush, Mic, Film, Heart, Megaphone, Users, Video } from 'lucide-react';
+import { Paintbrush, Mic, Video, Megaphone } from 'lucide-react';
 
 const contributionAreas = [
   {

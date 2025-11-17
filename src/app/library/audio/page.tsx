@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Headphones, Play, Clock, Mic, Download, Share2, Upload } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -79,7 +79,7 @@ export default function AudioLibraryPage() {
             هل لديك محتوى صوتي ملهم؟
           </CardTitle>
         </CardHeader>
-        <CardContent className="max-w-3xl mx-auto">
+        <CardContent>
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
             شارك بمحاضرة، تأمل، أو أي مادة صوتية تعتقد أنها قد تساهم في رحلة اليقين للآخرين.
           </p>

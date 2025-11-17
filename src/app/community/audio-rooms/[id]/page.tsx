@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import {
   Headphones,
   User,
+  Users,
   Mic,
   Volume2,
   PhoneOff,
@@ -172,11 +173,11 @@ export default function AudioRoomPage({ params }: { params: { id: string } }) {
                     <AvatarFallback>{participant.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   {participant.role === 'speaker' || participant.role === 'owner' ? (
-                     <div className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground rounded-full p-1">
+                     <div className="absolute -bottom-1 -right-1 bg-primary text-primary-foreground rounded-full p-1 shadow-md">
                         <Mic className="h-3 w-3" />
                      </div>
                   ): (
-                     <div className="absolute -bottom-1 -right-1 bg-muted text-muted-foreground rounded-full p-1">
+                     <div className="absolute -bottom-1 -right-1 bg-muted text-muted-foreground rounded-full p-1 shadow-sm">
                         <Headphones className="h-3 w-3" />
                      </div>
                   )}

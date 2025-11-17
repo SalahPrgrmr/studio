@@ -60,7 +60,7 @@ export default function ChatAssistant() {
           size="icon"
           className="rounded-full w-16 h-16 bg-primary hover:bg-primary/90 shadow-lg"
         >
-          {isOpen ? <X className="h-8 w-8" /> : <MessageCircle className="h-8 w-8" />}
+          {isOpen ? <X className="h-8 w-8" /> : <Bot className="h-8 w-8" />}
         </Button>
       </div>
 
