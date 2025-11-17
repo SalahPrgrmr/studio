@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Bot, MessageCircle, Send, X, Loader2, User } from 'lucide-react';
+import { Bot, MessageCircle, Send, X, Loader2, User, Compass } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -58,9 +58,9 @@ export default function ChatAssistant() {
         <Button
           onClick={() => setIsOpen(!isOpen)}
           size="icon"
-          className="rounded-full w-16 h-16 bg-red-600 hover:bg-red-700 shadow-lg"
+          className="rounded-full w-16 h-16 bg-primary hover:bg-primary/90 shadow-lg"
         >
-          {isOpen ? <X className="h-8 w-8" /> : <Bot className="h-8 w-8" />}
+          {isOpen ? <X className="h-8 w-8" /> : <Compass className="h-8 w-8" />}
         </Button>
       </div>
 
@@ -68,8 +68,8 @@ export default function ChatAssistant() {
         <Card className="fixed bottom-24 left-6 z-50 w-[calc(100vw-3rem)] max-w-sm h-[60vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-300">
           <CardHeader className="flex flex-row items-center justify-between border-b">
             <div className="flex items-center gap-3">
-                <Bot className="h-7 w-7 text-primary" />
-                <CardTitle className="font-headline text-xl">المساعد الذكي</CardTitle>
+                <Compass className="h-7 w-7 text-primary" />
+                <CardTitle className="font-headline text-xl">مرشد اليقين</CardTitle>
             </div>
             <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
                 <X className="h-5 w-5" />
@@ -88,7 +88,7 @@ export default function ChatAssistant() {
                   >
                     {msg.role === 'model' && (
                       <Avatar className="w-8 h-8 border-2 border-primary/50">
-                        <AvatarFallback><Bot className="h-5 w-5" /></AvatarFallback>
+                        <AvatarFallback><Compass className="h-5 w-5" /></AvatarFallback>
                       </Avatar>
                     )}
                     <div
@@ -111,7 +111,7 @@ export default function ChatAssistant() {
                 {isLoading && (
                   <div className="flex items-start gap-3 justify-start">
                     <Avatar className="w-8 h-8 border-2 border-primary/50">
-                        <AvatarFallback><Bot className="h-5 w-5" /></AvatarFallback>
+                        <AvatarFallback><Compass className="h-5 w-5" /></AvatarFallback>
                     </Avatar>
                     <div className="rounded-lg px-3 py-2 bg-muted flex items-center">
                       <Loader2 className="h-5 w-5 animate-spin text-primary" />

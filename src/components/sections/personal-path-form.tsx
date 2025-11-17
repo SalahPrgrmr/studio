@@ -56,7 +56,7 @@ export default function PersonalPathForm() {
           أنشئ <span className="text-primary">مسارك الشخصي</span>
         </h2>
         <p className="max-w-3xl mx-auto text-muted-foreground text-lg">
-          أجب عن بعض الأسئلة وسيقوم الذكاء الاصطناعي لدينا بإنشاء مجموعة مخصصة من الخطوات العملية لتوجيه رحلتك نحو اليقين.
+          أجب عن بعض الأسئلة واحصل على إرشادات وخطوات عملية مخصصة لتوجيه رحلتك نحو اليقين.
         </p>
       </div>
       <Card className="max-w-4xl mx-auto shadow-lg">
@@ -155,7 +155,7 @@ export default function PersonalPathForm() {
         <Card className="max-w-4xl mx-auto mt-8 shadow-lg animate-pulse" id="ai-result-card">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2 font-headline text-2xl">
-                    <Bot className="h-6 w-6" /> مسارك الشخصي
+                    <Sparkles className="h-6 w-6" /> مسارك الشخصي
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -171,9 +171,9 @@ export default function PersonalPathForm() {
         <Card id="ai-result-card" className="max-w-4xl mx-auto mt-8 shadow-lg animate-in fade-in duration-500">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 font-headline text-2xl">
-              <Bot className="h-6 w-6 text-primary" /> مسارك الشخصي
+              <Sparkles className="h-6 w-6 text-primary" /> مسارك الشخصي
             </CardTitle>
-            <CardDescription>إليك بعض الخطوات التي أنشأها الذكاء الاصطناعي والمصممة خصيصًا لرحلتك.</CardDescription>
+            <CardDescription>إليك بعض الخطوات المقترحة والمصممة خصيصًا لرحلتك.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="prose prose-blue max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: result.replace(/\n/g, '<br />') }} />

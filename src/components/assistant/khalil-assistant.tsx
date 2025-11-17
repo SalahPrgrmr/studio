@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Bot, Send, Loader2, User } from 'lucide-react';
+import { Bot, Send, Loader2, User, BrainCircuit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -71,7 +71,7 @@ export default function KhalilAssistant() {
       <CardHeader className="text-center">
         <Avatar className="w-20 h-20 mx-auto mb-4 border-4 border-primary/30 p-1">
             <AvatarFallback className="bg-primary/10 text-primary">
-                <Bot className="h-10 w-10" />
+                <BrainCircuit className="h-10 w-10" />
             </AvatarFallback>
         </Avatar>
         <CardTitle className="font-headline text-3xl">خليل يرشدك</CardTitle>
@@ -95,7 +95,7 @@ export default function KhalilAssistant() {
                   >
                     {msg.role === 'model' && (
                       <Avatar className="w-8 h-8 border-2 border-primary/50">
-                        <AvatarFallback><Bot className="h-5 w-5" /></AvatarFallback>
+                        <AvatarFallback><BrainCircuit className="h-5 w-5" /></AvatarFallback>
                       </Avatar>
                     )}
                     <div
@@ -118,7 +118,7 @@ export default function KhalilAssistant() {
                 {isLoading && (
                   <div className="flex items-end gap-3 justify-start">
                     <Avatar className="w-8 h-8 border-2 border-primary/50">
-                        <AvatarFallback><Bot className="h-5 w-5" /></AvatarFallback>
+                        <AvatarFallback><BrainCircuit className="h-5 w-5" /></AvatarFallback>
                     </Avatar>
                     <div className="rounded-lg px-3 py-2 bg-background flex items-center shadow-sm">
                       <Loader2 className="h-5 w-5 animate-spin text-primary" />
