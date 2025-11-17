@@ -19,7 +19,8 @@ import {
     Languages, 
     Box, 
     HelpCircle, 
-    Share2 
+    Share2,
+    Hash
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
@@ -108,6 +109,13 @@ const activities = [
     description: "ساهم في تمويل ورعاية الحملات الإعلانية الكبرى على المنصات العالمية لإيصال رسالة اليقين إلى الملايين.",
     buttonLabel: "ساهم في الحملات",
     buttonLink: "/community/supporters"
+  },
+  {
+    icon: <Hash className="h-8 w-8 text-primary" />,
+    title: "تدشين هاشتاجات مليونية",
+    description: "شارك في حملات الهاشتاجات على وسائل التواصل الاجتماعي. استخدم قوة الكلمة لإيصال رسالة اليقين للعالم. #عين_اليقين #رحلة_اليقين #كن_من_المنذرين #سبيل_المهدي #لا_اله_الا_الله",
+    buttonLabel: "شارك في الحملات",
+    buttonLink: "/community/volunteers"
   },
   {
     icon: <Briefcase className="h-8 w-8 text-primary" />,
