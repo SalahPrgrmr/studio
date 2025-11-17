@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity } from "lucide-react";
+import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
@@ -45,6 +45,13 @@ const activities = [
     description: "خصص ساعة واحدة في يومك لقطع الاتصال بالإنترنت ووسائل التواصل. استثمر هذا الوقت في الصلاة، أو الذكر، أو مجرد الجلوس في هدوء مع نفسك.",
     buttonLabel: "جرب الإرشاد الذاتي",
     buttonLink: "/self-guidance"
+  },
+  {
+    icon: <Megaphone className="h-8 w-8 text-primary" />,
+    title: "النشر النصي الدعوي",
+    description: "كن جزءًا من الجهد الدعوي عبر نشر رسائل التذكير، الحشد، التبليغ، والإنذار. كل رسالة تنشرها هي سهم في سبيل الله تساهم به في إقامة الحجة.",
+    buttonLabel: "انضم لفرق التبليغ",
+    buttonLink: "/community/volunteers"
   },
 ];
 
