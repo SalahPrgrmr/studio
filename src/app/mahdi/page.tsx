@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Footprints, Waypoints, Compass, UserCheck, Globe } from 'lucide-react';
+import { Footprints, Waypoints, Compass, UserCheck, Globe, ShieldCheck, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export default function MahdiPage() {
@@ -26,6 +26,20 @@ export default function MahdiPage() {
         <CardContent>
             <p className="text-center text-lg md:text-xl leading-relaxed max-w-4xl mx-auto text-foreground">
                 إن انتظار المخلص يجب ألا يكون حالة من الجمود والسلبية، بل هو دعوة حية ودافعة قوية لتمهيد طريقه. سبيل المهدي هو سبيل اليقين والعمل، يبدأ بإصلاح الذات ثم ينطلق لإصلاح العالم. كن أنت جنديًا في جيشه قبل مجيئه، وذلك عبر سلوك طريقه واتباع منهجه في هداية نفسك أولاً، ثم التحرك لهداية الناس أجمعين.
+            </p>
+        </CardContent>
+      </Card>
+      
+      <Card className="mb-12 bg-card border-secondary shadow-md">
+        <CardHeader>
+            <CardTitle className="font-headline text-3xl text-center text-secondary-foreground flex items-center justify-center gap-3">
+                <CheckCircle className="h-8 w-8" />
+                كن من السابقين السابقين
+            </CardTitle>
+        </CardHeader>
+        <CardContent>
+            <p className="text-center text-lg md:text-xl leading-relaxed max-w-4xl mx-auto text-muted-foreground">
+                المهدي سيختاره الله ويصلحه في ليلة. لا تقلق نفسك، فهذا من تقدير الله وتدبيره. دورك هو أن تكون مع "السابقين السابقين" في الإيمان والعمل الصالح والتبليغ، لتكون من المقربين إلى خليفة الله عند ظهوره.
             </p>
         </CardContent>
       </Card>
