@@ -4,18 +4,18 @@ import { Smile, ShieldCheck, Leaf } from 'lucide-react';
 const benefits = [
   {
     icon: <Smile className="h-10 w-10 text-primary" />,
-    title: "Increased Happiness",
-    description: "Certainty fosters a sense of peace and contentment, reducing anxiety and allowing for more joy in daily life."
+    title: "زيادة السعادة",
+    description: "يعزز اليقين شعوراً بالسلام والرضا، مما يقلل من القلق ويسمح بمزيد من الفرح في الحياة اليومية."
   },
   {
     icon: <ShieldCheck className="h-10 w-10 text-primary" />,
-    title: "Enhanced Security",
-    description: "With a firm understanding of your path, you can navigate life's challenges with confidence and a strong sense of stability."
+    title: "تعزيز الأمان",
+    description: "مع فهم راسخ لمسارك، يمكنك التنقل في تحديات الحياة بثقة وشعور قوي بالاستقرار."
   },
   {
     icon: <Leaf className="h-10 w-10 text-primary" />,
-    title: "Holistic Well-Being",
-    description: "Having a clear purpose and direction improves mental, emotional, and spiritual health, leading to a more prosperous life."
+    title: "الرفاهية الشاملة",
+    description: "وجود هدف واتجاه واضح يحسن الصحة العقلية والعاطفية والروحية، مما يؤدي إلى حياة أكثر ازدهارًا."
   }
 ];
 
@@ -24,10 +24,10 @@ export default function BenefitsSection() {
     <section id="benefits" className="w-full">
       <div className="text-center space-y-4 mb-12">
         <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">
-          The Fruits of Certainty
+          ثمار اليقين
         </h2>
         <p className="max-w-2xl mx-auto text-muted-foreground text-lg">
-          Embracing certainty can unlock profound benefits for your life and well-being.
+          يمكن أن يفتح تبني اليقين فوائد عميقة لحياتك ورفاهيتك.
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

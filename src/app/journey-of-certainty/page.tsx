@@ -8,70 +8,70 @@ import { ChartContainer } from '@/components/ui/chart';
 const journeySteps = [
   {
     icon: <BookOpen className="h-10 w-10 text-primary" />,
-    title: 'Step 1: Knowledge and Learning',
-    description: 'Every journey begins with knowledge. The first divine command is "Know." This is the stage of building a solid foundation by learning about God, His oneness, and the truth of His words.',
+    title: 'الخطوة 1: العلم والمعرفة',
+    description: 'كل رحلة تبدأ بالمعرفة. أول أمر إلهي هو "فاعلم". هذه هي مرحلة بناء أساس متين من خلال التعرف على الله وتوحيده وحقيقة كلماته.',
     link: '/god-certainty',
-    linkLabel: 'Start with Knowledge'
+    linkLabel: 'ابدأ بالمعرفة'
   },
   {
     icon: <Telescope className="h-10 w-10 text-primary" />,
-    title: 'Step 2: Belief through Contemplation',
-    description: 'Contemplating the signs of the universe, from the "Clarion Call" to "Blessings and Signs," transforms theoretical knowledge into an initial heartfelt belief in the Great Creator.',
+    title: 'الخطوة 2: التصديق عبر التفكر',
+    description: 'التفكر في آيات الكون، من "البلاغ المبين" إلى "النعم والآيات"، يحول المعرفة النظرية إلى تصديق قلبي أولي بالخالق العظيم.',
     link: '/blessings-and-signs',
-    linkLabel: 'Contemplate the Signs'
+    linkLabel: 'تفكر في الآيات'
   },
   {
     icon: <Heart className="h-10 w-10 text-primary" />,
-    title: 'Step 3: Faith and Action',
-    description: 'Faith grows with good deeds. Be inspired by "Success Stories," join the "Community," and apply "Practical Activities" to turn your faith into a tangible reality.',
+    title: 'الخطوة 3: الإيمان والعمل',
+    description: 'الإيمان ينمو بالعمل الصالح. استلهم من "قصص النجاح"، انضم إلى "المجتمع"، وطبق "الأنشطة العملية" لتحويل إيمانك إلى واقع ملموس.',
     link: '/stories',
-    linkLabel: 'Get Inspired & Apply'
+    linkLabel: 'استلهم وطبق'
   },
   {
     icon: <CheckCircle className="h-10 w-10 text-primary" />,
-    title: 'Step 4: Reaching Certainty',
-    description: 'When knowledge, belief, and action come together, the heart reaches the stage of certainty. Use "Your Personal Path" and "Self-Guidance" to solidify this feeling.',
+    title: 'الخطوة 4: الوصول إلى اليقين',
+    description: 'عندما تجتمع المعرفة والتصديق والعمل، يصل القلب إلى مرحلة اليقين. استخدم "مسارك الشخصي" و "الإرشاد الذاتي" لترسيخ هذا الشعور.',
     link: '/self-guidance',
-    linkLabel: 'Strengthen Your Certainty'
+    linkLabel: 'رسّخ يقينك'
   },
   {
     icon: <TrendingUp className="h-10 w-10 text-primary" />,
-    title: 'Step 5: Continuous Feedback',
-    description: 'Certainty increases and decreases. Maintain a high level of certainty by constantly reviewing these steps, contemplating, and performing good deeds to keep the flame of faith alive.',
+    title: 'الخطوة 5: التغذية الراجعة المستمرة',
+    description: 'اليقين يزيد وينقص. حافظ على مستوى عالٍ من اليقين من خلال مراجعة هذه الخطوات باستمرار، والتفكر، والقيام بالأعمال الصالحة لإبقاء شعلة الإيمان متقدة.',
     link: '/journey-of-certainty',
-    linkLabel: 'Review Your Journey'
+    linkLabel: 'راجع رحلتك'
   },
 ];
 
 const specializedPaths = [
     {
         icon: <Search className="h-8 w-8 text-primary" />,
-        title: 'Journey for Non-Believers',
-        description: 'A path based on rational, logical, and cosmic evidence to explore the great questions and build certainty from scratch.',
+        title: 'رحلة غير المؤمنين',
+        description: 'مسار يعتمد على الأدلة العقلية والمنطقية والكونية لاستكشاف الأسئلة الكبرى وبناء اليقين من الصفر.',
         link: '/journey-of-certainty/for-non-believers'
     },
     {
         icon: <BookOpen className="h-8 w-8 text-primary" />,
-        title: 'Journey for People of the Book',
-        description: 'A constructive dialogue to explore common ground and the roots of certainty in God through the sacred texts.',
+        title: 'رحلة أهل الكتاب',
+        description: 'حوار بناء لاستكشاف القواسم المشتركة وجذور اليقين بالله من خلال النصوص المقدسة.',
         link: '/journey-of-certainty/for-people-of-the-book'
     },
     {
         icon: <UserCheck className="h-8 w-8 text-primary" />,
-        title: 'Journey for Believers',
-        description: 'A path to deepen certainty, move from intellectual to experiential conviction, and face modern doubts with confidence.',
+        title: 'رحلة المؤمنين',
+        description: 'مسار لتعميق اليقين والانتقال من القناعة الفكرية إلى اليقين التجريبي ومواجهة شكوك العصر بثقة.',
         link: '/journey-of-certainty/for-believers'
     },
     {
         icon: <Anchor className="h-8 w-8 text-primary" />,
-        title: 'Journey for the Needy & Distressed',
-        description: 'A direct and rapid path to connect with God and attain certainty through prayer and humility in times of hardship.',
+        title: 'رحلة المحتاجين والمضطرين',
+        description: 'مسار مباشر وسريع للاتصال بالله ونيل اليقين من خلال الدعاء والافتقار في أوقات الشدة.',
         link: '/journey-of-certainty/for-the-needy'
     },
     {
         icon: <Briefcase className="h-8 w-8 text-primary" />,
-        title: 'Specialized Contribution Method',
-        description: 'A path for skilled individuals who want to use their abilities to support and advance the message of certainty through practical activities.',
+        title: 'منهج التوظيف التخصصي',
+        description: 'مسار لأصحاب المهارات الذين يرغبون في تسخير قدراتهم لدعم ونشر رسالة اليقين من خلال أنشطة عملية.',
         link: '/practical-activities'
     }
 ];
@@ -93,10 +93,10 @@ export default function JourneyOfCertaintyPage() {
       <div className="text-center mb-16">
         <Map className="mx-auto h-16 w-16 text-primary mb-4" />
         <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
-          The Journey of Certainty Roadmap
+          خارطة طريق رحلة اليقين
         </h1>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground leading-relaxed">
-          Certainty is not a destination, but a continuous and sustainable journey to charge the heart, because it increases and decreases. This journey only ends with death, and it is the fuel for happiness and tranquility in this life, and success in the hereafter. "Through patience and certainty, leadership in faith is attained," and this is the strategic goal of the platform.
+          اليقين ليس وجهة، بل هو رحلة مستمرة ومستدامة لشحن القلب، لأنه يزيد وينقص. هذه الرحلة لا تنتهي إلا بالموت، وهي وقود السعادة والطمأنينة في الدنيا، والفلاح في الآخرة. "بالصبر واليقين تُنال الإمامة في الدين"، وهذا هو الهدف الاستراتيجي للمنصة.
         </p>
       </div>
 
@@ -138,9 +138,9 @@ export default function JourneyOfCertaintyPage() {
       <div className="mt-24">
           <div className="text-center mb-12">
               <UserPlus className="mx-auto h-12 w-12 text-primary mb-4" />
-              <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">Custom Paths for Your Journey</h2>
+              <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl">مسارات مخصصة لرحلتك</h2>
               <p className="mt-3 max-w-2xl mx-auto text-lg text-muted-foreground">
-                  Everyone starts from a different point. Choose the path that suits you now.
+                  كل شخص يبدأ من نقطة مختلفة. اختر المسار الذي يناسبك الآن.
               </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -168,10 +168,10 @@ export default function JourneyOfCertaintyPage() {
         <CardHeader>
           <CardTitle className="flex items-center gap-3 font-headline text-3xl">
             <TrendingUp className="h-8 w-8 text-primary" />
-            Growth of Certainty and its Benefits
+            نمو اليقين وثمراته
           </CardTitle>
           <p className="text-muted-foreground text-base pt-2">
-            This chart illustrates how the level of certainty grows over time and with practice, although it may face fluctuations. The greater the certainty, the greater the happiness and tranquility.
+            هذا الرسم البياني يوضح كيف ينمو مستوى اليقين مع مرور الوقت والممارسة، رغم أنه قد يواجه تقلبات. وكلما زاد اليقين، زادت السعادة والطمأنينة.
           </p>
         </CardHeader>
         <CardContent>

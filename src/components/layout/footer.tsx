@@ -64,7 +64,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
           <div className="flex items-center space-x-2 md:justify-start justify-center">
             <Logo className="h-5 w-5 text-primary" />
-            <span className="font-bold font-headline">Eye of Certainty</span>
+            <span className="font-bold font-headline">عين اليقين</span>
           </div>
           
           <div className="flex justify-center items-center gap-2">
