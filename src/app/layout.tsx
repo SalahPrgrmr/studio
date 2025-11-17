@@ -7,6 +7,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import { FirebaseClientProvider } from '@/firebase';
 import ChatAssistant from '@/components/assistant/chat-assistant';
+import BottomNavBar from '@/components/layout/bottom-nav-bar';
 
 export const metadata: Metadata = {
   title: 'Eye of Certainty',
@@ -44,8 +45,9 @@ export default function RootLayout({
         <FirebaseClientProvider>
           <div className="relative flex min-h-dvh flex-col">
             <Header />
-            <div className="flex-1">{children}</div>
+            <main className="flex-1 pb-20">{children}</main>
             <Footer />
+            <BottomNavBar />
           </div>
           <ChatAssistant />
           <Toaster />
