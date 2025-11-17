@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard } from "lucide-react";
+import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
@@ -66,6 +66,27 @@ const activities = [
     description: "شارك في المحاضرات والبثوث المباشرة، أو انضم للغرف الصوتية والمرئية. تفاعلك المباشر يثري النقاش ويساهم في نشر الوعي.",
     buttonLabel: "اذهب إلى غرف البث",
     buttonLink: "/community/video-rooms"
+  },
+  {
+    icon: <Video className="h-8 w-8 text-primary" />,
+    title: "إنتاج سلسلة تدعم اليقين",
+    description: "هل أنت صانع محتوى؟ استخدم موهبتك في إنتاج سلسلة مرئية، مكتوبة أو صوتية مبتكرة تشرح أحد مفاهيم اليقين بطريقة جذابة ومؤثرة.",
+    buttonLabel: "ساهم بموهبتك",
+    buttonLink: "/community/volunteers"
+  },
+  {
+    icon: <DollarSign className="h-8 w-8 text-primary" />,
+    title: "رعاية أحداث تدعم اليقين",
+    description: "ساهم في تمويل ورعاية الفعاليات والمحاضرات والندوات التي تنظمها المنصة، لتكون شريكًا في نشر رسالة اليقين على نطاق أوسع.",
+    buttonLabel: "كن من الداعمين",
+    buttonLink: "/community/supporters"
+  },
+  {
+    icon: <Briefcase className="h-8 w-8 text-primary" />,
+    title: "القيادة والإشراف على المشاريع",
+    description: "إذا كنت تملك الخبرة في إدارة المشاريع والقيادة، يمكنك المساهمة في الإشراف على مبادرات ومشاريع المنصة لضمان تحقيق أهدافها بكفاءة.",
+    buttonLabel: "انضم كقائد مشروع",
+    buttonLink: "/community/volunteers"
   },
 ];
 
