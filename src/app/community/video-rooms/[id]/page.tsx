@@ -233,5 +233,4 @@ export default function VideoRoomPage({ params }: { params: { id: string } }) {
     </div>
   );
 }
-
     
