@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, PenTool, Tv, Rocket, Brush, Globe, Languages, View, Box } from "lucide-react";
+import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, PenTool, Tv, Rocket, Brush, Globe, Languages, View, Box, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
@@ -170,6 +170,26 @@ export default function PracticalActivitiesPage() {
           </Card>
         ))}
       </div>
+      
+       <Card className="my-16 bg-secondary text-center p-8 md:p-12 rounded-2xl shadow-lg border-border">
+        <CardHeader>
+          <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
+              <HelpCircle className="h-10 w-10 text-primary" />
+          </div>
+          <CardTitle className="font-headline text-3xl font-bold mb-2 text-secondary-foreground">
+            كيف تنصر الله؟
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="max-w-3xl mx-auto">
+          <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+            بعد استعراض هذه الأنشطة، توقف لحظة واسأل نفسك: كيف يمكنك أن تنصر الله لتحقيق مراده بتبليغ الإيمان اليقيني وتكون من جنوده؟ اختر النشاط الذي يلامس قلبك ويتوافق مع مهاراتك، واتخذ خطوتك الأولى اليوم.
+          </p>
+          <Button size="lg" asChild>
+            <Link href="/community/volunteers">انضم لجنود اليقين</Link>
+          </Button>
+        </CardContent>
+      </Card>
+
 
        <Card className="mt-20 bg-primary/5 text-center p-8 md:p-12 rounded-2xl shadow-lg border-primary/20">
         <CardHeader>
