@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone } from "lucide-react";
+import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
@@ -52,6 +52,20 @@ const activities = [
     description: "كن جزءًا من الجهد الدعوي عبر نشر رسائل التذكير، الحشد، التبليغ، والإنذار. كل رسالة تنشرها هي سهم في سبيل الله تساهم به في إقامة الحجة.",
     buttonLabel: "انضم لفرق التبليغ",
     buttonLink: "/community/volunteers"
+  },
+  {
+    icon: <Film className="h-8 w-8 text-primary" />,
+    title: "نشر الوسائط الدعوية",
+    description: "ساهم في نشر مقاطع الفيديو والصوتيات والصور التي تذكر بالله وتدعو إلى اليقين. كل مادة تنشرها هي نور يصل إلى قلوب قد تكون في أمس الحاجة إليه.",
+    buttonLabel: "اكتشف مكتبة الوسائط",
+    buttonLink: "/library"
+  },
+  {
+    icon: <Clapperboard className="h-8 w-8 text-primary" />,
+    title: "المشاركة في البث المباشر",
+    description: "شارك في المحاضرات والبثوث المباشرة، أو انضم للغرف الصوتية والمرئية. تفاعلك المباشر يثري النقاش ويساهم في نشر الوعي.",
+    buttonLabel: "اذهب إلى غرف البث",
+    buttonLink: "/community/video-rooms"
   },
 ];
 
