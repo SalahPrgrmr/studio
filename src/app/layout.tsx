@@ -11,6 +11,7 @@ import BottomNavBar from '@/components/layout/bottom-nav-bar';
 import { MoreNavSheet } from '@/components/layout/more-nav-sheet';
 import App from './main';
 import { LanguageProvider } from '@/lib/i18n/provider';
+import ScrollToTop from '@/components/scroll-to-top';
 
 export const metadata: Metadata = {
   title: 'Eye of Certainty',
@@ -56,6 +57,7 @@ export default function RootLayout({
               <Footer />
               <BottomNavBar />
               <MoreNavSheet />
+              <ScrollToTop />
             </div>
             <ChatAssistant />
             <Toaster />

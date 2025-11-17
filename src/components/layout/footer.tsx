@@ -1,6 +1,6 @@
 'use client';
 
-import { Globe, Download, AppWindow } from 'lucide-react';
+import { Globe, Download, AppWindow, Home } from 'lucide-react';
 import Logo from '../logo';
 import Link from 'next/link';
 import { Button } from '../ui/button';
@@ -25,6 +25,7 @@ interface BeforeInstallPromptEvent extends Event {
 
 const sitemapLinks = {
   platform: [
+    { href: '/', labelKey: 'header.links.home', icon: Home },
     { href: '/mission', labelKey: 'footer.links.mission' },
     { href: '/privacy-policy', labelKey: 'footer.links.privacy' },
     { href: '/terms-of-service', labelKey: 'footer.links.terms' },
@@ -105,7 +106,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-card border-t mt-12">
+    <footer className="bg-card border-t mt-12 no-pdf">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-16">
             <div className="flex flex-col items-start space-y-4">
@@ -113,7 +114,7 @@ export default function Footer() {
                     <Logo className="h-8 w-8 text-primary" />
                     <span className="font-bold font-headline text-xl">{t('appName')}</span>
                 </Link>
-                <div className="flex items-center gap-2 flex-wrap no-pdf">
+                <div className="flex items-center gap-2 flex-wrap">
                     {deferredPrompt && (
                     <Button onClick={handleInstallClick} variant="outline" size="sm">
                         <AppWindow className="ml-2 h-4 w-4" />
@@ -149,7 +150,8 @@ export default function Footer() {
                     <ul className="space-y-3">
                         {sitemapLinks.platform.map(link => (
                             <li key={link.href}>
-                                <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm">
+                                <Link href={link.href} className="text-muted-foreground hover:text-primary transition-colors text-sm flex items-center gap-2">
+                                    {link.icon && <link.icon className="h-4 w-4" />}
                                     {t(link.labelKey)}
                                 </Link>
                             </li>
