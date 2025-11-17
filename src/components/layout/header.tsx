@@ -34,6 +34,7 @@ const navLinks = [
   { href: '/stories', label: 'قصص نجاح' },
   { href: '/self-guidance', label: 'إرشاد ذاتي' },
   { href: '/mahdi', label: 'المهدي المنتظر' },
+  { href: '/practical-activities', label: 'أنشطة عملية' },
   { href: '/library', label: 'المكتبة' },
   { href: '/community', label: 'المجتمع' },
   { href: '/vr-journeys', label: 'رحلات VR' },
