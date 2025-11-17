@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, PenTool, Tv, Rocket, Brush, Globe, Languages, View, Box, HelpCircle } from "lucide-react";
+import { BookHeart, Sprout, Headphones, HandHeart, Users, PowerOff, Activity, Megaphone, Film, Clapperboard, Video, Briefcase, DollarSign, PenTool, Tv, Rocket, Brush, Globe, Languages, View, Box, HelpCircle, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
@@ -136,6 +136,13 @@ const activities = [
     description: "للمهتمين بالتقنيات الحديثة، ساهم في تصميم تجارب تفاعلية باستخدام الواقع المعزز لإظهار آيات الله في الكون بطريقة مبتكرة وغامرة.",
     buttonLabel: "ساهم في التطوير",
     buttonLink: "/community/volunteers"
+  },
+  {
+    icon: <Share2 className="h-8 w-8 text-primary" />,
+    title: "مركز الدعوة الرقمية",
+    description: "قم بربط حساباتك الاجتماعية لاستيراد محتواك الملهم وتصدير مواد المنصة الدعوية بسهولة عبر واتساب، فيسبوك، تويتر، وغيرها من المنصات.",
+    buttonLabel: "افتح مركز الدعوة (قريبًا)",
+    buttonLink: "#"
   }
 ];
 
@@ -182,7 +189,7 @@ export default function PracticalActivitiesPage() {
               <p className="text-muted-foreground leading-relaxed">{activity.description}</p>
             </CardContent>
             <div className="p-6 pt-0 text-center">
-                <Button asChild>
+                <Button asChild disabled={activity.buttonLink === '#'}>
                     <Link href={activity.buttonLink}>{activity.buttonLabel}</Link>
                 </Button>
             </div>
