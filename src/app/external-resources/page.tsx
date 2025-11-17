@@ -1,44 +1,64 @@
 
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Landmark, MessageSquare, BookOpen, GraduationCap } from "lucide-react";
+import { ExternalLink, Landmark, MessageSquare, BookOpen, GraduationCap, BookMarked, BookText, Footprints, Users } from "lucide-react";
 import Link from 'next/link';
 
 const resourceCategories = [
   {
-    icon: <Landmark className="h-8 w-8 text-primary" />,
-    title: "مراكز إسلامية ومواقع دعوية",
-    description: "ابحث عن مراكز إسلامية قريبة منك أو تصفح مواقع دعوية موثوقة للحصول على الدعم والإرشاد أو الدخول في الإسلام.",
+    icon: <BookMarked className="h-8 w-8 text-primary" />,
+    title: "مواقع القرآن الكريم وعلومه",
+    description: "مصادر شاملة لتلاوة القرآن الكريم، وتفسيره، وترجمة معانيه، والبحث في علومه المختلفة.",
     links: [
-      { name: "IslamHouse.com - للدعوة بلغات متعددة", href: "https://islamhouse.com/ar" },
-      { name: "موقع Muslim.org", href: "https://muslim.org/" },
+      { name: "مجمع الملك فهد لطباعة المصحف الشريف", href: "https://qurancomplex.gov.sa/" },
+      { name: "موقع Quran.com", href: "https://quran.com/ar" },
+      { name: "التفسير الميسر", href: "https://www.quran-tafsir.net/" },
+    ]
+  },
+  {
+    icon: <Users className="h-8 w-8 text-primary" />,
+    title: "آيات موجهة لأهل الكتاب",
+    description: "مجموعة من الآيات القرآنية التي تخاطب أهل الكتاب مباشرة، تدعوهم إلى كلمة سواء وتوضح نقاط الالتقاء.",
+    links: [
+       { name: "قل يا أهل الكتاب تعالوا إلى كلمة سواء (آل عمران: 64)", href: "https://quran.com/3/64" },
+       { name: "يا أهل الكتاب لم تكفرون بآيات الله (آل عمران: 70)", href: "https://quran.com/3/70" },
+    ]
+  },
+  {
+    icon: <BookText className="h-8 w-8 text-primary" />,
+    title: "مواقع الحديث الشريف والسيرة النبوية",
+    description: "موسوعات حديثية شاملة ومواقع متخصصة في سيرة النبي صلى الله عليه وسلم لدراسة سنته وحياته.",
+    links: [
+      { name: "موقع الدرر السنية - الموسوعة الحديثية", href: "https://www.dorar.net/hadith" },
+      { name: "موقع إسلام ويب - قسم الحديث", href: "https://www.islamweb.net/ar/hadith/" },
+      { name: "موقع الرحيق المختوم", href: "https://www.al-eman.com/book/140" },
+    ]
+  },
+  {
+    icon: <GraduationCap className="h-8 w-8 text-primary" />,
+    title: "مصادر للتفقه في الدين والفتاوى",
+    description: "مواقع علمية موثوقة لتعلم الفقه الإسلامي والحصول على فتاوى شرعية من هيئات وكبار العلماء.",
+     links: [
+      { name: "موقع إسلام ويب - الفتاوى", href: "https://www.islamweb.net/ar/fatwa/" },
+      { name: "موقع الإسلام سؤال وجواب", href: "https://islamqa.info/ar" },
+      { name: "موقع الشيخ ابن باز", href: "https://binbaz.org.sa/" },
     ]
   },
   {
     icon: <MessageSquare className="h-8 w-8 text-primary" />,
-    title: "مواقع للمناظرة والحوار",
-    description: "مواقع متخصصة في الحوار بين الأديان والمناظرات الفكرية لاستكشاف الحقائق بعمق ومقارنة الأفكار.",
+    title: "مواقع للمناظرة والحوار الفكري",
+    description: "مواقع متخصصة في الحوار بين الأديان والمذاهب، والرد على الشبهات، وتقديم الأدلة العقلية على وجود الله.",
      links: [
       { name: "موقع بينات - د. إياد قنيبي", href: "https://bayyenat.net/" },
        { name: "Yaqeen Institute for Islamic Research", href: "https://yaqeeninstitute.org/" },
     ]
   },
   {
-    icon: <BookOpen className="h-8 w-8 text-primary" />,
-    title: "مصادر للتفقه في الدين والفتاوى",
-    description: "مكتبات إلكترونية ومواقع علمية لتعلم الفقه الإسلامي وعلومه المختلفة من مصادرها الأصلية الموثوقة.",
-     links: [
-      { name: "موقع إسلام ويب - فتاوى ومقالات", href: "https://www.islamweb.net/ar/" },
-      { name: "موقع الإسلام سؤال وجواب", href: "https://islamqa.info/ar" },
-      { name: "موقع الدرر السنية - موسوعة علمية", href: "https://www.dorar.net/" },
-      { name: "موقع الشيخ ابن باز - فتاوى وعلم شرعي", href: "https://binbaz.org.sa/" },
-    ]
-  },
-  {
-    icon: <GraduationCap className="h-8 w-8 text-primary" />,
-    title: "منصات تعليمية",
-    description: "دورات وبرامج تعليمية عبر الإنترنت لتعميق فهمك للدين الإسلامي والحضارة الإسلامية.",
-     links: [
+    icon: <Landmark className="h-8 w-8 text-primary" />,
+    title: "مراكز إسلامية ومنصات دعوية",
+    description: "منصات تعليمية ومراكز دعوية تهدف إلى نشر المعرفة الإسلامية الصحيحة حول العالم وبلغات متعددة.",
+    links: [
+      { name: "IslamHouse.com - للدعوة بلغات متعددة", href: "https://islamhouse.com/ar" },
       { name: "أكاديمية زاد - لتعليم العلوم الشرعية", href: "https://www.zad-academy.com/" },
       { name: "الجامعة الإسلامية المفتوحة (IOU)", href: "https://iou.edu.gm/" },
     ]
@@ -58,7 +78,7 @@ export default function ExternalResourcesPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {resourceCategories.map((category) => (
           <Card key={category.title} className="flex flex-col shadow-md hover:shadow-lg transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center gap-4">
@@ -69,10 +89,10 @@ export default function ExternalResourcesPage() {
               <p className="text-muted-foreground mb-4">{category.description}</p>
               <div className="space-y-2">
                 {category.links.map(link => (
-                    <Button key={link.name} asChild variant="outline" className="w-full justify-start">
-                        <Link href={link.href} target="_blank" rel="noopener noreferrer">
-                             <ExternalLink className="ml-2 h-4 w-4" />
-                            {link.name}
+                    <Button key={link.name} asChild variant="outline" className="w-full justify-start text-right">
+                        <Link href={link.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between w-full">
+                            <span>{link.name}</span>
+                            <ExternalLink className="mr-2 h-4 w-4 flex-shrink-0" />
                         </Link>
                     </Button>
                 ))}
@@ -89,7 +109,7 @@ export default function ExternalResourcesPage() {
         </CardHeader>
         <CardContent className="max-w-3xl mx-auto">
           <p className="text-muted-foreground text-lg leading-relaxed">
-            منصة "عين اليقين" تقدم هذه الروابط كخدمة للباحثين عن المعرفة. نحن لا نتحمل مسؤولية محتوى المواقع الخارجية، وننصح دائمًا بالتحقق من المعلومات من مصادر متعددة.
+            منصة "عين اليقين" تقدم هذه الروابط كخدمة للباحثين عن المعرفة. نحن لا نتحمل مسؤولية محتوى المواقع الخارجية، وننصح دائمًا بالتحقق من المعلومات من مصادر متعددة والرجوع لأهل العلم الموثوقين.
           </p>
         </CardContent>
       </Card>
