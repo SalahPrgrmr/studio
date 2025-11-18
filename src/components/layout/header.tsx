@@ -102,7 +102,7 @@ export default function Header() {
             </span>
           </Link>
            <p className="hidden md:block font-headline text-sm text-muted-foreground">
-            أيا أيها الناس قولوا لا إله إلا الله تفلحون
+            يا أيها الناس قولوا لا إله إلا الله تفلحون
           </p>
         </div>
 
