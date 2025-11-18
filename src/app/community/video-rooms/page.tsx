@@ -31,11 +31,11 @@ export default function VideoRoomsPage() {
   const router = useRouter();
 
   const roomsCollection = useMemoFirebase(
-    () => firestore ? collection(firestore, 'video_chat_rooms') : null,
+    () => (firestore ? collection(firestore, 'video_chat_rooms') : null),
     [firestore]
   );
   const roomsQuery = useMemoFirebase(
-    () => roomsCollection ? query(roomsCollection, orderBy('creationDate', 'desc')) : null,
+    () => (roomsCollection ? query(roomsCollection, orderBy('creationDate', 'desc')) : null),
     [roomsCollection]
   );
 
@@ -61,8 +61,7 @@ export default function VideoRoomsPage() {
     };
     
     try {
-      const roomsCollection = collection(firestore, 'video_chat_rooms');
-      const docRef = await addDocumentNonBlocking(roomsCollection, newRoom);
+      const docRef = await addDocumentNonBlocking(roomsCollection!, newRoom);
       toast({
         title: 'تم إنشاء غرفة البث!',
         description: 'تم إنشاء غرفة البث الجديدة بنجاح.',
