@@ -94,24 +94,17 @@ export default function Header() {
         <div className="mr-4 flex items-center">
           <Link
             href="/"
-            className="ml-6 flex items-center justify-center space-x-2 rtl:space-x-reverse"
+            className="ml-4 flex items-center justify-center space-x-2 rtl:space-x-reverse"
           >
             <Logo className="h-6 w-6 text-primary" />
             <span className="font-bold font-headline inline-block text-lg">
               {t('appName')}
             </span>
           </Link>
-           <p className="hidden md:block font-headline text-sm text-muted-foreground">
+           <p className="font-headline text-xs sm:text-sm text-muted-foreground border-r pr-3 mr-3">
             يا أيها الناس قولوا لا إله إلا الله تفلحون
           </p>
         </div>
-
-        {/* Desktop Navigation */}
-        <nav className="flex-1 items-center space-x-1 hidden lg:flex">
-          {navLinks.map((link) => (
-            <NavLink key={link.href} {...link} />
-          ))}
-        </nav>
 
         {/* Mobile Navigation */}
         <div className="lg:hidden flex-1 flex justify-start">
@@ -143,6 +136,13 @@ export default function Header() {
             </SheetContent>
           </Sheet>
         </div>
+
+        {/* Desktop Navigation */}
+        <nav className="flex-1 items-center space-x-1 hidden lg:flex">
+          {navLinks.map((link) => (
+            <NavLink key={link.href} {...link} />
+          ))}
+        </nav>
 
         <div className="flex items-center justify-end space-x-1 md:space-x-2">
           <DropdownMenu>
