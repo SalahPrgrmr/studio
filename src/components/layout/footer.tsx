@@ -1,6 +1,6 @@
 'use client';
 
-import { Globe, Download, AppWindow, Home, Mail } from 'lucide-react';
+import { Globe, Download, AppWindow, Home, Mail, Target } from 'lucide-react';
 import Logo from '../logo';
 import Link from 'next/link';
 import { Button } from '../ui/button';
@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useLanguage, languages } from '@/lib/i18n/provider';
 import type { Language } from '@/lib/i18n/settings';
+import { Separator } from '../ui/separator';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: Array<string>;
@@ -188,6 +190,25 @@ export default function Footer() {
                 </div>
             </div>
         </div>
+
+        <Separator className="my-12" />
+
+        <Card className="bg-muted/50 border-primary/20">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-primary font-headline">
+                    <Target className="h-6 w-6" />
+                    تذكير بالغاية الأساسية
+                </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-muted-foreground">
+                <p>
+                    إلى جميع الأعضاء والشركاء والمتطوعين والزوار: نذكركم بأن تكون جميع أعمالكم خالصة لله وحده، ومخصصة لهدفنا الأسمى وهو "لا إله إلا الله".
+                </p>
+                <p className="font-semibold">
+                    لا تشتتوا جهودكم أو تميلوا عن هذا الهدف. إن كانت هناك أمور أخرى مهمة، فهناك منصات أخرى لها. شعارنا هو الاختصار، السهولة، والوضوح، فخير الكلام ما قل ودل في كل ما نقدمه.
+                </p>
+            </CardContent>
+        </Card>
 
         <div className="mt-12 border-t pt-8 text-center text-sm text-muted-foreground">
           <div className="flex items-center justify-center space-x-2 rtl:space-x-reverse mb-2">
