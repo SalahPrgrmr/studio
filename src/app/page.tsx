@@ -2,6 +2,7 @@ import BenefitsSection from '@/components/sections/benefits-section';
 import DefinitionSection from '@/components/sections/definition-section';
 import HeroSection from '@/components/sections/hero-section';
 import PersonalPathForm from '@/components/sections/personal-path-form';
+import WhyUsSection from '@/components/sections/why-us-section';
 import { Separator } from '@/components/ui/separator';
 
 export default function Home() {
@@ -18,6 +19,8 @@ export default function Home() {
           <BenefitsSection />
           <Separator className="my-8" />
           <PersonalPathForm />
+           <Separator className="my-8" />
+          <WhyUsSection />
         </div>
       </main>
     </div>

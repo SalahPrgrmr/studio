@@ -27,6 +27,7 @@ const sitemapLinks = {
   platform: [
     { href: '/', labelKey: 'header.links.home', icon: Home },
     { href: '/mission', labelKey: 'footer.links.mission' },
+    { href: '/why-us', labelKey: 'footer.links.whyUs' },
     { href: '/contact', labelKey: 'header.links.contact', icon: Mail },
     { href: '/privacy-policy', labelKey: 'footer.links.privacy' },
     { href: '/terms-of-service', labelKey: 'footer.links.terms' },

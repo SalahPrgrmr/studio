@@ -31,7 +31,8 @@ import {
     View,
     Mail,
     Lock,
-    Gavel
+    Gavel,
+    HelpCircle
 } from 'lucide-react';
 import { useUser } from '@/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
@@ -59,6 +60,7 @@ const mainNavLinks = [
 const sitemapLinks = {
   platform: [
     { href: '/mission', label: 'رسالتنا', icon: Target },
+    { href: '/why-us', label: 'لماذا نحن؟', icon: HelpCircle },
     { href: '/contact', label: 'تواصل معنا', icon: Mail },
     { href: '/privacy-policy', label: 'سياسة الخصوصية', icon: Lock },
     { href: '/terms-of-service', label: 'شروط الخدمة', icon: Gavel },
