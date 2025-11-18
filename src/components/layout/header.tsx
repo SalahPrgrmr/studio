@@ -101,7 +101,7 @@ export default function Header() {
               {t('appName')}
             </span>
           </Link>
-           <p className="font-headline text-xs sm:text-sm text-muted-foreground border-r pr-3 mr-3">
+           <p className="font-headline text-sm sm:text-base text-primary font-bold px-3">
             يا أيها الناس قولوا لا إله إلا الله تفلحون
           </p>
         </div>
