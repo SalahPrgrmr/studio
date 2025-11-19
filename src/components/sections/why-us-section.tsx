@@ -33,7 +33,8 @@ const faqItems = [
 const coreSummary = {
   foundation: "لا إله إلا الله، لا معبود بحق غير الله، الله واحد أحد فرد صمد.",
   certainty: "التصديق الجازم بهذه الكلمة لا شك ولا ريب فيه.",
-  requirement: "فاعلم أنه لا إله إلا الله."
+  requirement: "فاعلم أنه لا إله إلا الله.",
+  rope: "اليقين هو حبل الله الذي يجب أن يتمسك به جميع البشر ولا يتفرقوا فيه. لن يقبل الله إلا حبلاً واحداً وهو 'لا إله إلا الله'، وباقي الأمور من سنة الله أن جعل الاختلاف فيها منافسة بين البشر واختباراً لهم، من سينجح ومن سيفوز ومن سيخسر."
 };
 
 
@@ -67,6 +68,10 @@ export default function WhyUsSection() {
                  <div>
                     <h4 className="font-bold">ما هو المطلوب؟</h4>
                     <p className="text-muted-foreground font-semibold">{coreSummary.requirement}</p>
+                </div>
+                 <div>
+                    <h4 className="font-bold">حبل الله الواحد</h4>
+                    <p className="text-muted-foreground">{coreSummary.rope}</p>
                 </div>
             </CardContent>
           </Card>
