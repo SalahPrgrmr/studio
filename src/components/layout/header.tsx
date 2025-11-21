@@ -21,6 +21,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuPortal,
+  DropdownMenuSubContent
 } from '@/components/ui/dropdown-menu';
 import {
   Sheet,
@@ -34,6 +38,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { signOut } from 'firebase/auth';
 import { useLanguage, languages } from '@/lib/i18n/provider';
 import type { Language } from '@/lib/i18n/settings';
+import GoogleTranslate from '../google-translate';
 
 const navLinks = [
   { href: '/mission', labelKey: 'header.links.mission' },
@@ -101,7 +106,8 @@ export default function Header() {
               {t('appName')}
             </span>
           </Link>
-           <p className="font-headline text-sm sm:text-base text-primary font-bold px-3">
+          <div className="hidden sm:block border-l-2 border-primary h-6 mx-3"></div>
+           <p className="font-headline text-sm sm:text-base text-primary font-bold px-3 hidden sm:block">
             يا أيها الناس قولوا لا إله إلا الله تفلحون
           </p>
         </div>
@@ -153,12 +159,25 @@ export default function Header() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {languages.map((lang) => (
-                <DropdownMenuItem key={lang.code} onClick={() => handleLanguageChange(lang.code)}>
-                  {lang.icon}
-                  <span>{lang.name}</span>
-                </DropdownMenuItem>
-              ))}
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  {t('footer.language')}
+                </DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent>
+                    {languages.map((lang) => (
+                      <DropdownMenuItem key={lang.code} onClick={() => handleLanguageChange(lang.code)}>
+                        {lang.icon}
+                        <span>{lang.name}</span>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+               <DropdownMenuSeparator />
+               <div className="px-2 py-1.5">
+                <GoogleTranslate />
+               </div>
             </DropdownMenuContent>
           </DropdownMenu>
 

@@ -12,6 +12,7 @@ import { MoreNavSheet } from '@/components/layout/more-nav-sheet';
 import App from './main';
 import { LanguageProvider } from '@/lib/i18n/provider';
 import ScrollToTop from '@/components/scroll-to-top';
+import Script from 'next/script';
 
 const APP_NAME = "Ain Al-Yaqin";
 const APP_DEFAULT_TITLE = "Ain Al-Yaqin - Your Journey to Certainty";
@@ -95,6 +96,10 @@ export default function RootLayout({
             <Toaster />
           </LanguageProvider>
         </FirebaseClientProvider>
+        <Script
+          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
