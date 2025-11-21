@@ -27,12 +27,12 @@ import { useFirebase, addDocumentNonBlocking } from '@/firebase';
 import { collection, doc, runTransaction } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 const newStorySchema = z.object({
   title: z.string().min(5, { message: 'العنوان يجب أن يكون 5 أحرف على الأقل.' }).max(100),
-  author: z.string().min(2, { message: 'الاسم يجب أن يكون حرفين على الأقل.' }).max(50),
+  author: z.string(), // Author is now derived from user, so no validation needed here.
   content: z.string().min(50, { message: 'القصة يجب أن تكون 50 حرفًا على الأقل.' }).max(5000),
 });
 
@@ -48,10 +48,17 @@ export default function NewStoryPage() {
     resolver: zodResolver(newStorySchema),
     defaultValues: {
       title: '',
-      author: user?.displayName || '',
+      author: user?.displayName || 'مستخدم غير مسجل',
       content: '',
     },
   });
+
+  // Set user's name in the form when user object is available
+  useEffect(() => {
+    if (user?.displayName) {
+        form.setValue('author', user.displayName);
+    }
+  }, [user, form]);
   
   async function onSubmit(values: NewStoryFormValues) {
     if (!user || !firestore) {
@@ -68,8 +75,11 @@ export default function NewStoryPage() {
     const userProfileRef = doc(firestore, 'users', user.uid);
 
     try {
+        // Use the displayName from the authenticated user, not the form.
         const storyPayload = {
-            ...values,
+            title: values.title,
+            content: values.content,
+            author: user.displayName || 'مؤلف مجهول', // Fallback name
             authorId: user.uid,
             creationDate: new Date().toISOString(),
             status: 'pending_review' as const,
@@ -193,7 +203,7 @@ export default function NewStoryPage() {
                   <FormItem>
                     <FormLabel>الاسم (كما سيظهر للجميع)</FormLabel>
                     <FormControl>
-                      <Input placeholder="اسمك أو اسم مستعار" {...field} />
+                      <Input {...field} readOnly disabled className="bg-muted/50" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

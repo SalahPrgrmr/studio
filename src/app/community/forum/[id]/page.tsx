@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft, MessageSquare, ThumbsUp, Send, User } from 'lucide-react';
 import Link from 'next/link';
+import { useState } from 'react';
 
 // Mock data, this would come from a database in a real app
 const forumPosts = [
@@ -44,9 +45,14 @@ const forumPosts = [
 
 export default function ForumPostPage({ params }: { params: { id: string } }) {
     const post = forumPosts.find(p => p.id === params.id);
+    const [likes, setLikes] = useState(post?.likes || 0);
 
     if (!post) {
         notFound();
+    }
+
+    const handleLike = () => {
+        setLikes(prev => prev + 1);
     }
 
     return (
@@ -80,15 +86,21 @@ export default function ForumPostPage({ params }: { params: { id: string } }) {
                         <p>{post.content}</p>
                     </div>
                 </CardContent>
-                <CardFooter className="flex items-center space-x-6 space-x-reverse border-t pt-4 mt-4">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                        <MessageSquare className="h-5 w-5" />
-                        <span>{post.comments.length} تعليقات</span>
+                <CardFooter className="flex items-center justify-between border-t pt-4 mt-4">
+                    <div className="flex items-center space-x-6 space-x-reverse">
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                            <MessageSquare className="h-5 w-5" />
+                            <span>{post.comments.length} تعليقات</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                            <ThumbsUp className="h-5 w-5" />
+                            <span>{likes} إعجابات</span>
+                        </div>
                     </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                        <ThumbsUp className="h-5 w-5" />
-                        <span>{post.likes} إعجابات</span>
-                    </div>
+                     <Button variant="outline" onClick={handleLike}>
+                        <ThumbsUp className="ml-2 h-4 w-4" />
+                        إعجاب
+                    </Button>
                 </CardFooter>
             </Card>
 

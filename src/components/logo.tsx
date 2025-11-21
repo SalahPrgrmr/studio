@@ -13,13 +13,13 @@ const Logo = (props: SVGProps<SVGSVGElement>) => (
     
     {/* Eye shape inside the heart */}
     <path
-      d="M12 13a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"
+      d="M12 12.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"
       fill="var(--background)" 
     />
     <circle 
       cx="12" 
       cy="9" 
-      r="1.75" 
+      r="1.5" 
       fill="currentColor"
     />
   </svg>
