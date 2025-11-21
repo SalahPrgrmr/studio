@@ -135,7 +135,10 @@
     "providers": [
       "password",
       "anonymous",
-      "github"
+      "github",
+      "google",
+      "facebook",
+      "twitter"
     ]
   },
   "firestore": {
