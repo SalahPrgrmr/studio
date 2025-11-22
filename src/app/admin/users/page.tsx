@@ -1,29 +1,21 @@
-import { getFirestore } from 'firebase-admin/firestore';
-import { initializeFirebaseAdmin } from '@/lib/firebase-admin';
+'use client';
+
 import { UserProfile } from '@/lib/types';
 import { UsersTable } from './users-table';
 import { columns } from './columns';
-import { Users } from 'lucide-react';
+import { Users, Loader2, AlertTriangle } from 'lucide-react';
+import { useCollection, useFirebase, useMemoFirebase } from '@/firebase';
+import { collection } from 'firebase/firestore';
 
-async function getUsers(): Promise<UserProfile[]> {
-  const adminDb = getFirestore(initializeFirebaseAdmin());
-  const usersSnapshot = await adminDb.collection('users').get();
+export default function AdminUsersPage() {
+  const { firestore } = useFirebase();
+
+  const usersCollection = useMemoFirebase(
+    () => (firestore ? collection(firestore, 'users') : null),
+    [firestore]
+  );
   
-  if (usersSnapshot.empty) {
-    return [];
-  }
-
-  const users: UserProfile[] = [];
-  usersSnapshot.forEach(doc => {
-    // We can cast here as we trust the data structure from our app
-    users.push(doc.data() as UserProfile);
-  });
-
-  return users;
-}
-
-export default async function AdminUsersPage() {
-  const users = await getUsers();
+  const { data: users, isLoading, error } = useCollection<UserProfile>(usersCollection);
 
   return (
     <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
@@ -36,7 +28,19 @@ export default async function AdminUsersPage() {
           عرض، بحث، وتعديل صلاحيات المستخدمين في المنصة.
         </p>
       </div>
-      <UsersTable columns={columns} data={users} />
+      {isLoading && (
+        <div className="flex items-center justify-center py-16 text-muted-foreground">
+            <Loader2 className="h-8 w-8 animate-spin mr-3" />
+            <span>جاري تحميل بيانات المستخدمين...</span>
+        </div>
+      )}
+      {error && (
+        <div className="flex items-center justify-center py-16 text-destructive">
+            <AlertTriangle className="h-8 w-8 mr-3" />
+            <span>حدث خطأ أثناء تحميل المستخدمين: {error.message}</span>
+        </div>
+      )}
+      {!isLoading && users && <UsersTable columns={columns} data={users} />}
     </div>
   );
 }

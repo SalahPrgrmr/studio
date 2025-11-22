@@ -21,10 +21,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuPortal,
-  DropdownMenuSubContent
 } from '@/components/ui/dropdown-menu';
 import {
   Sheet,
@@ -36,9 +32,7 @@ import { cn } from '@/lib/utils';
 import { useFirebase, useUser } from '@/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { signOut } from 'firebase/auth';
-import { useLanguage, languages } from '@/lib/i18n/provider';
-import type { Language } from '@/lib/i18n/settings';
-import GoogleTranslate from '../google-translate';
+import { useLanguage } from '@/lib/i18n/provider';
 
 const navLinks = [
   { href: '/mission', labelKey: 'header.links.mission' },
@@ -53,19 +47,13 @@ export default function Header() {
   const { auth } = useFirebase();
   const { user, isUserLoading } = useUser();
   const router = useRouter();
-  const { t, language, setLanguage, getDirection } = useLanguage();
+  const { t, getDirection, language } = useLanguage();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleSignOut = async () => {
     if (!auth) return;
     await signOut(auth);
     router.push('/');
-  };
-
-  const handleLanguageChange = (lang: Language) => {
-    setLanguage(lang);
-    document.documentElement.lang = lang;
-    document.documentElement.dir = getDirection(lang);
   };
 
   const getInitials = (name?: string | null) => {
@@ -106,10 +94,6 @@ export default function Header() {
               {t('appName')}
             </span>
           </Link>
-          <div className="hidden sm:block border-l-2 border-primary h-6 mx-3"></div>
-           <p className="font-headline text-sm sm:text-base text-primary font-bold px-3 hidden sm:block">
-            يا أيها الناس قولوا لا إله إلا الله تفلحون
-          </p>
         </div>
 
         {/* Mobile Navigation */}
@@ -151,35 +135,8 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center justify-end space-x-1 md:space-x-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Globe className="h-5 w-5" />
-                <span className="sr-only">{t('header.changeLanguage')}</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuSub>
-                <DropdownMenuSubTrigger>
-                  {t('footer.language')}
-                </DropdownMenuSubTrigger>
-                <DropdownMenuPortal>
-                  <DropdownMenuSubContent>
-                    {languages.map((lang) => (
-                      <DropdownMenuItem key={lang.code} onClick={() => handleLanguageChange(lang.code)}>
-                        {lang.icon}
-                        <span>{lang.name}</span>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuSubContent>
-                </DropdownMenuPortal>
-              </DropdownMenuSub>
-               <DropdownMenuSeparator />
-               <div className="px-2 py-1.5">
-                <GoogleTranslate />
-               </div>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          
+          <div id="google_translate_element" className="flex items-center"></div>
 
           {isUserLoading ? (
             <div className="h-8 w-8 flex items-center justify-center">
