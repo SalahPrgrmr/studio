@@ -2,8 +2,40 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Shield, Users, FileText } from "lucide-react";
 import Link from "next/link";
+import { cookies } from "next/headers";
+import admin from 'firebase-admin';
+import { redirect } from "next/navigation";
+import { serviceAccount } from "@/firebase/service-account-credentials";
 
-export default function AdminDashboardPage() {
+// This function can be extracted to a shared utility if used in multiple places
+async function verifyAdmin(): Promise<boolean> {
+  try {
+    if (!admin.apps.length) {
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount),
+      });
+    }
+    const sessionCookie = cookies().get('session')?.value;
+    if (!sessionCookie) {
+      return false;
+    }
+    const decodedClaims = await admin.auth().verifySessionCookie(sessionCookie, true);
+    return decodedClaims.admin === true;
+  } catch (error) {
+    console.error("Admin verification failed:", error);
+    return false;
+  }
+}
+
+
+export default async function AdminDashboardPage() {
+
+  const isAdmin = await verifyAdmin();
+
+  if (!isAdmin) {
+    redirect('/admin/login');
+  }
+  
   return (
     <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 animate-in fade-in duration-500">
       <div className="text-center mb-12">

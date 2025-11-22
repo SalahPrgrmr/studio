@@ -8,6 +8,7 @@ import { UsersTable } from './users-table';
 import { columns } from './columns';
 import admin from 'firebase-admin';
 import { serviceAccount } from '@/firebase/service-account-credentials';
+import { redirect } from 'next/navigation';
 
 // Initialize Firebase Admin SDK if not already initialized
 function initializeFirebaseAdmin() {
@@ -39,26 +40,7 @@ export default async function AdminUsersPage() {
   const isAdmin = await verifyAdmin();
 
   if (!isAdmin) {
-    return (
-      <div className="container mx-auto max-w-2xl text-center py-20">
-        <Card className="border-destructive">
-          <CardHeader>
-            <CardTitle className="flex items-center justify-center gap-2 text-destructive">
-              <ShieldAlert />
-              وصول مرفوض
-            </CardTitle>
-            <CardDescription>
-              ليس لديك الصلاحيات اللازمة للوصول إلى هذه الصفحة.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild>
-              <Link href="/">العودة إلى الصفحة الرئيسية</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    redirect('/admin/login');
   }
 
   // If admin, fetch users
