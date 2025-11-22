@@ -1,58 +1,27 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Shield, Users, FileText } from "lucide-react";
+import { Shield, Users, FileText, Settings, BarChart } from "lucide-react";
 import Link from "next/link";
-import { cookies } from "next/headers";
-import admin from 'firebase-admin';
-import { redirect } from "next/navigation";
-import { serviceAccount } from "@/firebase/service-account-credentials";
-
-// This function can be extracted to a shared utility if used in multiple places
-async function verifyAdmin(): Promise<boolean> {
-  try {
-    if (!admin.apps.length) {
-      admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
-      });
-    }
-    const sessionCookie = cookies().get('session')?.value;
-    if (!sessionCookie) {
-      return false;
-    }
-    const decodedClaims = await admin.auth().verifySessionCookie(sessionCookie, true);
-    return decodedClaims.admin === true;
-  } catch (error) {
-    console.error("Admin verification failed:", error);
-    return false;
-  }
-}
 
 
 export default async function AdminDashboardPage() {
-
-  const isAdmin = await verifyAdmin();
-
-  if (!isAdmin) {
-    redirect('/admin/login');
-  }
   
   return (
-    <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 animate-in fade-in duration-500">
-      <div className="text-center mb-12">
-        <Shield className="mx-auto h-16 w-16 text-primary mb-4" />
-        <h1 className="font-headline text-4xl font-bold tracking-tight sm:text-5xl">
+    <div className="flex flex-col gap-4">
+      <div className="mb-4">
+        <h1 className="font-headline text-3xl font-bold tracking-tight">
           لوحة تحكم المسؤول
         </h1>
-        <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
+        <p className="text-muted-foreground">
           مرحبًا بك في مركز التحكم. من هنا يمكنك إدارة جميع جوانب المنصة.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Card className="shadow-sm hover:shadow-md transition-shadow duration-300">
           <CardHeader>
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-primary/10 rounded-full">
+              <div className="p-3 bg-primary/10 rounded-lg">
                 <Users className="h-6 w-6 text-primary" />
               </div>
               <div>
@@ -67,10 +36,10 @@ export default async function AdminDashboardPage() {
             </Button>
           </CardContent>
         </Card>
-        <Card className="shadow-md">
+        <Card className="shadow-sm opacity-50">
           <CardHeader>
             <div className="flex items-center gap-4">
-                <div className="p-3 bg-muted rounded-full">
+                <div className="p-3 bg-muted rounded-lg">
                     <FileText className="h-6 w-6 text-muted-foreground" />
                 </div>
                 <div>
@@ -83,15 +52,31 @@ export default async function AdminDashboardPage() {
             <p className="text-muted-foreground">قريبًا...</p>
           </CardContent>
         </Card>
-        <Card className="shadow-md">
+        <Card className="shadow-sm opacity-50">
             <CardHeader>
                 <div className="flex items-center gap-4">
-                    <div className="p-3 bg-muted rounded-full">
-                         <FileText className="h-6 w-6 text-muted-foreground" />
+                    <div className="p-3 bg-muted rounded-lg">
+                         <BarChart className="h-6 w-6 text-muted-foreground" />
                     </div>
                     <div>
                         <CardTitle>إحصائيات الموقع</CardTitle>
                         <CardDescription>عرض تقارير الأداء والتفاعل.</CardDescription>
+                    </div>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <p className="text-muted-foreground">قريبًا...</p>
+            </CardContent>
+        </Card>
+         <Card className="shadow-sm opacity-50">
+            <CardHeader>
+                <div className="flex items-center gap-4">
+                    <div className="p-3 bg-muted rounded-lg">
+                         <Settings className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                    <div>
+                        <CardTitle>إعدادات المنصة</CardTitle>
+                        <CardDescription>التحكم في إعدادات الموقع العامة.</CardDescription>
                     </div>
                 </div>
             </CardHeader>

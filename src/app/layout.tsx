@@ -84,16 +84,8 @@ export default function RootLayout({
       >
         <FirebaseClientProvider>
           <LanguageProvider>
-            <div className="relative flex min-h-dvh flex-col">
-              <Header />
-              <main className="flex-1 pb-20">{children}</main>
-              <Footer />
-              <BottomNavBar />
-              <MoreNavSheet />
-              <ScrollToTop />
-            </div>
-            <ChatAssistant />
-            <Toaster />
+              {children}
+              <Toaster />
           </LanguageProvider>
         </FirebaseClientProvider>
       </body>
