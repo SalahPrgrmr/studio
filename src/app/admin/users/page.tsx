@@ -2,20 +2,32 @@ import { Users, ShieldAlert, AlertTriangle } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { getAuth } from 'firebase-admin/auth';
 import { cookies } from 'next/headers';
-import { admin } from '@/lib/firebase-admin'; // Using pre-initialized admin app
 import { getAllUsers } from './actions';
 import { UsersTable } from './users-table';
 import { columns } from './columns';
+import admin from 'firebase-admin';
+import { serviceAccount } from '@/firebase/service-account-credentials';
+
+// Initialize Firebase Admin SDK if not already initialized
+function initializeFirebaseAdmin() {
+  if (!admin.apps.length) {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+    });
+  }
+  return admin;
+}
+
 
 async function verifyAdmin(): Promise<boolean> {
   try {
+    const adminApp = initializeFirebaseAdmin();
     const sessionCookie = cookies().get('session')?.value;
     if (!sessionCookie) {
       return false;
     }
-    const decodedClaims = await admin.auth().verifySessionCookie(sessionCookie, true);
+    const decodedClaims = await adminApp.auth().verifySessionCookie(sessionCookie, true);
     return decodedClaims.admin === true;
   } catch (error) {
     console.error("Admin verification failed:", error);
