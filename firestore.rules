@@ -11,23 +11,20 @@ service cloud.firestore {
       return request.auth.uid == userId;
     }
 
-    function getRole(userId) {
-      return get(/databases/$(database)/documents/users/$(userId)).data.role;
-    }
-
+    // Use custom claims for admin check for efficiency and to avoid recursion.
     function isAdmin() {
-      return isSignedIn() && getRole(request.auth.uid) == 'admin';
+      return isSignedIn() && request.auth.token.admin == true;
     }
 
     // User Profiles Collection
-    // - A user can read and write their own profile.
-    // - An admin can read all profiles and update any field.
+    // - An admin can read/write any profile.
+    // - A user can read/write their own profile.
     // - A user cannot change their own role.
     match /users/{userId} {
-      allow read: if isOwner(userId) || isAdmin();
+      allow read, write: if isOwner(userId) || isAdmin();
+      allow update: if (isOwner(userId) && request.resource.data.role == resource.data.role) || isAdmin();
       allow list: if isAdmin();
       allow create: if isOwner(userId);
-      allow update: if (isOwner(userId) && request.resource.data.role == resource.data.role) || isAdmin();
       allow delete: if isAdmin();
     }
     

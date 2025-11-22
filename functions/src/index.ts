@@ -12,7 +12,7 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
   const newUserProfile = {
     id: uid,
     displayName: displayName || 'مستخدم جديد',
-    photoURL: photoURL || '',
+    photoURL: photoURL || `https://picsum.photos/seed/${uid}/100/100`,
     email: email || '',
     role: 'user', // Default role
     points: 0,
@@ -27,15 +27,17 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
   };
 
   try {
+    // Use set() to create the document, which will not fail if it already exists.
     await admin.firestore().collection('users').doc(uid).set(newUserProfile);
-    console.log(`Successfully created profile for user: ${uid}`);
+    console.log(`Successfully created/ensured profile for user: ${uid}`);
   } catch (error) {
     console.error(`Error creating profile for user: ${uid}`, error);
   }
 });
 
+
 /**
- * Sets a custom claim 'isAdmin' on user when their role is changed to 'admin' in Firestore.
+ * Sets a custom claim 'admin' on user when their role is changed to 'admin' in Firestore.
  */
 export const onUserRoleChange = functions.firestore.document('users/{userId}')
   .onUpdate(async (change, context) => {
