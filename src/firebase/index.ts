@@ -2,9 +2,9 @@
 
 import { firebaseConfig } from '@/firebase/config';
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
-import { getAuth, getIdToken, onAuthStateChanged } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore'
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { getFunctions } from 'firebase/functions';
 
 // IMPORTANT: DO NOT MODIFY THIS FUNCTION
 export function initializeFirebase() {
@@ -36,30 +36,6 @@ export function initializeFirebase() {
 export function getSdks(firebaseApp: FirebaseApp) {
   const auth = getAuth(firebaseApp);
   const functions = getFunctions(firebaseApp);
-
-  // Set up auth state listener to manage session cookie
-  onAuthStateChanged(auth, async (user) => {
-    if (typeof window !== 'undefined') {
-        if (user) {
-          try {
-            const idToken = await getIdToken(user, /* forceRefresh */ true);
-            const createSessionCookie = httpsCallable(functions, 'createSessionCookie');
-            await createSessionCookie({ idToken });
-            // The cookie is now set on the server-side via the response header
-            // which the browser will automatically handle.
-          } catch (error) {
-             console.error('Failed to create session cookie:', error);
-             // If creating the cookie fails (e.g. function error), sign the user out on the client
-             // to prevent a state mismatch.
-             await auth.signOut();
-          }
-        } else {
-          // User signed out, clear the session cookie
-          document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        }
-    }
-  });
-
 
   return {
     firebaseApp,

@@ -38,30 +38,3 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
     throw new functions.https.HttpsError('internal', 'Could not create user profile.');
   }
 });
-
-
-/**
- * Endpoint to create a session cookie for the authenticated user.
- */
-export const createSessionCookie = functions.https.onCall(async (data, context) => {
-    // Ensure the user is authenticated via an ID token.
-    if (!context.auth) {
-        throw new functions.https.HttpsError('unauthenticated', 'The function must be called while authenticated.');
-    }
-
-    const idToken = data.idToken;
-    if (typeof idToken !== 'string') {
-        throw new functions.https.HttpsError('invalid-argument', 'The function must be called with a string "idToken" argument.');
-    }
-
-    // Set session expiration to 2 weeks.
-    const expiresIn = 60 * 60 * 24 * 14 * 1000;
-
-    try {
-        const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
-        return { sessionCookie, expiresIn };
-    } catch (error) {
-        console.error('Error creating session cookie:', error);
-        throw new functions.https.HttpsError('internal', 'Failed to create session cookie.');
-    }
-});
