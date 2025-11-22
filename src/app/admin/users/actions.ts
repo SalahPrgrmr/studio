@@ -6,12 +6,12 @@ import { revalidatePath } from 'next/cache';
 import { serviceAccount } from '@/firebase/service-account-credentials';
 
 function initializeFirebaseAdmin() {
-  if (admin.apps.length > 0 && admin.apps[0]) {
-    return admin.apps[0];
+  if (!admin.apps.length) {
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+    });
   }
-  return admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
+  return admin.app();
 }
 
 type ActionResponse = {

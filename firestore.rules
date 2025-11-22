@@ -20,14 +20,14 @@ service cloud.firestore {
     }
 
     // User Profiles Collection
-    // - Anyone can read any profile.
-    // - A user can create and update their own profile, but cannot change their role.
-    // - Only an admin can change a user's role.
+    // - A user can read and write their own profile.
+    // - An admin can read all profiles and update any field.
+    // - A user cannot change their own role.
     match /users/{userId} {
-      allow read: if true;
+      allow read: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
       allow create: if isOwner(userId);
-      allow update: if isOwner(userId) && request.resource.data.role == resource.data.role;
-      allow update: if isAdmin(); // Admins can update any field, including roles.
+      allow update: if (isOwner(userId) && request.resource.data.role == resource.data.role) || isAdmin();
       allow delete: if isAdmin();
     }
     
@@ -61,7 +61,7 @@ service cloud.firestore {
     // - Owner can delete their own story. Admin can delete any story.
     match /success_stories/{storyId} {
       allow get: if resource.data.status == 'approved' || (isSignedIn() && isOwner(resource.data.authorId)) || isAdmin();
-      allow list: where resource.data.status == 'approved';
+      allow list: if resource.data.status == 'approved';
       allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
       allow update: if isAdmin(); // Only admins can change status from 'pending' to 'approved'
       allow delete: if isSignedIn() && (isOwner(resource.data.authorId) || isAdmin());
