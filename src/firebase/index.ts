@@ -39,22 +39,24 @@ export function getSdks(firebaseApp: FirebaseApp) {
 
   // Set up auth state listener to manage session cookie
   onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      try {
-        const idToken = await getIdToken(user, /* forceRefresh */ true);
-        const createSessionCookie = httpsCallable(functions, 'createSessionCookie');
-        await createSessionCookie({ idToken });
-        // The cookie is now set on the server-side via the response header
-        // which the browser will automatically handle.
-      } catch (error) {
-         console.error('Failed to create session cookie:', error);
-         // If creating the cookie fails (e.g. function error), sign the user out on the client
-         // to prevent a state mismatch.
-         await auth.signOut();
-      }
-    } else {
-      // User signed out, clear the session cookie
-      document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    if (typeof window !== 'undefined') {
+        if (user) {
+          try {
+            const idToken = await getIdToken(user, /* forceRefresh */ true);
+            const createSessionCookie = httpsCallable(functions, 'createSessionCookie');
+            await createSessionCookie({ idToken });
+            // The cookie is now set on the server-side via the response header
+            // which the browser will automatically handle.
+          } catch (error) {
+             console.error('Failed to create session cookie:', error);
+             // If creating the cookie fails (e.g. function error), sign the user out on the client
+             // to prevent a state mismatch.
+             await auth.signOut();
+          }
+        } else {
+          // User signed out, clear the session cookie
+          document.cookie = "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        }
     }
   });
 
