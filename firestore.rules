@@ -18,12 +18,10 @@ service cloud.firestore {
 
     // User Profiles Collection
     // - An admin can read/write any profile.
-    // - A user can read/write/create their own profile.
+    // - A user can read/create/update their own profile.
     // - A user cannot change their own role.
     match /users/{userId} {
       allow read, create: if isOwner(userId) || isAdmin();
-      // A user can update their own profile, but cannot change their role.
-      // An admin can update any profile, including changing roles.
       allow update: if (isOwner(userId) && request.resource.data.role == resource.data.role) || isAdmin();
       allow list: if isAdmin();
       allow delete: if isAdmin();

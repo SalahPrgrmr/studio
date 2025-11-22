@@ -30,9 +30,6 @@ import {
 import Link from 'next/link';
 import { doc } from 'firebase/firestore';
 import type { UserProfile } from '@/lib/types';
-import { useEffect } from 'react';
-import { setDocumentNonBlocking } from '@/firebase/non-blocking-updates';
-
 
 const badges = [
     { id: 'new_participant', name: 'مشارك جديد', icon: <Star className="h-6 w-6" />, description: 'أول مشاركة في المنتدى' },
@@ -71,28 +68,6 @@ export default function ProfilePage() {
 
   const { data: userProfile, isLoading: isProfileLoading } = useDoc<UserProfile>(profileRef);
 
-  useEffect(() => {
-    // Create a profile document if it doesn't exist for a logged-in user
-    if (user && !isUserLoading && !userProfile && !isProfileLoading) {
-      const newProfile: UserProfile = {
-        id: user.uid,
-        displayName: user.displayName || 'مستخدم جديد',
-        photoURL: user.photoURL || '',
-        role: 'user', // Default role
-        points: 0,
-        title: 'مستكشف',
-        badges: [],
-        stats: {
-          storiesPublished: 0,
-          forumPosts: 0,
-          audioContributions: 0,
-        },
-      };
-      // Non-blocking write to create the profile
-      setDocumentNonBlocking(profileRef!, newProfile, { merge: false });
-    }
-  }, [user, isUserLoading, userProfile, isProfileLoading, profileRef]);
-  
   const isLoading = isUserLoading || isProfileLoading;
 
   if (isLoading) {
@@ -123,11 +98,13 @@ export default function ProfilePage() {
     );
   }
   
+  // If the user is logged in but the profile document is still loading or not found yet.
+  // This happens briefly after a new user signs up.
   if (!userProfile) {
     return (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex flex-col justify-center items-center h-screen gap-4">
             <Loader2 className="h-16 w-16 animate-spin text-primary" />
-            <p className="ml-4">جاري إعداد ملفك الشخصي...</p>
+            <p className="text-muted-foreground">جاري إعداد ملفك الشخصي لأول مرة...</p>
         </div>
     );
   }
