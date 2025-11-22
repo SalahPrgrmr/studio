@@ -1,3 +1,4 @@
+
 import { z } from 'zod';
 
 export const personalPathSchema = z.object({
@@ -7,6 +8,19 @@ export const personalPathSchema = z.object({
 });
 
 export type PersonalPathFormValues = z.infer<typeof personalPathSchema>;
+
+export const signupSchema = z.object({
+  displayName: z.string().min(3, { message: 'الاسم يجب أن يكون 3 أحرف على الأقل.' }),
+  email: z.string().email({ message: 'البريد الإلكتروني غير صالح.' }),
+  password: z.string().min(6, { message: 'كلمة المرور يجب أن تكون 6 أحرف على الأقل.' }),
+  confirmPassword: z.string(),
+}).refine(data => data.password === data.confirmPassword, {
+  message: "كلمتا المرور غير متطابقتين.",
+  path: ["confirmPassword"], // path of error
+});
+
+export type SignupFormValues = z.infer<typeof signupSchema>;
+
 
 export type VoiceChatRoom = {
     id: string;

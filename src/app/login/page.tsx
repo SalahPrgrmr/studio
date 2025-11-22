@@ -2,20 +2,28 @@
 'use client';
 
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { useRouter } from 'next/navigation';
-import { Github, Loader2 } from 'lucide-react';
+import { Github, Loader2, LogIn, Mail } from 'lucide-react';
 import { 
   signInWithPopup, 
   GithubAuthProvider, 
   GoogleAuthProvider,
   FacebookAuthProvider,
-  TwitterAuthProvider
+  TwitterAuthProvider,
+  signInWithEmailAndPassword
 } from 'firebase/auth';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { useFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
+import { Input } from '@/components/ui/input';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Separator } from '@/components/ui/separator';
+import Link from 'next/link';
 
 // SVG Icons for social providers
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -39,18 +47,31 @@ const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const loginSchema = z.object({
+  email: z.string().email({ message: 'البريد الإلكتروني غير صالح.' }),
+  password: z.string().min(6, { message: 'كلمة المرور يجب أن تكون 6 أحرف على الأقل.' }),
+});
+
+type LoginFormValues = z.infer<typeof loginSchema>;
+
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState<{ [key: string]: boolean }>({
+  const [isLoading, setIsLoading] = useState({
     github: false,
     google: false,
     facebook: false,
     x: false,
+    email: false,
   });
   const router = useRouter();
   const { auth } = useFirebase();
   const { toast } = useToast();
 
-  const handleSignIn = async (providerName: 'google' | 'github' | 'facebook' | 'x') => {
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: '', password: '' },
+  });
+
+  const handleSocialSignIn = async (providerName: 'google' | 'github' | 'facebook' | 'x') => {
     if (!auth) {
       toast({
         variant: "destructive",
@@ -62,52 +83,54 @@ export default function LoginPage() {
 
     let provider;
     switch (providerName) {
-      case 'google':
-        provider = new GoogleAuthProvider();
-        break;
-      case 'github':
-        provider = new GithubAuthProvider();
-        break;
-      case 'facebook':
-        provider = new FacebookAuthProvider();
-        break;
-      case 'x':
-        provider = new TwitterAuthProvider();
-        break;
-      default:
-        toast({ variant: "destructive", title: "مزود خدمة غير صالح" });
-        return;
+      case 'google': provider = new GoogleAuthProvider(); break;
+      case 'github': provider = new GithubAuthProvider(); break;
+      case 'facebook': provider = new FacebookAuthProvider(); break;
+      case 'x': provider = new TwitterAuthProvider(); break;
+      default: toast({ variant: "destructive", title: "مزود خدمة غير صالح" }); return;
     }
 
     setIsLoading(prev => ({ ...prev, [providerName]: true }));
     
     try {
       await signInWithPopup(auth, provider);
-      toast({
-        title: 'تم تسجيل الدخول بنجاح',
-        description: 'أهلاً بك مجددًا!',
-      });
+      toast({ title: 'تم تسجيل الدخول بنجاح', description: 'أهلاً بك مجددًا!' });
       router.push('/');
     } catch (error: any) {
-      // Don't show an error toast if the user closes the popup
       if (error.code === 'auth/popup-closed-by-user') {
         console.log("Sign-in popup closed by user.");
-        return;
+      } else {
+        console.error(`${providerName} sign-in error:`, error);
+        let description = error.message || `فشل تسجيل الدخول باستخدام ${providerName}. يرجى المحاولة مرة أخرى.`;
+        if (error.code === 'auth/account-exists-with-different-credential') {
+          description = 'يوجد حساب بالفعل بنفس البريد الإلكتروني ولكن ببيانات اعتماد مختلفة. جرب تسجيل الدخول باستخدام مزود خدمة آخر.';
+        }
+        toast({ variant: 'destructive', title: 'خطأ في المصادقة', description: description });
       }
-      
-      console.error(`${providerName} sign-in error:`, error);
-      let description = error.message || `فشل تسجيل الدخول باستخدام ${providerName}. يرجى المحاولة مرة أخرى.`;
-      // Handle common Firebase auth errors
-      if (error.code === 'auth/account-exists-with-different-credential') {
-        description = 'يوجد حساب بالفعل بنفس البريد الإلكتروني ولكن ببيانات اعتماد مختلفة. جرب تسجيل الدخول باستخدام مزود خدمة آخر.';
-      }
-      toast({
-        variant: 'destructive',
-        title: 'خطأ في المصادقة',
-        description: description,
-      });
     } finally {
       setIsLoading(prev => ({ ...prev, [providerName]: false }));
+    }
+  };
+
+  const handleEmailSignIn = async (values: LoginFormValues) => {
+    if (!auth) {
+      toast({ variant: "destructive", title: "خطأ", description: "خدمة المصادقة غير متوفرة حاليًا." });
+      return;
+    }
+    setIsLoading(prev => ({ ...prev, email: true }));
+    try {
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      toast({ title: 'تم تسجيل الدخول بنجاح', description: 'أهلاً بك مجددًا!' });
+      router.push('/');
+    } catch (error: any) {
+      console.error("Email sign-in error:", error);
+      let description = "فشل تسجيل الدخول. يرجى التحقق من البريد الإلكتروني وكلمة المرور.";
+      if (error.code === 'auth/invalid-credential') {
+        description = "البريد الإلكتروني أو كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.";
+      }
+      toast({ variant: 'destructive', title: 'خطأ في تسجيل الدخول', description });
+    } finally {
+      setIsLoading(prev => ({ ...prev, email: false }));
     }
   };
 
@@ -117,61 +140,74 @@ export default function LoginPage() {
           <CardHeader className="text-center">
             <CardTitle className="text-2xl font-headline">تسجيل الدخول</CardTitle>
             <CardDescription>
-              سجل الدخول إلى حسابك لحفظ مسارك والانضمام إلى المجتمع.
+              ادخل إلى حسابك للمتابعة.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4">
-              <Button
-                variant="outline"
-                onClick={() => handleSignIn('google')}
-                disabled={isLoading.google}
-              >
-                {isLoading.google ? (
-                  <Loader2 className="ml-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <GoogleIcon className="ml-2 h-5 w-5" />
-                )}
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleEmailSignIn)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>البريد الإلكتروني</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="email@example.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>كلمة المرور</FormLabel>
+                      <FormControl>
+                        <Input type="password" placeholder="********" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full" disabled={isLoading.email}>
+                  {isLoading.email ? <Loader2 className="ml-2 h-4 w-4 animate-spin" /> : <LogIn className="ml-2 h-4 w-4" />}
+                  تسجيل الدخول
+                </Button>
+              </form>
+            </Form>
+            <div className="relative my-6">
+              <Separator />
+              <div className="absolute inset-x-0 top-1/2 -translate-y-1/2">
+                <span className="bg-background px-2 text-xs uppercase text-muted-foreground">أو</span>
+              </div>
+            </div>
+            <div className="grid gap-2">
+              <Button variant="outline" onClick={() => handleSocialSignIn('google')} disabled={isLoading.google}>
+                {isLoading.google ? <Loader2 className="ml-2 h-4 w-4 animate-spin" /> : <GoogleIcon className="ml-2 h-5 w-5" />}
                 المتابعة باستخدام Google
               </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleSignIn('facebook')}
-                disabled={isLoading.facebook}
-              >
-                {isLoading.facebook ? (
-                  <Loader2 className="ml-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <FacebookIcon className="ml-2 h-5 w-5" />
-                )}
+              <Button variant="outline" onClick={() => handleSocialSignIn('facebook')} disabled={isLoading.facebook}>
+                {isLoading.facebook ? <Loader2 className="ml-2 h-4 w-4 animate-spin" /> : <FacebookIcon className="ml-2 h-5 w-5" />}
                 المتابعة باستخدام Facebook
               </Button>
-               <Button
-                variant="outline"
-                onClick={() => handleSignIn('x')}
-                disabled={isLoading.x}
-              >
-                {isLoading.x ? (
-                  <Loader2 className="ml-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <XIcon className="ml-2 h-4 w-4" />
-                )}
+               <Button variant="outline" onClick={() => handleSocialSignIn('x')} disabled={isLoading.x}>
+                {isLoading.x ? <Loader2 className="ml-2 h-4 w-4 animate-spin" /> : <XIcon className="ml-2 h-4 w-4" />}
                 المتابعة باستخدام X
               </Button>
-              <Button
-                variant="outline"
-                onClick={() => handleSignIn('github')}
-                disabled={isLoading.github}
-              >
-                {isLoading.github ? (
-                  <Loader2 className="ml-2 h-4 w-4 animate-spin" />
-                ) : (
-                  <Github className="ml-2 h-4 w-4" />
-                )}
+              <Button variant="outline" onClick={() => handleSocialSignIn('github')} disabled={isLoading.github}>
+                {isLoading.github ? <Loader2 className="ml-2 h-4 w-4 animate-spin" /> : <Github className="ml-2 h-4 w-4" />}
                 المتابعة باستخدام GitHub
               </Button>
             </div>
           </CardContent>
+          <CardFooter className="flex justify-center text-sm">
+             <Link href="/signup" className="text-primary hover:underline">
+              ليس لديك حساب؟ أنشئ واحدًا الآن
+            </Link>
+          </CardFooter>
         </Card>
       </div>
   );
