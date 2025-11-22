@@ -8,14 +8,10 @@ import { initializeFirebaseAdmin } from '@/lib/firebase-admin';
 // This is required because 'firebase-admin' uses Node.js APIs not available in the Edge Runtime.
 export const runtime = 'nodejs';
 
-// Initialize the app once
-const adminApp = initializeFirebaseAdmin();
-const adminAuth = getAuth(adminApp);
-const adminDb = getFirestore(adminApp);
-
 
 // Helper to fetch user role from Firestore
 async function getUserRole(uid: string): Promise<string> {
+    const adminDb = getFirestore(initializeFirebaseAdmin());
     const userDoc = await adminDb.collection('users').doc(uid).get();
     if (userDoc.exists) {
         return userDoc.data()?.role || 'user';
@@ -37,7 +33,7 @@ export async function middleware(request: NextRequest) {
 
     try {
       // Verify the session cookie
-      const decodedToken = await adminAuth.verifySessionCookie(sessionCookie, true);
+      const decodedToken = await getAuth(initializeFirebaseAdmin()).verifySessionCookie(sessionCookie, true);
       
       // Get user role from Firestore
       const userRole = await getUserRole(decodedToken.uid);

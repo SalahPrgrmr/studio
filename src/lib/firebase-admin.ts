@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import { serviceAccount } from '../firebase/service-account-credentials';
+import { serviceAccount } from '@/firebase/service-account-credentials';
 
 const firebaseAdminConfig: admin.AppOptions = {
     credential: admin.credential.cert(serviceAccount)
