@@ -36,7 +36,7 @@ export default async function AdminLayout({
   const isAdmin = await verifyAdmin();
 
   if (!isAdmin) {
-    redirect('/login');
+    redirect('/admin/login');
   }
 
   return (

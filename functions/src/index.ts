@@ -15,7 +15,7 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
     displayName: displayName || 'مستخدم جديد',
     photoURL: photoURL || `https://picsum.photos/seed/${uid}/100/100`,
     email: email || '',
-    role: 'user', // Default role
+    role: 'user', // Default role for new users
     points: 0,
     title: 'مستكشف',
     badges: [],
@@ -29,14 +29,13 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
 
   try {
     // Set the document in the 'users' collection with the user's UID as the document ID.
-    // Using set() with merge: false (default) will create or overwrite.
     await admin.firestore().collection('users').doc(uid).set(newUserProfile);
     console.log(`Successfully created profile for user: ${uid}`);
 
-    // If the new user is the admin, grant admin custom claim immediately
+    // If the new user is the special admin email, grant admin custom claim immediately
     if (email === 'admin@admin.com') {
         await admin.auth().setCustomUserClaims(uid, { admin: true });
-        // Also update their role in firestore
+        // Also update their role in firestore to admin
         await admin.firestore().collection('users').doc(uid).update({ role: 'admin' });
         console.log(`Granted admin role and claim to ${uid}`);
     }

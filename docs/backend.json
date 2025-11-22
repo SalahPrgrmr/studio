@@ -25,9 +25,11 @@
         },
         "role": {
           "type": "string",
-          "description": "The user's role, e.g., 'admin' or 'user'.",
+          "description": "The user's role, e.g., 'admin', 'user', 'editor', 'moderator'.",
           "enum": [
             "admin",
+            "editor",
+            "moderator",
             "user"
           ],
           "default": "user"

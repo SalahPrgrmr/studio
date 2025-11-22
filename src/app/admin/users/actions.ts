@@ -51,7 +51,7 @@ export async function getAllUsers(): Promise<{ users?: UserProfile[]; error?: st
  */
 export async function setUserRole(
   uid: string,
-  role: 'admin' | 'user'
+  role: 'admin' | 'user' | 'editor' | 'moderator'
 ): Promise<ActionResponse> {
   try {
     const { auth, db } = initializeFirebaseAdmin();
@@ -63,7 +63,7 @@ export async function setUserRole(
     if (role === 'admin') {
       await auth.setCustomUserClaims(uid, { admin: true });
     } else {
-      // Remove the admin claim by setting it to null
+      // Remove the admin claim by setting it to null for other roles
       await auth.setCustomUserClaims(uid, { admin: null });
     }
 

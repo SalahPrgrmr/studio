@@ -14,11 +14,16 @@ service cloud.firestore {
     function isAdmin() {
       return isSignedIn() && request.auth.token.admin == true;
     }
+    
+    // Function to check if a user has a specific role from their profile
+    function hasRole(role) {
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
+    }
 
     // User Profiles Collection
     match /users/{userId} {
-      // Admins can list all users. A user can get their own profile.
-      allow get: if isOwner(userId) || isAdmin();
+      // Admins can list all users. A user can get their own profile. Authenticated users can get any profile.
+      allow get: if isSignedIn();
       allow list: if isAdmin();
       
       // A user can create their own profile. An admin can create any profile.
@@ -55,7 +60,7 @@ service cloud.firestore {
       allow get: if resource.data.status == 'approved' || (isSignedIn() && isOwner(resource.data.authorId)) || isAdmin();
       allow list: if true;
       allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
-      allow update: if isAdmin(); 
+      allow update: if isAdmin() || hasRole('editor'); 
       allow delete: if isSignedIn() && (isOwner(resource.data.authorId) || isAdmin());
     }
     

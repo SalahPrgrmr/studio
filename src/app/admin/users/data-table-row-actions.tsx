@@ -7,8 +7,14 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+  DropdownMenuLabel
 } from '@/components/ui/dropdown-menu';
 import { UserProfile } from '@/lib/types';
 import { setUserRole } from './actions';
@@ -20,6 +26,13 @@ interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
+const roles: { value: UserProfile['role']; label: string }[] = [
+    { value: 'admin', label: 'مسؤول' },
+    { value: 'editor', label: 'محرر' },
+    { value: 'moderator', label: 'مشرف' },
+    { value: 'user', label: 'مستخدم' },
+];
+
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
@@ -27,7 +40,7 @@ export function DataTableRowActions<TData>({
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
-  const handleRoleChange = (newRole: 'admin' | 'user') => {
+  const handleRoleChange = (newRole: UserProfile['role']) => {
     startTransition(async () => {
       const result = await setUserRole(user.id, newRole);
       if (result?.error) {
@@ -39,7 +52,7 @@ export function DataTableRowActions<TData>({
       } else {
         toast({
           title: 'تم التحديث',
-          description: `تم تغيير صلاحية ${user.displayName} إلى ${newRole === 'admin' ? 'مسؤول' : 'مستخدم'}.`,
+          description: `تم تغيير صلاحية ${user.displayName} إلى ${roles.find(r => r.value === newRole)?.label}.`,
         });
       }
     });
@@ -56,21 +69,28 @@ export function DataTableRowActions<TData>({
           <span className="sr-only">فتح القائمة</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem
-          disabled={user.role === 'admin' || isPending}
-          onClick={() => handleRoleChange('admin')}
-        >
-          <Shield className="mr-2 h-4 w-4" />
-          الترقية إلى مسؤول
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          disabled={user.role === 'user' || isPending}
-          onClick={() => handleRoleChange('user')}
-        >
-          <Shield className="mr-2 h-4 w-4" />
-          إزالة صلاحية مسؤول
-        </DropdownMenuItem>
+      <DropdownMenuContent align="end" className="w-[180px]">
+        <DropdownMenuLabel>الإجراءات</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+                <Shield className="mr-2 h-4 w-4" />
+                تغيير الصلاحية
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+                 <DropdownMenuRadioGroup value={user.role} onValueChange={(value) => handleRoleChange(value as UserProfile['role'])}>
+                     {roles.map(role => (
+                        <DropdownMenuRadioItem 
+                            key={role.value} 
+                            value={role.value}
+                            disabled={isPending}
+                        >
+                            {role.label}
+                        </DropdownMenuRadioItem>
+                     ))}
+                 </DropdownMenuRadioGroup>
+            </DropdownMenuSubContent>
+        </DropdownMenuSub>
       </DropdownMenuContent>
     </DropdownMenu>
   );
