@@ -40,7 +40,7 @@ export function getSdks(firebaseApp: FirebaseApp) {
   // Set up auth state listener to manage session cookie
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      const idToken = await getIdToken(user);
+      const idToken = await getIdToken(user, /* forceRefresh */ true);
       const createSessionCookie = httpsCallable(functions, 'createSessionCookie');
       try {
         await createSessionCookie({ idToken });
