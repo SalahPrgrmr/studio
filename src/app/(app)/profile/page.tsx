@@ -161,7 +161,7 @@ export default function ProfilePage() {
                     <Skeleton className="h-7 w-32 mx-auto mt-2" />
                   </div>
                 </div>
-              ) : (
+              ) : userProfile ? (
                 <div className="space-y-4">
                   <div className="flex justify-between items-center font-bold">
                     <span className="text-primary">{currentTitleInfo?.name}</span>
@@ -177,6 +177,8 @@ export default function ProfilePage() {
                       <p className="font-bold text-lg text-foreground">{currentPoints} نقطة مكتسبة</p>
                   </div>
                 </div>
+              ): (
+                <div className="text-center text-muted-foreground py-4">جاري تحميل بيانات التقدم...</div>
               )}
             </CardContent>
           </Card>
@@ -201,7 +203,7 @@ export default function ProfilePage() {
                           </div>
                         ))}
                       </div>
-                    ) : earnedBadges.length > 0 ? (
+                    ) : userProfile && earnedBadges.length > 0 ? (
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                             <TooltipProvider>
                                 {earnedBadges.map(badge => (
@@ -243,21 +245,23 @@ export default function ProfilePage() {
                       <div className="flex justify-between items-center"><Skeleton className="h-5 w-32" /><Skeleton className="h-5 w-8" /></div>
                       <div className="flex justify-between items-center"><Skeleton className="h-5 w-28" /><Skeleton className="h-5 w-8" /></div>
                     </div>
-                  ) : (
+                  ) : userProfile ? (
                     <>
                       <div className="flex justify-between items-center">
                           <span className="text-muted-foreground">القصص المنشورة</span>
-                          <span className="font-bold">{userProfile?.stats?.storiesPublished || 0}</span>
+                          <span className="font-bold">{userProfile.stats?.storiesPublished || 0}</span>
                       </div>
                        <div className="flex justify-between items-center">
                           <span className="text-muted-foreground">المشاركات في المنتدى</span>
-                          <span className="font-bold">{userProfile?.stats?.forumPosts || 0}</span>
+                          <span className="font-bold">{userProfile.stats?.forumPosts || 0}</span>
                       </div>
                        <div className="flex justify-between items-center">
                           <span className="text-muted-foreground">مشاركات صوتية</span>
-                          <span className="font-bold">{userProfile?.stats?.audioContributions || 0}</span>
+                          <span className="font-bold">{userProfile.stats?.audioContributions || 0}</span>
                       </div>
                     </>
+                  ) : (
+                    <div className="text-center text-muted-foreground py-4">جاري تحميل الإحصائيات...</div>
                   )}
                  </CardContent>
             </Card>
