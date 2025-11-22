@@ -22,7 +22,7 @@ service cloud.firestore {
     // - A user cannot change their own role.
     match /users/{userId} {
       // Explicitly allow a user to get their own document, or an admin to get any.
-      allow get: if request.auth.uid == userId || isAdmin();
+      allow get: if isOwner(userId) || isAdmin();
       // Only admins can list all users.
       allow list: if isAdmin();
       
