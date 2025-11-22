@@ -1,8 +1,18 @@
 'use server';
 
+import admin from 'firebase-admin';
 import { getFirestore } from 'firebase-admin/firestore';
 import { revalidatePath } from 'next/cache';
-import { initializeFirebaseAdmin } from '@/lib/firebase-admin';
+import { serviceAccount } from '@/firebase/service-account-credentials';
+
+function initializeFirebaseAdmin() {
+  if (admin.apps.length > 0 && admin.apps[0]) {
+    return admin.apps[0];
+  }
+  return admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
 
 type ActionResponse = {
     error?: string;
@@ -13,7 +23,8 @@ export async function setUserRole(
   role: 'admin' | 'user'
 ): Promise<ActionResponse | void> {
   try {
-    const adminDb = getFirestore(initializeFirebaseAdmin());
+    const adminApp = initializeFirebaseAdmin();
+    const adminDb = getFirestore(adminApp);
     await adminDb.collection('users').doc(uid).update({ role: role });
 
     // Revalidate the path to ensure the UI updates with the new data

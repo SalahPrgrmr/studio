@@ -1,17 +1,34 @@
 
 import { NextResponse, type NextRequest } from 'next/server';
+import admin from 'firebase-admin';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
-import { initializeFirebaseAdmin } from '@/lib/firebase-admin';
+
+// This file is now self-contained for Firebase Admin initialization
+import { serviceAccount } from '@/firebase/service-account-credentials';
 
 // Force the middleware to run on the Node.js runtime.
-// This is required because 'firebase-admin' uses Node.js APIs not available in the Edge Runtime.
 export const runtime = 'nodejs';
 
+/**
+ * Initializes and returns the Firebase Admin app instance, ensuring it only happens once.
+ * This function is now local to the middleware.
+ * @returns The initialized Firebase Admin App.
+ */
+function initializeFirebaseAdmin(): admin.App {
+  if (admin.apps.length > 0 && admin.apps[0]) {
+    return admin.apps[0];
+  }
+  
+  return admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  });
+}
 
 // Helper to fetch user role from Firestore
 async function getUserRole(uid: string): Promise<string> {
-    const adminDb = getFirestore(initializeFirebaseAdmin());
+    const adminApp = initializeFirebaseAdmin();
+    const adminDb = getFirestore(adminApp);
     const userDoc = await adminDb.collection('users').doc(uid).get();
     if (userDoc.exists) {
         return userDoc.data()?.role || 'user';
@@ -32,8 +49,9 @@ export async function middleware(request: NextRequest) {
     }
 
     try {
+      const adminApp = initializeFirebaseAdmin();
       // Verify the session cookie
-      const decodedToken = await getAuth(initializeFirebaseAdmin()).verifySessionCookie(sessionCookie, true);
+      const decodedToken = await getAuth(adminApp).verifySessionCookie(sessionCookie, true);
       
       // Get user role from Firestore
       const userRole = await getUserRole(decodedToken.uid);
