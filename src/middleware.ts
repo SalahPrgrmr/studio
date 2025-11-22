@@ -20,8 +20,15 @@ function initializeFirebaseAdmin(): admin.App {
     return admin.apps[0];
   }
   
+  // Type assertion to satisfy TypeScript, as process.env values are string | undefined
+  const creds = {
+    projectId: serviceAccount.project_id,
+    privateKey: serviceAccount.private_key,
+    clientEmail: serviceAccount.client_email,
+  };
+
   return admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential.cert(creds),
   });
 }
 
