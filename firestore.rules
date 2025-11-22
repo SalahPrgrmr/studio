@@ -2,27 +2,22 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Helper functions
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
+    // Helper function to check if a user is the owner of a document
     function isOwner(userId) {
-      return request.auth.uid == userId;
+      return request.auth != null && request.auth.uid == userId;
     }
 
     // User Profiles Collection
     match /users/{userId} {
-      // A user can get their own profile. Authenticated users can get any profile.
-      allow get: if isSignedIn();
-      allow list: if false; // Listing users is generally not secure
+      // A user can read and create their own profile.
+      allow read, create: if isOwner(userId);
       
-      // A user can create their own profile.
-      allow create: if isOwner(userId);
-
       // A user can update their own profile, but cannot change their role.
       allow update: if isOwner(userId) && request.resource.data.role == resource.data.role;
 
+      // Listing all users is disallowed for security.
+      allow list: if false;
+      
       // Users cannot delete their own profiles.
       allow delete: if false;
     }
@@ -30,45 +25,45 @@ service cloud.firestore {
     // Volunteers Collection
     match /volunteers/{volunteerId} {
       allow get, list: if true;
-      allow create: if isSignedIn() && isOwner(volunteerId) && request.resource.data.id == volunteerId;
-      allow update: if isSignedIn() && isOwner(volunteerId);
-      allow delete: if isSignedIn() && isOwner(volunteerId);
+      allow create: if request.auth != null && isOwner(volunteerId) && request.resource.data.id == volunteerId;
+      allow update: if request.auth != null && isOwner(volunteerId);
+      allow delete: if request.auth != null && isOwner(volunteerId);
     }
     
     // Partners Collection
     match /partners/{partnerId} {
         allow get, list: if true;
-        allow create, update, delete: if isSignedIn();
+        allow create, update, delete: if request.auth != null;
     }
     
     // Participants sub-collection
     match /events/{eventId}/participants/{participantId} {
-        allow read, write: if isSignedIn();
+        allow read, write: if request.auth != null;
     }
 
     // Success Stories Collection
     match /success_stories/{storyId} {
-      allow get: if resource.data.status == 'approved' || (isSignedIn() && isOwner(resource.data.authorId));
+      allow get: if resource.data.status == 'approved' || (request.auth != null && isOwner(resource.data.authorId));
       allow list: if true;
-      allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.authorId == request.auth.uid;
       allow update: if false; 
-      allow delete: if isSignedIn() && isOwner(resource.data.authorId);
+      allow delete: if request.auth != null && isOwner(resource.data.authorId);
     }
     
     // Voice Chat Rooms Collection
     match /voice_chat_rooms/{roomId} {
       allow get, list: if true;
-      allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
-      allow update: if isSignedIn();
-      allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
+      allow create: if request.auth != null && request.resource.data.ownerId == request.auth.uid;
+      allow update: if request.auth != null;
+      allow delete: if request.auth != null && isOwner(resource.data.ownerId);
     }
 
     // Video Chat Rooms Collection
     match /video_chat_rooms/{roomId} {
       allow get, list: if true;
-      allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
-      allow update: if isSignedIn();
-      allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
+      allow create: if request.auth != null && request.resource.data.ownerId == request.auth.uid;
+      allow update: if request.auth != null;
+      allow delete: if request.auth != null && isOwner(resource.data.ownerId);
     }
   }
 }
