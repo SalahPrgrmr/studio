@@ -9,14 +9,11 @@ service cloud.firestore {
 
     // User Profiles Collection
     match /users/{userId} {
-      // Allow anyone to read user profiles (public data)
-      allow get: if true;
-      
-      // Allow users to create and update their own profile
-      allow create, update: if isOwner(userId);
-
-      // Explicitly deny list and delete for security
-      allow list, delete: if false;
+      // Allow users to read and create their own profile.
+      // allow get is not enough, as read allows get and list
+      allow read, create: if isOwner(userId);
+      // Allow users to update their own profile, but not change their role.
+      allow update: if isOwner(userId) && request.resource.data.role == resource.data.role;
     }
     
     // Volunteers Collection

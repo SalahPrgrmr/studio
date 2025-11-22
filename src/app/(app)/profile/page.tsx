@@ -63,15 +63,37 @@ export default function ProfilePage() {
   const { firestore } = useFirebase();
 
   const profileRef = useMemoFirebase(
-    () => (firestore && user ? doc(firestore, 'users', user.uid) : null),
-    [firestore, user]
+    () => (firestore && user?.uid ? doc(firestore, 'users', user.uid) : null),
+    [firestore, user?.uid]
   );
 
-  const { data: userProfile, isLoading: isProfileLoading } = useDoc<UserProfile>(profileRef);
+  const { data: userProfile, isLoading: isProfileLoading, error } = useDoc<UserProfile>(profileRef);
 
-  const isLoading = isUserLoading || isProfileLoading;
+  const isLoading = isUserLoading || (user && !userProfile && isProfileLoading);
+  
+  if (isLoading) {
+    return (
+        <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
+                <Skeleton className="h-32 w-32 rounded-full" />
+                <div className="space-y-2">
+                    <Skeleton className="h-10 w-64" />
+                    <Skeleton className="h-6 w-48" />
+                </div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                 <div className="lg:col-span-2 space-y-8">
+                    <Skeleton className="h-48 w-full" />
+                    <Skeleton className="h-48 w-full" />
+                 </div>
+                 <Skeleton className="h-48 w-full" />
+            </div>
+        </div>
+    );
+  }
 
-  if (!user && !isUserLoading) {
+
+  if (!user) {
     return (
       <div className="container mx-auto max-w-2xl text-center py-20 animate-in fade-in duration-500">
         <Card>
@@ -91,7 +113,22 @@ export default function ProfilePage() {
     );
   }
 
-  const currentPoints = userProfile?.points ?? 0;
+  if (!userProfile && !isProfileLoading) {
+     return (
+        <div className="flex flex-col justify-center items-center h-[60vh] gap-4 text-center">
+            <Loader2 className="h-16 w-16 animate-spin text-primary" />
+            <h2 className="text-xl font-semibold">جاري إعداد ملفك الشخصي...</h2>
+            <p className="text-muted-foreground max-w-md">
+               يبدو أن هذا هو دخولك الأول. نقوم الآن بإنشاء ملفك الشخصي. قد يستغرق هذا بضع لحظات، يرجى تحديث الصفحة بعد قليل.
+            </p>
+        </div>
+     )
+  }
+  
+  if (!userProfile) return null;
+
+
+  const currentPoints = userProfile.points ?? 0;
   const currentTitleName = getTitleByPoints(currentPoints);
   const currentTitleInfo = titles.find(t => t.name === currentTitleName);
   const currentTitleIndex = titles.findIndex(t => t.name === currentTitleName);
@@ -101,42 +138,24 @@ export default function ProfilePage() {
     ((currentPoints - currentTitleInfo.points) / (nextTitleInfo.points - currentTitleInfo.points)) * 100
     : 100;
   
-  const earnedBadges = badges.filter(b => userProfile?.badges?.includes(b.id));
+  const earnedBadges = badges.filter(b => userProfile.badges?.includes(b.id));
 
   return (
     <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
-        {isLoading ? (
-          <>
-            <Skeleton className="h-32 w-32 rounded-full" />
-            <div className="space-y-2">
-              <Skeleton className="h-10 w-64" />
-              <Skeleton className="h-6 w-48" />
-            </div>
-          </>
-        ) : userProfile ? (
-          <>
-            <Avatar className="h-32 w-32 border-4 border-primary shadow-lg">
-              <AvatarImage src={userProfile.photoURL || user?.photoURL || ''} alt={userProfile.displayName || 'User'} />
-              <AvatarFallback className="text-4xl">
-                {userProfile.displayName?.charAt(0).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <div className="text-center md:text-right">
-              <h1 className="font-headline text-4xl font-bold">{userProfile.displayName}</h1>
-              <p className="text-xl text-muted-foreground mt-2 flex items-center justify-center md:justify-start gap-2">
-                <ShieldCheck className="h-6 w-6 text-primary" />
-                {userProfile.title}
-              </p>
-            </div>
-          </>
-        ) : (
-          <div className="flex flex-col justify-center items-center h-full w-full gap-4 text-center">
-            <Loader2 className="h-16 w-16 animate-spin text-primary" />
-            <p className="text-muted-foreground">جاري إعداد ملفك الشخصي لأول مرة...</p>
-            <p className="text-sm text-muted-foreground">قد يستغرق هذا بضع لحظات. يرجى تحديث الصفحة إذا طال الانتظار.</p>
-          </div>
-        )}
+        <Avatar className="h-32 w-32 border-4 border-primary shadow-lg">
+            <AvatarImage src={userProfile.photoURL || user?.photoURL || ''} alt={userProfile.displayName || 'User'} />
+            <AvatarFallback className="text-4xl">
+            {userProfile.displayName?.charAt(0).toUpperCase()}
+            </AvatarFallback>
+        </Avatar>
+        <div className="text-center md:text-right">
+            <h1 className="font-headline text-4xl font-bold">{userProfile.displayName}</h1>
+            <p className="text-xl text-muted-foreground mt-2 flex items-center justify-center md:justify-start gap-2">
+            <ShieldCheck className="h-6 w-6 text-primary" />
+            {userProfile.title}
+            </p>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -149,19 +168,6 @@ export default function ProfilePage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {isLoading ? (
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <Skeleton className="h-6 w-24" />
-                    <Skeleton className="h-6 w-24" />
-                  </div>
-                  <Skeleton className="h-4 w-full" />
-                  <div className="text-center">
-                    <Skeleton className="h-5 w-48 mx-auto mt-2" />
-                    <Skeleton className="h-7 w-32 mx-auto mt-2" />
-                  </div>
-                </div>
-              ) : userProfile ? (
                 <div className="space-y-4">
                   <div className="flex justify-between items-center font-bold">
                     <span className="text-primary">{currentTitleInfo?.name}</span>
@@ -177,9 +183,6 @@ export default function ProfilePage() {
                       <p className="font-bold text-lg text-foreground">{currentPoints} نقطة مكتسبة</p>
                   </div>
                 </div>
-              ): (
-                <div className="text-center text-muted-foreground py-4">جاري تحميل بيانات التقدم...</div>
-              )}
             </CardContent>
           </Card>
           
@@ -194,16 +197,7 @@ export default function ProfilePage() {
                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    {isLoading ? (
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-                        {[...Array(3)].map((_, i) => (
-                           <div key={i} className="flex flex-col items-center text-center gap-2">
-                              <Skeleton className="h-16 w-16 rounded-full" />
-                              <Skeleton className="h-4 w-20" />
-                          </div>
-                        ))}
-                      </div>
-                    ) : userProfile && earnedBadges.length > 0 ? (
+                    {earnedBadges.length > 0 ? (
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                             <TooltipProvider>
                                 {earnedBadges.map(badge => (
@@ -239,14 +233,6 @@ export default function ProfilePage() {
                     </CardTitle>
                 </CardHeader>
                  <CardContent className="space-y-4">
-                  {isLoading ? (
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center"><Skeleton className="h-5 w-24" /><Skeleton className="h-5 w-8" /></div>
-                      <div className="flex justify-between items-center"><Skeleton className="h-5 w-32" /><Skeleton className="h-5 w-8" /></div>
-                      <div className="flex justify-between items-center"><Skeleton className="h-5 w-28" /><Skeleton className="h-5 w-8" /></div>
-                    </div>
-                  ) : userProfile ? (
-                    <>
                       <div className="flex justify-between items-center">
                           <span className="text-muted-foreground">القصص المنشورة</span>
                           <span className="font-bold">{userProfile.stats?.storiesPublished || 0}</span>
@@ -259,10 +245,6 @@ export default function ProfilePage() {
                           <span className="text-muted-foreground">مشاركات صوتية</span>
                           <span className="font-bold">{userProfile.stats?.audioContributions || 0}</span>
                       </div>
-                    </>
-                  ) : (
-                    <div className="text-center text-muted-foreground py-4">جاري تحميل الإحصائيات...</div>
-                  )}
                  </CardContent>
             </Card>
         </aside>
