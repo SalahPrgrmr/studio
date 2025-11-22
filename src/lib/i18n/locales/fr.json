@@ -1,0 +1,57 @@
+{
+  "appName": "Œil de la Certitude",
+  "header": {
+    "openMenu": "Ouvrir le menu",
+    "changeLanguage": "Changer de langue",
+    "profile": "Mon profil",
+    "signOut": "Se déconnecter",
+    "signIn": "Se connecter",
+    "links": {
+      "home": "Accueil",
+      "mission": "Notre Mission",
+      "journey": "Parcours de Certitude",
+      "godCertainty": "Certitude en Dieu",
+      "blessings": "Bienfaits & Signes",
+      "cosmicSigns": "Le Message",
+      "stories": "Histoires de Succès",
+      "selfGuidance": "Auto-guidage",
+      "mahdi": "Le Mahdi",
+      "activities": "Activités Pratiques",
+      "library": "Bibliothèque",
+      "community": "Communauté",
+      "vrJourneys": "Parcours VR",
+      "externalResources": "Ressources Externes",
+      "contact": "Nous Contacter"
+    }
+  },
+  "footer": {
+    "installApp": "Installer l'application",
+    "downloadPdf": "Télécharger en PDF",
+    "language": "Langue",
+    "headings": {
+      "platform": "Plateforme",
+      "journey": "Parcours de Certitude",
+      "engagement": "Engagement & Ressources"
+    },
+    "links": {
+      "mission": "Notre Mission",
+      "whyUs": "Pourquoi Nous?",
+      "privacy": "Politique de Confidentialité",
+      "terms": "Conditions d'Utilisation",
+      "journeyMap": "Feuille de Route du Parcours",
+      "godCertainty": "Certitude en Dieu",
+      "blessings": "Bienfaits & Signes",
+      "cosmicSigns": "Le Message & l'Avertissement",
+      "selfGuidance": "Auto-guidage",
+      "mahdi": "Le Mahdi",
+      "stories": "Histoires de Succès",
+      "activities": "Activités Pratiques",
+      "library": "Bibliothèque",
+      "community": "Communauté",
+      "vrJourneys": "Parcours VR",
+      "externalResources": "Ressources Externes"
+    },
+    "respectMessage": "Nous respectons toutes les religions et nationalités.",
+    "rightsReserved": "Tous droits réservés"
+  }
+}

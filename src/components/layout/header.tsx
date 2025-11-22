@@ -32,7 +32,8 @@ import { cn } from '@/lib/utils';
 import { useFirebase, useUser } from '@/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { signOut } from 'firebase/auth';
-import { useLanguage } from '@/lib/i18n/provider';
+import { useLanguage, languages } from '@/lib/i18n/provider';
+import type { Language } from '@/lib/i18n/settings';
 
 const navLinks = [
   { href: '/mission', labelKey: 'header.links.mission' },
@@ -47,13 +48,19 @@ export default function Header() {
   const { auth } = useFirebase();
   const { user, isUserLoading } = useUser();
   const router = useRouter();
-  const { t, getDirection, language } = useLanguage();
+  const { t, getDirection, language, setLanguage } = useLanguage();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleSignOut = async () => {
     if (!auth) return;
     await signOut(auth);
     router.push('/');
+  };
+  
+  const handleLanguageChange = (lang: Language) => {
+    setLanguage(lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = getDirection(lang);
   };
 
   const getInitials = (name?: string | null) => {
@@ -136,7 +143,22 @@ export default function Header() {
 
         <div className="flex items-center justify-end space-x-1 md:space-x-2">
           
-          <div id="google_translate_element" className="flex items-center"></div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <Globe className="h-5 w-5" />
+                <span className="sr-only">{t('header.changeLanguage')}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {languages.map((lang) => (
+                <DropdownMenuItem key={lang.code} onClick={() => handleLanguageChange(lang.code)}>
+                  <span className="w-6 h-6 mr-2 flex items-center justify-center">{lang.icon}</span>
+                  <span>{lang.name}</span>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {isUserLoading ? (
             <div className="h-8 w-8 flex items-center justify-center">

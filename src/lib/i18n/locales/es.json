@@ -1,0 +1,57 @@
+{
+  "appName": "Ojo de la Certeza",
+  "header": {
+    "openMenu": "Abrir menú",
+    "changeLanguage": "Cambiar idioma",
+    "profile": "Mi perfil",
+    "signOut": "Cerrar sesión",
+    "signIn": "Iniciar sesión",
+    "links": {
+      "home": "Inicio",
+      "mission": "Nuestra Misión",
+      "journey": "Camino de la Certeza",
+      "godCertainty": "Certeza en Dios",
+      "blessings": "Bendiciones y Señales",
+      "cosmicSigns": "El Mensaje",
+      "stories": "Historias de Éxito",
+      "selfGuidance": "Autoguiado",
+      "mahdi": "El Mahdi",
+      "activities": "Actividades Prácticas",
+      "library": "Biblioteca",
+      "community": "Comunidad",
+      "vrJourneys": "Viajes de RV",
+      "externalResources": "Recursos Externos",
+      "contact": "Contáctanos"
+    }
+  },
+  "footer": {
+    "installApp": "Instalar aplicación",
+    "downloadPdf": "Descargar PDF",
+    "language": "Idioma",
+    "headings": {
+      "platform": "Plataforma",
+      "journey": "Camino de la Certeza",
+      "engagement": "Participación y Recursos"
+    },
+    "links": {
+      "mission": "Nuestra Misión",
+      "whyUs": "¿Por Qué Nosotros?",
+      "privacy": "Política de Privacidad",
+      "terms": "Términos de Servicio",
+      "journeyMap": "Hoja de Ruta del Camino",
+      "godCertainty": "Certeza en Dios",
+      "blessings": "Bendiciones y Señales",
+      "cosmicSigns": "El Mensaje y la Advertencia",
+      "selfGuidance": "Autoguiado",
+      "mahdi": "El Mahdi",
+      "stories": "Historias de Éxito",
+      "activities": "Actividades Prácticas",
+      "library": "Biblioteca",
+      "community": "Comunidad",
+      "vrJourneys": "Viajes de RV",
+      "externalResources": "Recursos Externos"
+    },
+    "respectMessage": "Respetamos todas las religiones y nacionalidades.",
+    "rightsReserved": "Todos los derechos reservados"
+  }
+}

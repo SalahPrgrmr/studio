@@ -1,0 +1,57 @@
+{
+  "appName": "عین الیقین",
+  "header": {
+    "openMenu": "مینو کھولیں",
+    "changeLanguage": "زبان تبدیل کریں",
+    "profile": "میرا پروفائل",
+    "signOut": "سائن آؤٹ",
+    "signIn": "سائن ان کریں",
+    "links": {
+      "home": "مرکزی صفحہ",
+      "mission": "ہمارا مشن",
+      "journey": "یقین کا سفر",
+      "godCertainty": "اللہ پر یقین",
+      "blessings": "نعمتیں اور نشانیاں",
+      "cosmicSigns": "پیغام",
+      "stories": "کامیابی کی کہانیاں",
+      "selfGuidance": "خود رہنمائی",
+      "mahdi": "امام مہدی",
+      "activities": "عملی سرگرمیاں",
+      "library": "لائبریری",
+      "community": "کمیونٹی",
+      "vrJourneys": "VR سفر",
+      "externalResources": "بیرونی وسائل",
+      "contact": "ہم سے رابطہ کریں"
+    }
+  },
+  "footer": {
+    "installApp": "ایپ انسٹال کریں",
+    "downloadPdf": "پی ڈی ایف ڈاؤن لوڈ کریں",
+    "language": "زبان",
+    "headings": {
+      "platform": "پلیٹ فارم",
+      "journey": "یقین کا سفر",
+      "engagement": "شراکت اور وسائل"
+    },
+    "links": {
+      "mission": "ہمارا مشن",
+      "whyUs": "ہم کیوں؟",
+      "privacy": "رازداری کی پالیسی",
+      "terms": "سروس کی شرائط",
+      "journeyMap": "سفر کا روڈ میپ",
+      "godCertainty": "اللہ پر یقین",
+      "blessings": "نعمتیں اور نشانیاں",
+      "cosmicSigns": "پیغام اور انتباہ",
+      "selfGuidance": "خود رہنمائی",
+      "mahdi": "امام مہدی",
+      "stories": "کامیابی کی کہانیاں",
+      "activities": "عملی سرگرمیاں",
+      "library": "لائبریری",
+      "community": "کمیونٹی",
+      "vrJourneys": "VR سفر",
+      "externalResources": "بیرونی وسائل"
+    },
+    "respectMessage": "ہم تمام مذاہب اور قومیتوں کا احترام کرتے ہیں۔",
+    "rightsReserved": "جملہ حقوق محفوظ ہیں"
+  }
+}

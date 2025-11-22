@@ -4,6 +4,9 @@ import { createContext, useState, useContext, ReactNode, useEffect, useCallback 
 import { defaultLanguage, Language, Direction, LanguageConfig } from './settings';
 import arTranslations from './locales/ar.json';
 import enTranslations from './locales/en.json';
+import frTranslations from './locales/fr.json';
+import esTranslations from './locales/es.json';
+import urTranslations from './locales/ur.json';
 import { Languages } from 'lucide-react';
 
 type Translations = { [key: string]: any };
@@ -11,11 +14,17 @@ type Translations = { [key: string]: any };
 const translations: Record<Language, Translations> = {
   ar: arTranslations,
   en: enTranslations,
+  fr: frTranslations,
+  es: esTranslations,
+  ur: urTranslations,
 };
 
 export const languages: LanguageConfig[] = [
-    { code: 'ar', name: 'العربية', dir: 'rtl', icon: <Languages className="mr-2 h-4 w-4" /> },
-    { code: 'en', name: 'English', dir: 'ltr', icon: <Languages className="mr-2 h-4 w-4" /> },
+    { code: 'ar', name: 'العربية', dir: 'rtl', icon: 'AR' },
+    { code: 'en', name: 'English', dir: 'ltr', icon: 'EN' },
+    { code: 'fr', name: 'Français', dir: 'ltr', icon: 'FR' },
+    { code: 'es', name: 'Español', dir: 'ltr', icon: 'ES' },
+    { code: 'ur', name: 'اردو', dir: 'rtl', icon: 'UR' },
 ];
 
 interface LanguageContextType {
@@ -58,13 +67,22 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       if (result && typeof result === 'object' && k in result) {
         result = result[k];
       } else {
-        // Fallback to default language if key not found
+        // Fallback to default language (Arabic) if key not found
         let fallbackResult = translations[defaultLanguage];
         for (const fk of keys) {
              if (fallbackResult && typeof fallbackResult === 'object' && fk in fallbackResult) {
                 fallbackResult = fallbackResult[fk];
              } else {
-                return key; // Return the key itself if not found in fallback
+                // If not in fallback, try English
+                let enResult = translations['en'];
+                for (const ek of keys) {
+                    if(enResult && typeof enResult === 'object' && ek in enResult) {
+                        enResult = enResult[ek];
+                    } else {
+                        return key; // Return the key itself if not found anywhere
+                    }
+                }
+                return enResult as string;
              }
         }
         return fallbackResult as string;

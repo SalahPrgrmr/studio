@@ -12,7 +12,6 @@ import { MoreNavSheet } from '@/components/layout/more-nav-sheet';
 import App from './main';
 import { LanguageProvider } from '@/lib/i18n/provider';
 import ScrollToTop from '@/components/scroll-to-top';
-import Script from 'next/script';
 
 const APP_NAME = "Ain Al-Yaqin";
 const APP_DEFAULT_TITLE = "Ain Al-Yaqin - Your Journey to Certainty";
@@ -75,26 +74,6 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className="dark" suppressHydrationWarning>
       <head>
         <App />
-        <Script
-          id="google-translate-init"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              function googleTranslateElementInit() {
-                new google.translate.TranslateElement({
-                  pageLanguage: 'ar',
-                  includedLanguages: 'en,ar,ur,fr,de,es,tr,id,ms,ru,zh-CN,ja,hi,bn,fa',
-                  layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                  autoDisplay: false
-                }, 'google_translate_element');
-              }
-            `,
-          }}
-        />
-        <Script
-          src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-          strategy="afterInteractive"
-        />
       </head>
       <body
         className={cn(
