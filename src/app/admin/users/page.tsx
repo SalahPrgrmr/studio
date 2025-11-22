@@ -1,53 +1,32 @@
-'use client';
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { UserProfile } from '@/lib/types';
-import { UsersTable } from './users-table';
-import { columns } from './columns';
-import { Users, Loader2, AlertTriangle, ShieldAlert } from 'lucide-react';
-import { useCollection, useFirebase, useMemoFirebase, useUser, useDoc } from '@/firebase';
-import { collection, doc } from 'firebase/firestore';
+import { Users, ShieldAlert, AlertTriangle } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import { getAuth } from 'firebase-admin/auth';
+import { cookies } from 'next/headers';
+import { admin } from '@/lib/firebase-admin'; // Using pre-initialized admin app
+import { getAllUsers } from './actions';
+import { UsersTable } from './users-table';
+import { columns } from './columns';
 
-export default function AdminUsersPage() {
-  const { firestore } = useFirebase();
-  const { user, isUserLoading } = useUser();
-  const router = useRouter();
-
-  const profileRef = useMemoFirebase(
-    () => (firestore && user ? doc(firestore, 'users', user.uid) : null),
-    [firestore, user]
-  );
-  const { data: userProfile, isLoading: isProfileLoading } = useDoc<UserProfile>(profileRef);
-
-  const usersCollection = useMemoFirebase(
-    () => (firestore ? collection(firestore, 'users') : null),
-    [firestore]
-  );
-  
-  const { data: users, isLoading: areUsersLoading, error } = useCollection<UserProfile>(usersCollection);
-
-  const isLoading = isUserLoading || isProfileLoading || areUsersLoading;
-
-  useEffect(() => {
-    if (!isUserLoading && !isProfileLoading && userProfile?.role !== 'admin') {
-      router.push('/');
+async function verifyAdmin(): Promise<boolean> {
+  try {
+    const sessionCookie = cookies().get('session')?.value;
+    if (!sessionCookie) {
+      return false;
     }
-  }, [user, userProfile, isUserLoading, isProfileLoading, router]);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen text-muted-foreground">
-        <Loader2 className="h-8 w-8 animate-spin mr-3" />
-        <span>جاري التحقق من الصلاحيات وتحميل البيانات...</span>
-      </div>
-    );
+    const decodedClaims = await admin.auth().verifySessionCookie(sessionCookie, true);
+    return decodedClaims.admin === true;
+  } catch (error) {
+    console.error("Admin verification failed:", error);
+    return false;
   }
+}
 
-  if (userProfile?.role !== 'admin') {
+export default async function AdminUsersPage() {
+  const isAdmin = await verifyAdmin();
+
+  if (!isAdmin) {
     return (
       <div className="container mx-auto max-w-2xl text-center py-20">
         <Card className="border-destructive">
@@ -70,6 +49,9 @@ export default function AdminUsersPage() {
     );
   }
 
+  // If admin, fetch users
+  const { users, error } = await getAllUsers();
+
   return (
     <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <div className="mb-8">
@@ -82,12 +64,12 @@ export default function AdminUsersPage() {
         </p>
       </div>
       {error && (
-        <div className="flex items-center justify-center py-16 text-destructive">
+        <div className="flex items-center justify-center py-16 text-destructive bg-destructive/10 rounded-lg">
           <AlertTriangle className="h-8 w-8 mr-3" />
-          <span>حدث خطأ أثناء تحميل المستخدمين: {error.message}</span>
+          <span>حدث خطأ أثناء تحميل المستخدمين: {error}</span>
         </div>
       )}
-      {!areUsersLoading && users && <UsersTable columns={columns} data={users} />}
+      {users && <UsersTable columns={columns} data={users} />}
     </div>
   );
 }

@@ -32,6 +32,15 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
     // Using set() with merge: false (default) will create or overwrite.
     await admin.firestore().collection('users').doc(uid).set(newUserProfile);
     console.log(`Successfully created profile for user: ${uid}`);
+
+    // If the new user is the admin, grant admin custom claim immediately
+    if (email === 'admin@admin.com') {
+        await admin.auth().setCustomUserClaims(uid, { admin: true });
+        // Also update their role in firestore
+        await admin.firestore().collection('users').doc(uid).update({ role: 'admin' });
+        console.log(`Granted admin role and claim to ${uid}`);
+    }
+
   } catch (error) {
     console.error(`Error creating profile for user: ${uid}`, error);
     // Optionally, re-throw the error to have the function execution marked as a failure
@@ -69,3 +78,29 @@ export const onUserRoleChange = functions.firestore.document('users/{userId}')
       }
     }
   });
+
+/**
+ * Endpoint to create a session cookie for the authenticated user.
+ */
+export const createSessionCookie = functions.https.onCall(async (data, context) => {
+    // Ensure the user is authenticated via an ID token.
+    if (!context.auth) {
+        throw new functions.https.HttpsError('unauthenticated', 'The function must be called while authenticated.');
+    }
+
+    const idToken = data.idToken;
+    if (typeof idToken !== 'string') {
+        throw new functions.https.HttpsError('invalid-argument', 'The function must be called with a string "idToken" argument.');
+    }
+
+    // Set session expiration to 2 weeks.
+    const expiresIn = 60 * 60 * 24 * 14 * 1000;
+
+    try {
+        const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
+        return { sessionCookie, expiresIn };
+    } catch (error) {
+        console.error('Error creating session cookie:', error);
+        throw new functions.https.HttpsError('internal', 'Failed to create session cookie.');
+    }
+});
