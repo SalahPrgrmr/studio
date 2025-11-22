@@ -89,6 +89,12 @@ export default function LoginPage() {
       });
       router.push('/');
     } catch (error: any) {
+      // Don't show an error toast if the user closes the popup
+      if (error.code === 'auth/popup-closed-by-user') {
+        console.log("Sign-in popup closed by user.");
+        return;
+      }
+      
       console.error(`${providerName} sign-in error:`, error);
       let description = error.message || `فشل تسجيل الدخول باستخدام ${providerName}. يرجى المحاولة مرة أخرى.`;
       // Handle common Firebase auth errors
