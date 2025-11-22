@@ -21,11 +21,14 @@ service cloud.firestore {
     // - A user can read/create/update their own profile.
     // - A user cannot change their own role.
     match /users/{userId} {
+      // Explicitly allow a user to get their own document, or an admin to get any.
+      allow get: if request.auth.uid == userId || isAdmin();
+      // Only admins can list all users.
+      allow list: if isAdmin();
+      
       allow create: if isOwner(userId);
-      allow read: if isOwner(userId) || isAdmin();
       allow update: if (isOwner(userId) && request.resource.data.role == resource.data.role) || isAdmin();
       allow delete: if isAdmin();
-      allow list: if isAdmin(); // Needed for the admin user management table
     }
     
     // Volunteers Collection
