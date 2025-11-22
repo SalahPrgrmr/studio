@@ -15,7 +15,7 @@ service cloud.firestore {
       // Allow users to create and update their own profile
       allow create, update: if isOwner(userId);
 
-      // Disallow listing all users and deleting profiles for security
+      // Explicitly deny list and delete for security
       allow list, delete: if false;
     }
     
