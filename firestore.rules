@@ -1,4 +1,3 @@
-
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -12,10 +11,24 @@ service cloud.firestore {
       return request.auth.uid == userId;
     }
 
+    function getRole(userId) {
+      return get(/databases/$(database)/documents/users/$(userId)).data.role;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && getRole(request.auth.uid) == 'admin';
+    }
+
     // User Profiles Collection
-    // - Users can read and write to their own profile document.
+    // - Anyone can read any profile.
+    // - A user can create and update their own profile, but cannot change their role.
+    // - Only an admin can change a user's role.
     match /users/{userId} {
-      allow read, write: if isSignedIn() && isOwner(userId);
+      allow read: if true;
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) && request.resource.data.role == resource.data.role;
+      allow update: if isAdmin(); // Admins can update any field, including roles.
+      allow delete: if isAdmin();
     }
     
     // Volunteers Collection
@@ -44,13 +57,14 @@ service cloud.firestore {
     // Success Stories Collection
     // - Anyone can read approved stories.
     // - Only authenticated users can create stories for themselves (for review).
-    // - Admins (future) or owners can update/delete. AuthorId cannot be changed.
+    // - Admins can approve stories.
+    // - Owner can delete their own story. Admin can delete any story.
     match /success_stories/{storyId} {
-      allow get: if resource.data.status == 'approved';
+      allow get: if resource.data.status == 'approved' || (isSignedIn() && isOwner(resource.data.authorId)) || isAdmin();
       allow list: where resource.data.status == 'approved';
       allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
-      allow update: if isSignedIn() && isOwner(resource.data.authorId) && request.resource.data.authorId == resource.data.authorId;
-      allow delete: if isSignedIn() && isOwner(resource.data.authorId);
+      allow update: if isAdmin(); // Only admins can change status from 'pending' to 'approved'
+      allow delete: if isSignedIn() && (isOwner(resource.data.authorId) || isAdmin());
     }
     
     // Voice Chat Rooms Collection
@@ -62,7 +76,7 @@ service cloud.firestore {
       allow get, list: if true;
       allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
       allow update: if isSignedIn(); // Allow any signed-in user to join/leave for simplicity
-      allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
+      allow delete: if isSignedIn() && (isOwner(resource.data.ownerId) || isAdmin());
     }
 
     // Video Chat Rooms Collection
@@ -74,7 +88,7 @@ service cloud.firestore {
       allow get, list: if true;
       allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
       allow update: if isSignedIn(); // Allow any signed-in user to join/leave for simplicity
-      allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
+      allow delete: if isSignedIn() && (isOwner(resource.data.ownerId) || isAdmin());
     }
   }
 }

@@ -78,6 +78,7 @@ export default function ProfilePage() {
         id: user.uid,
         displayName: user.displayName || 'مستخدم جديد',
         photoURL: user.photoURL || '',
+        role: 'user', // Default role
         points: 0,
         title: 'مستكشف',
         badges: [],
@@ -159,6 +160,11 @@ export default function ProfilePage() {
             {userProfile.title}
           </p>
         </div>
+        {userProfile.role === 'admin' && (
+            <Button asChild className="ml-auto">
+                <Link href="/admin">لوحة التحكم</Link>
+            </Button>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

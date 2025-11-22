@@ -72,6 +72,7 @@ export type UserProfile = {
     id: string;
     displayName: string;
     photoURL: string;
+    role: 'admin' | 'user';
     points: number;
     title: string;
     badges: string[];

@@ -1,20 +1,33 @@
+import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+
+admin.initializeApp();
 
 /**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
+ * Creates a user profile document when a new Firebase user is created.
  */
+export const createUserProfile = functions.auth.user().onCreate(async (user) => {
+  const { uid, email, displayName, photoURL } = user;
 
-import {onRequest} from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
+  const newUserProfile = {
+    id: uid,
+    displayName: displayName || 'مستخدم جديد',
+    photoURL: photoURL || '',
+    role: 'user', // Default role
+    points: 0,
+    title: 'مستكشف',
+    badges: [],
+    stats: {
+      storiesPublished: 0,
+      forumPosts: 0,
+      audioContributions: 0,
+    },
+  };
 
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
-
-export const helloWorld = onRequest((request, response) => {
-  logger.info("Hello logs!", {structuredData: true});
-  response.send("Hello from Firebase!");
+  try {
+    await admin.firestore().collection('users').doc(uid).set(newUserProfile);
+    console.log(`Successfully created profile for user: ${uid}`);
+  } catch (error) {
+    console.error(`Error creating profile for user: ${uid}`, error);
+  }
 });

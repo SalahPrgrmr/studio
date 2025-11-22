@@ -57,6 +57,7 @@ export default function SignupPage() {
         id: user.uid,
         displayName: values.displayName,
         photoURL: user.photoURL || '',
+        role: 'user', // Default role for new users
         points: 0,
         title: 'مستكشف',
         badges: [],
