@@ -18,7 +18,8 @@ service cloud.firestore {
     // User Profiles Collection
     match /users/{userId} {
       // Admins can list all users. A user can get their own profile.
-      allow read: if isOwner(userId) || isAdmin();
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
       
       // A user can create their own profile. An admin can create any profile.
       allow create: if isOwner(userId) || isAdmin();
