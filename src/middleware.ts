@@ -1,7 +1,12 @@
+
 import { NextResponse, type NextRequest } from 'next/server';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import { initializeFirebaseAdmin } from '@/lib/firebase-admin';
+
+// Force the middleware to run on the Node.js runtime.
+// This is required because 'firebase-admin' uses Node.js APIs not available in the Edge Runtime.
+export const runtime = 'nodejs';
 
 // Initialize the app once
 const adminApp = initializeFirebaseAdmin();
