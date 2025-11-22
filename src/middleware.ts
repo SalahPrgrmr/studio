@@ -5,7 +5,7 @@ import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 
 // This file is now self-contained for Firebase Admin initialization
-import { serviceAccount } from '@/firebase/service-account-credentials';
+import { serviceAccount } from './firebase/service-account-credentials';
 
 // Force the middleware to run on the Node.js runtime.
 export const runtime = 'nodejs';
