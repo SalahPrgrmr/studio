@@ -36,7 +36,7 @@ export default async function AdminDashboardPage() {
             </Button>
           </CardContent>
         </Card>
-        <Card className="shadow-sm opacity-50">
+        <Card className="shadow-sm opacity-50 cursor-not-allowed">
           <CardHeader>
             <div className="flex items-center gap-4">
                 <div className="p-3 bg-muted rounded-lg">
@@ -49,10 +49,10 @@ export default async function AdminDashboardPage() {
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">قريبًا...</p>
+            <p className="text-sm text-muted-foreground">هذه الميزة قيد التطوير حاليًا.</p>
           </CardContent>
         </Card>
-        <Card className="shadow-sm opacity-50">
+        <Card className="shadow-sm opacity-50 cursor-not-allowed">
             <CardHeader>
                 <div className="flex items-center gap-4">
                     <div className="p-3 bg-muted rounded-lg">
@@ -65,10 +65,10 @@ export default async function AdminDashboardPage() {
                 </div>
             </CardHeader>
             <CardContent>
-                <p className="text-muted-foreground">قريبًا...</p>
+                <p className="text-sm text-muted-foreground">هذه الميزة قيد التطوير حاليًا.</p>
             </CardContent>
         </Card>
-         <Card className="shadow-sm opacity-50">
+         <Card className="shadow-sm opacity-50 cursor-not-allowed">
             <CardHeader>
                 <div className="flex items-center gap-4">
                     <div className="p-3 bg-muted rounded-lg">
@@ -81,7 +81,7 @@ export default async function AdminDashboardPage() {
                 </div>
             </CardHeader>
             <CardContent>
-                <p className="text-muted-foreground">قريبًا...</p>
+                <p className="text-sm text-muted-foreground">هذه الميزة قيد التطوير حاليًا.</p>
             </CardContent>
         </Card>
       </div>

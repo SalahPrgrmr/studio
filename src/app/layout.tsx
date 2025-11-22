@@ -3,15 +3,9 @@ import { Alegreya, Cairo } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
-import Header from '@/components/layout/header';
-import Footer from '@/components/layout/footer';
 import { FirebaseClientProvider } from '@/firebase';
-import ChatAssistant from '@/components/assistant/chat-assistant';
-import BottomNavBar from '@/components/layout/bottom-nav-bar';
-import { MoreNavSheet } from '@/components/layout/more-nav-sheet';
 import App from './main';
 import { LanguageProvider } from '@/lib/i18n/provider';
-import ScrollToTop from '@/components/scroll-to-top';
 
 const APP_NAME = "Ain Al-Yaqin";
 const APP_DEFAULT_TITLE = "Ain Al-Yaqin - Your Journey to Certainty";
