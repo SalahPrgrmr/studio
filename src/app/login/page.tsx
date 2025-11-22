@@ -15,7 +15,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useFirebase } from '@/firebase';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 // SVG Icons for social providers
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
