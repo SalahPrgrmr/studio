@@ -1,5 +1,7 @@
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
-import { Shield } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Shield, Users, FileText } from "lucide-react";
+import Link from "next/link";
 
 export default function AdminDashboardPage() {
   return (
@@ -15,32 +17,55 @@ export default function AdminDashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <Card>
+        <Card className="shadow-md hover:shadow-lg transition-shadow duration-300">
           <CardHeader>
-            <CardTitle>إدارة المستخدمين</CardTitle>
-             <CardDescription>عرض وتعديل صلاحيات المستخدمين.</CardDescription>
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-primary/10 rounded-full">
+                <Users className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <CardTitle>إدارة المستخدمين</CardTitle>
+                <CardDescription>عرض وتعديل صلاحيات المستخدمين.</CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Button asChild>
+              <Link href="/admin/users">الانتقال إلى إدارة المستخدمين</Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card className="shadow-md">
+          <CardHeader>
+            <div className="flex items-center gap-4">
+                <div className="p-3 bg-muted rounded-full">
+                    <FileText className="h-6 w-6 text-muted-foreground" />
+                </div>
+                <div>
+                    <CardTitle>مراجعة المحتوى</CardTitle>
+                    <CardDescription>الموافقة على قصص النجاح والتعليقات.</CardDescription>
+                </div>
+            </div>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">قريبًا...</p>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>مراجعة المحتوى</CardTitle>
-             <CardDescription>الموافقة على قصص النجاح والتعليقات.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">قريبًا...</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>إحصائيات الموقع</CardTitle>
-            <CardDescription>عرض تقارير الأداء والتفاعل.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground">قريبًا...</p>
-          </CardContent>
+        <Card className="shadow-md">
+            <CardHeader>
+                <div className="flex items-center gap-4">
+                    <div className="p-3 bg-muted rounded-full">
+                         <FileText className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                    <div>
+                        <CardTitle>إحصائيات الموقع</CardTitle>
+                        <CardDescription>عرض تقارير الأداء والتفاعل.</CardDescription>
+                    </div>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <p className="text-muted-foreground">قريبًا...</p>
+            </CardContent>
         </Card>
       </div>
     </div>

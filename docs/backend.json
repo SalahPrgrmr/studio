@@ -14,6 +14,10 @@
           "type": "string",
           "description": "The user's public display name."
         },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
         "photoURL": {
           "type": "string",
           "format": "uri",
@@ -22,7 +26,10 @@
         "role": {
           "type": "string",
           "description": "The user's role, e.g., 'admin' or 'user'.",
-          "enum": ["admin", "user"],
+          "enum": [
+            "admin",
+            "user"
+          ],
           "default": "user"
         },
         "points": {
@@ -45,13 +52,33 @@
         "stats": {
           "type": "object",
           "properties": {
-            "storiesPublished": { "type": "number", "default": 0 },
-            "forumPosts": { "type": "number", "default": 0 },
-            "audioContributions": { "type": "number", "default": 0 }
+            "storiesPublished": {
+              "type": "number",
+              "default": 0
+            },
+            "forumPosts": {
+              "type": "number",
+              "default": 0
+            },
+            "audioContributions": {
+              "type": "number",
+              "default": 0
+            }
           }
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
         }
       },
-      "required": ["id", "displayName", "points", "title", "role"]
+      "required": [
+        "id",
+        "displayName",
+        "email",
+        "points",
+        "title",
+        "role"
+      ]
     },
     "SuccessStory": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -59,18 +86,41 @@
       "type": "object",
       "description": "Represents a user-submitted story of their journey to certainty.",
       "properties": {
-        "title": { "type": "string" },
-        "author": { "type": "string" },
-        "authorId": { "type": "string" },
-        "content": { "type": "string" },
-        "creationDate": { "type": "string", "format": "date-time" },
+        "title": {
+          "type": "string"
+        },
+        "author": {
+          "type": "string"
+        },
+        "authorId": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
         "status": {
           "type": "string",
-          "enum": ["pending_review", "approved"]
+          "enum": [
+            "pending_review",
+            "approved"
+          ]
         },
-        "imageId": { "type": "string" }
+        "imageId": {
+          "type": "string"
+        }
       },
-      "required": ["title", "author", "authorId", "content", "creationDate", "status"]
+      "required": [
+        "title",
+        "author",
+        "authorId",
+        "content",
+        "creationDate",
+        "status"
+      ]
     },
     "Volunteer": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -82,58 +132,129 @@
           "type": "string",
           "description": "Unique identifier for the volunteer, same as the user's UID."
         },
-        "firstName": { "type": "string" },
-        "lastName": { "type": "string" },
-        "email": { "type": "string", "format": "email" },
-        "phoneNumber": { "type": "string" },
-        "country": { "type": "string" },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
         "availability": {
           "type": "string",
-          "enum": ["few_hours_week", "part_time", "full_time"]
+          "enum": [
+            "few_hours_week",
+            "part_time",
+            "full_time"
+          ]
         },
-        "skills": { "type": "array", "items": { "type": "string" } },
-        "interests": { "type": "array", "items": { "type": "string" } },
-        "notes": { "type": "string" }
+        "skills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interests": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
       },
-      "required": ["id", "firstName", "lastName", "email", "availability", "skills", "interests"]
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "availability",
+        "skills",
+        "interests"
+      ]
     },
     "VoiceChatRoom": {
-        "title": "Voice Chat Room",
-        "type": "object",
-        "description": "Represents a live audio chat room.",
-        "properties": {
-            "name": { "type": "string" },
-            "description": { "type": "string" },
-            "ownerId": { "type": "string" },
-            "creationDate": { "type": "string", "format": "date-time" },
-            "members": {
-                "type": "object",
-                "additionalProperties": {
-                    "type": "string",
-                    "enum": ["owner", "speaker", "listener"]
-                }
-            }
+      "title": "Voice Chat Room",
+      "type": "object",
+      "description": "Represents a live audio chat room.",
+      "properties": {
+        "name": {
+          "type": "string"
         },
-        "required": ["name", "ownerId", "creationDate", "members"]
+        "description": {
+          "type": "string"
+        },
+        "ownerId": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "members": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "enum": [
+              "owner",
+              "speaker",
+              "listener"
+            ]
+          }
+        }
+      },
+      "required": [
+        "name",
+        "ownerId",
+        "creationDate",
+        "members"
+      ]
     },
     "VideoChatRoom": {
-        "title": "Video Chat Room",
-        "type": "object",
-        "description": "Represents a live video broadcast room.",
-        "properties": {
-            "name": { "type": "string" },
-            "presenter": { "type": "string" },
-            "ownerId": { "type": "string" },
-            "creationDate": { "type": "string", "format": "date-time" },
-            "members": {
-                "type": "object",
-                "additionalProperties": {
-                    "type": "string",
-                    "enum": ["owner", "viewer"]
-                }
-            }
+      "title": "Video Chat Room",
+      "type": "object",
+      "description": "Represents a live video broadcast room.",
+      "properties": {
+        "name": {
+          "type": "string"
         },
-        "required": ["name", "presenter", "ownerId", "creationDate", "members"]
+        "presenter": {
+          "type": "string"
+        },
+        "ownerId": {
+          "type": "string"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "members": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "enum": [
+              "owner",
+              "viewer"
+            ]
+          }
+        }
+      },
+      "required": [
+        "name",
+        "presenter",
+        "ownerId",
+        "creationDate",
+        "members"
+      ]
     }
   },
   "auth": {
@@ -148,24 +269,34 @@
   },
   "firestore": {
     "/users/{userId}": {
-        "schema": { "$ref": "#/entities/UserProfile" },
-        "description": "Stores public user profile data, including gamification stats and badges."
+      "schema": {
+        "$ref": "#/entities/UserProfile"
+      },
+      "description": "Stores public user profile data, including gamification stats and badges."
     },
     "/success_stories/{storyId}": {
-        "schema": { "$ref": "#/entities/SuccessStory" },
-        "description": "Stores user-submitted success stories. Requires admin approval."
+      "schema": {
+        "$ref": "#/entities/SuccessStory"
+      },
+      "description": "Stores user-submitted success stories. Requires admin approval."
     },
     "/volunteers/{volunteerId}": {
-      "schema": { "$ref": "#/entities/Volunteer" },
+      "schema": {
+        "$ref": "#/entities/Volunteer"
+      },
       "description": "Stores volunteer registration information. Each document ID is the UID of the user."
     },
     "/voice_chat_rooms/{roomId}": {
-        "schema": { "$ref": "#/entities/VoiceChatRoom" },
-        "description": "Stores data for live voice chat rooms."
+      "schema": {
+        "$ref": "#/entities/VoiceChatRoom"
+      },
+      "description": "Stores data for live voice chat rooms."
     },
     "/video_chat_rooms/{roomId}": {
-        "schema": { "$ref": "#/entities/VideoChatRoom" },
-        "description": "Stores data for live video broadcast rooms."
+      "schema": {
+        "$ref": "#/entities/VideoChatRoom"
+      },
+      "description": "Stores data for live video broadcast rooms."
     }
   }
 }

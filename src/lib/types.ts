@@ -1,4 +1,3 @@
-
 import { z } from 'zod';
 
 export const personalPathSchema = z.object({
@@ -71,6 +70,7 @@ export type Volunteer = VolunteerFormValues & {
 export type UserProfile = {
     id: string;
     displayName: string;
+    email: string;
     photoURL: string;
     role: 'admin' | 'user';
     points: number;
@@ -81,6 +81,10 @@ export type UserProfile = {
         forumPosts: number;
         audioContributions: number;
     };
+    createdAt?: {
+      _seconds: number;
+      _nanoseconds: number;
+    } | string;
 };
 
 export type SuccessStory = {
