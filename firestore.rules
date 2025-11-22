@@ -13,15 +13,9 @@ service cloud.firestore {
     }
 
     // User Profiles Collection
-    // - Anyone can read public profiles.
-    // - Users can only create/update their own profile.
-    // - Fields like points and badges should be updated by backend functions in a real app,
-    //   but for now we allow user to update for demonstration.
+    // - Users can read and write to their own profile document.
     match /users/{userId} {
-      allow get: if true;
-      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isSignedIn() && isOwner(userId);
-      allow delete: if isSignedIn() && isOwner(userId);
+      allow read, write: if isSignedIn() && isOwner(userId);
     }
     
     // Volunteers Collection
