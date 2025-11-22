@@ -11,29 +11,20 @@ service cloud.firestore {
       return request.auth.uid == userId;
     }
 
-    function isAdmin() {
-      return isSignedIn() && request.auth.token.admin == true;
-    }
-    
-    // Function to check if a user has a specific role from their profile
-    function hasRole(role) {
-      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
-    }
-
     // User Profiles Collection
     match /users/{userId} {
-      // Admins can list all users. A user can get their own profile. Authenticated users can get any profile.
+      // A user can get their own profile. Authenticated users can get any profile.
       allow get: if isSignedIn();
-      allow list: if isAdmin();
+      allow list: if false; // Listing users is generally not secure
       
-      // A user can create their own profile. An admin can create any profile.
-      allow create: if isOwner(userId) || isAdmin();
+      // A user can create their own profile.
+      allow create: if isOwner(userId);
 
-      // An admin can update any profile. A user can update their own, but cannot change their role.
-      allow update: if isAdmin() || (isOwner(userId) && request.resource.data.role == resource.data.role);
+      // A user can update their own profile, but cannot change their role.
+      allow update: if isOwner(userId) && request.resource.data.role == resource.data.role;
 
-      // Only admins can delete profiles.
-      allow delete: if isAdmin();
+      // Users cannot delete their own profiles.
+      allow delete: if false;
     }
     
     // Volunteers Collection
@@ -57,11 +48,11 @@ service cloud.firestore {
 
     // Success Stories Collection
     match /success_stories/{storyId} {
-      allow get: if resource.data.status == 'approved' || (isSignedIn() && isOwner(resource.data.authorId)) || isAdmin();
+      allow get: if resource.data.status == 'approved' || (isSignedIn() && isOwner(resource.data.authorId));
       allow list: if true;
       allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
-      allow update: if isAdmin() || hasRole('editor'); 
-      allow delete: if isSignedIn() && (isOwner(resource.data.authorId) || isAdmin());
+      allow update: if false; 
+      allow delete: if isSignedIn() && isOwner(resource.data.authorId);
     }
     
     // Voice Chat Rooms Collection
@@ -69,7 +60,7 @@ service cloud.firestore {
       allow get, list: if true;
       allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
       allow update: if isSignedIn();
-      allow delete: if isSignedIn() && (isOwner(resource.data.ownerId) || isAdmin());
+      allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
     }
 
     // Video Chat Rooms Collection
@@ -77,7 +68,7 @@ service cloud.firestore {
       allow get, list: if true;
       allow create: if isSignedIn() && request.resource.data.ownerId == request.auth.uid;
       allow update: if isSignedIn();
-      allow delete: if isSignedIn() && (isOwner(resource.data.ownerId) || isAdmin());
+      allow delete: if isSignedIn() && isOwner(resource.data.ownerId);
     }
   }
 }

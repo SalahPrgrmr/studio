@@ -129,11 +129,6 @@ export default function ProfilePage() {
                 {userProfile.title}
               </p>
             </div>
-            {userProfile.role === 'admin' && (
-                <Button asChild className="md:mr-auto">
-                    <Link href="/admin">لوحة التحكم</Link>
-                </Button>
-            )}
           </>
         ) : (
           <div className="flex flex-col justify-center items-center h-full w-full gap-4 text-center">
