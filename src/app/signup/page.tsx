@@ -10,11 +10,10 @@ import {
   createUserWithEmailAndPassword,
   updateProfile
 } from 'firebase/auth';
-import { doc } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { useFirebase, setDocumentNonBlocking } from '@/firebase';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -24,7 +23,7 @@ import Link from 'next/link';
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { auth, firestore } = useFirebase();
+  const { auth } = useFirebase();
   const { toast } = useToast();
 
   const form = useForm<SignupFormValues>({
@@ -38,7 +37,7 @@ export default function SignupPage() {
   });
 
   const handleEmailSignUp = async (values: SignupFormValues) => {
-    if (!auth || !firestore) {
+    if (!auth) {
       toast({ variant: "destructive", title: "خطأ", description: "خدمة المصادقة غير متوفرة حاليًا." });
       return;
     }
@@ -48,23 +47,11 @@ export default function SignupPage() {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
       const user = userCredential.user;
 
-      // Update user's profile display name
+      // Update user's profile display name in Firebase Auth
       await updateProfile(user, { displayName: values.displayName });
 
-      // Create a user profile document in Firestore
-      const userProfileRef = doc(firestore, 'users', user.uid);
-      const newProfile = {
-        id: user.uid,
-        displayName: values.displayName,
-        photoURL: user.photoURL || '',
-        role: 'user', // Default role for new users
-        points: 0,
-        title: 'مستكشف',
-        badges: [],
-        stats: { storiesPublished: 0, forumPosts: 0, audioContributions: 0 },
-      };
-      setDocumentNonBlocking(userProfileRef, newProfile, { merge: false });
-
+      // The onUserCreate cloud function will handle creating the firestore document.
+      
       toast({ title: 'تم إنشاء الحساب بنجاح', description: 'أهلاً بك في رحلتك نحو اليقين!' });
       router.push('/');
 
