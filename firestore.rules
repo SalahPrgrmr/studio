@@ -11,7 +11,7 @@ service cloud.firestore {
       return request.auth.uid == userId;
     }
 
-    // Use custom claims for admin check for efficiency and to avoid recursion.
+    // Use custom claims for admin check for efficiency.
     function isAdmin() {
       return isSignedIn() && request.auth.token.admin == true;
     }
@@ -21,10 +21,11 @@ service cloud.firestore {
     // - A user can read/create/update their own profile.
     // - A user cannot change their own role.
     match /users/{userId} {
-      allow read, create: if isOwner(userId) || isAdmin();
+      allow create: if isOwner(userId);
+      allow read: if isOwner(userId) || isAdmin();
       allow update: if (isOwner(userId) && request.resource.data.role == resource.data.role) || isAdmin();
-      allow list: if isAdmin();
       allow delete: if isAdmin();
+      allow list: if isAdmin(); // Needed for the admin user management table
     }
     
     // Volunteers Collection
@@ -57,7 +58,7 @@ service cloud.firestore {
     // - Owner can delete their own story. Admin can delete any story.
     match /success_stories/{storyId} {
       allow get: if resource.data.status == 'approved' || (isSignedIn() && isOwner(resource.data.authorId)) || isAdmin();
-      allow list: if resource.data.status == 'approved';
+      allow list: if true; // Allow anyone to list to check for approved stories on the client
       allow create: if isSignedIn() && request.resource.data.authorId == request.auth.uid;
       allow update: if isAdmin(); // Only admins can change status from 'pending' to 'approved'
       allow delete: if isSignedIn() && (isOwner(resource.data.authorId) || isAdmin());
