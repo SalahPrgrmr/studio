@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Target, Globe, BookOpen, Users, Heart, HeartHandshake } from "lucide-react";
+import { Target, Globe, BookOpen, Users, Heart, HeartHandshake, Focus } from "lucide-react";
 import Link from 'next/link';
 import WhyUsSection from "@/components/sections/why-us-section";
 import { Separator } from "@/components/ui/separator";
@@ -71,6 +71,23 @@ export default function MissionPage() {
           ))}
         </div>
       </div>
+      
+      <Card className="mb-16 bg-card border-secondary shadow-md">
+        <CardHeader className="flex-row items-center gap-4">
+            <div className="p-3 bg-secondary/10 rounded-full">
+                <Focus className="h-8 w-8 text-secondary-foreground" />
+            </div>
+            <CardTitle className="font-headline text-2xl">تركيزنا وتخصصنا</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+            <p className="text-muted-foreground leading-relaxed">
+                إن عدم تطرق المنصة لمواضيع هامة أخرى لا يعني أنها لا تؤمن بها أو تعارضها، ولا يعني أنها تدعي الكمال فيما تقدمه. بل هو تأكيد على تخصصنا في الأساس الذي يُبنى عليه كل شيء: <strong>اليقين بالله وتوحيده</strong>.
+            </p>
+             <p className="text-muted-foreground leading-relaxed">
+                نحن نؤمن بأن بقية الأمور الهامة والمشروعة والمطلوبة متاحة وميسرة في منصات أخرى متخصصة، ونحن نكمل عملهم بالتركيز على حجر الزاوية الذي يمثل نقطة الانطلاق لكل خير.
+            </p>
+        </CardContent>
+      </Card>
       
       <Separator className="my-16" />
       
