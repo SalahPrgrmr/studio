@@ -2,7 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Target, Globe, BookOpen, Users, Heart, HeartHandshake, Focus } from "lucide-react";
 import Link from 'next/link';
-import WhyUsSection from "@/components/sections/why-us-section";
+import FaqSection from "@/components/sections/faq-section";
 import { Separator } from "@/components/ui/separator";
 
 const principles = [
@@ -91,7 +91,7 @@ export default function MissionPage() {
       
       <Separator className="my-16" />
       
-      <WhyUsSection />
+      <FaqSection />
 
        <div className="text-center mt-16 pt-8 border-t">
           <h2 className="font-headline text-2xl font-bold mb-4">هل أنت مستعد لبدء رحلتك؟</h2>

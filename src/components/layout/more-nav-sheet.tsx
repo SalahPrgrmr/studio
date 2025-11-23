@@ -60,7 +60,7 @@ const mainNavLinks = [
 const sitemapLinks = {
   platform: [
     { href: '/mission', label: 'رسالتنا', icon: Target },
-    { href: '/why-us', label: 'لماذا نحن؟', icon: HelpCircle },
+    { href: '/faq', label: 'الأسئلة المتكررة', icon: HelpCircle },
     { href: '/contact', label: 'تواصل معنا', icon: Mail },
     { href: '/privacy-policy', label: 'سياسة الخصوصية', icon: Lock },
     { href: '/terms-of-service', label: 'شروط الخدمة', icon: Gavel },
