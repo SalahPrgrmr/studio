@@ -44,7 +44,7 @@ export default function WhyUsSection() {
       <div className="grid md:grid-cols-5 gap-12 items-start">
         <div className="md:col-span-2 space-y-4">
           <h2 className="font-headline text-3xl font-bold tracking-tight sm:text-4xl flex items-center gap-3">
-             <HelpCircle className="h-8 w-8 text-primary" /> لماذا نحن؟
+             <HelpCircle className="h-8 w-8 text-primary" /> الأسئلة المتكررة
           </h2>
           <p className="text-muted-foreground text-lg">
             أسئلة جوهرية وأجوبة واضحة حول هوية منصة "عين اليقين" ورسالتها الأساسية.
