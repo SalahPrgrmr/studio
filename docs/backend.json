@@ -267,6 +267,36 @@
         "creationDate",
         "members"
       ]
+    },
+    "ForumPost": {
+      "title": "Forum Post",
+      "type": "object",
+      "description": "A single post in the community forum.",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "author": { "type": "string" },
+        "authorId": { "type": "string" },
+        "avatarUrl": { "type": "string", "format": "uri" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "likes": { "type": "array", "items": { "type": "string" } },
+        "commentCount": { "type": "number", "default": 0 }
+      },
+      "required": ["title", "content", "author", "authorId", "timestamp"]
+    },
+    "ForumComment": {
+      "title": "Forum Comment",
+      "type": "object",
+      "description": "A comment on a forum post.",
+      "properties": {
+        "author": { "type": "string" },
+        "authorId": { "type": "string" },
+        "avatarUrl": { "type": "string", "format": "uri" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["author", "authorId", "text", "timestamp"]
     }
   },
   "auth": {
@@ -309,6 +339,14 @@
         "$ref": "#/entities/VideoChatRoom"
       },
       "description": "Stores data for live video broadcast rooms."
+    },
+    "/forum_posts/{postId}": {
+      "schema": { "$ref": "#/entities/ForumPost" },
+      "description": "Stores main posts for the community forum."
+    },
+    "/forum_posts/{postId}/comments/{commentId}": {
+      "schema": { "$ref": "#/entities/ForumComment" },
+      "description": "Stores comments for a specific forum post."
     }
   }
 }

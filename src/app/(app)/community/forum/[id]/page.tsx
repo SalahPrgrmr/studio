@@ -5,54 +5,93 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { ArrowLeft, MessageSquare, ThumbsUp, Send, User } from 'lucide-react';
+import { ArrowLeft, MessageSquare, ThumbsUp, Send, User, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
-
-// Mock data, this would come from a database in a real app
-const forumPosts = [
-  {
-    id: 'how-to-differentiate-intuition-from-fear',
-    title: 'كيف تفرق بين الحدس والخوف؟',
-    author: 'كلارا و.',
-    authorInitials: 'CW',
-    avatarUrl: 'https://picsum.photos/seed/avatar1/40/40',
-    timestamp: 'قبل ساعتين',
-    content: 'أجد صعوبة في التمييز بين صوت الحدس الذي يجب أن أتبعه، وصوت الخوف الذي يمنعني من التقدم. كلاهما يبدو قويًا في بعض الأحيان. كيف يمكن التفريق بينهما لاتخاذ قرارات أفضل وأكثر يقينًا؟ هل هناك علامات واضحة أو ممارسات تساعد على شحذ هذه المهارة؟ أود سماع تجاربكم وآرائكم.',
-    comments: [
-        { id: 1, author: 'أحمد الحكيم', avatar: 'https://picsum.photos/seed/comment1/40/40', text: 'سؤال عميق. أعتقد أن الحدس يأتي بشعور من السلام الداخلي والوضوح، حتى لو كان القرار صعبًا. أما الخوف فيأتي مع شعور بالضيق والتوتر. التأمل يساعد كثيرًا في تهدئة العقل وسماع صوت الحدس بوضوح أكبر.', timestamp: 'قبل ساعة' },
-        { id: 2, author: 'فاطمة', avatar: 'https://picsum.photos/seed/comment2/40/40', text: 'أتفق مع أحمد. أضيف أن الحدس غالبًا ما يكون شعورًا هادئًا وثابتًا، بينما الخوف يكون صاخبًا ومليئًا بالسيناريوهات الكارثية. جربي كتابة أفكارك، فهذا يساعد على فرزها.', timestamp: 'قبل 45 دقيقة' }
-    ],
-    likes: 34,
-  },
-   {
-    id: 'my-story-finding-certainty',
-    title: 'قصتي: العثور على اليقين بعد تغيير كبير في حياتي.',
-    author: 'بن س.',
-    content: 'مررت بفترة صعبة فقدت فيها وظيفتي وشعرت بالضياع. كانت تلك الفترة مليئة بالشكوك والتساؤلات حول مستقبلي. بدأت رحلتي بالعودة إلى أبسط الأشياء: المشي في الطبيعة، قضاء وقت مع العائلة، وقراءة الكتب الملهمة. شيئًا فشيئًا، بدأت أرى أن اليقين لا يعني معرفة كل شيء، بل الثقة في قدرتي على التعامل مع المجهول. هذا التحول لم يكن سهلاً، لكنه كان يستحق العناء.',
-    comments: [],
-    likes: 56,
-  },
-  {
-    id: 'practical-guide-to-daily-meditation',
-    title: 'دليل عملي للتأمل اليومي نجح معي.',
-    author: 'عائشة ك.',
-    content: 'كنت أعتقد أن التأمل صعب وممل، لكني اكتشفت طرقًا بسيطة لجعلها عادة يومية. إليكم ما نجح معي: 1. ابدأ بـ 5 دقائق فقط كل صباح. 2. لا تضغط على نفسك لإفراغ عقلك تمامًا، فقط لاحظ الأفكار ودعها تمر. 3. استخدم تطبيقًا موجهًا في البداية. 4. اختر مكانًا هادئًا ومريحًا. الاستمرارية هي المفتاح!',
-    comments: [],
-    likes: 102,
-  },
-];
+import { useFirebase, useDoc, useCollection, useMemoFirebase, addDocumentNonBlocking, updateDocumentNonBlocking } from '@/firebase';
+import { doc, collection, query, orderBy, arrayUnion, arrayRemove, increment } from 'firebase/firestore';
+import type { ForumPost, ForumComment } from '@/lib/types';
+import { format } from 'date-fns';
+import { useUser } from '@/firebase';
+import { useToast } from '@/hooks/use-toast';
 
 export default function ForumPostPage({ params }: { params: { id: string } }) {
-    const post = forumPosts.find(p => p.id === params.id);
-    const [likes, setLikes] = useState(post?.likes || 0);
+    const { firestore } = useFirebase();
+    const { user } = useUser();
+    const { toast } = useToast();
+    const [newComment, setNewComment] = useState('');
+    const [isSubmittingComment, setIsSubmittingComment] = useState(false);
+
+    const postRef = useMemoFirebase(
+        () => (firestore ? doc(firestore, 'forum_posts', params.id) : null),
+        [firestore, params.id]
+    );
+
+    const commentsCollection = useMemoFirebase(
+        () => (firestore ? collection(firestore, 'forum_posts', params.id, 'comments') : null),
+        [firestore, params.id]
+    );
+    const commentsQuery = useMemoFirebase(
+        () => (commentsCollection ? query(commentsCollection, orderBy('timestamp', 'asc')) : null),
+        [commentsCollection]
+    );
+    
+    const { data: post, isLoading: isPostLoading } = useDoc<ForumPost>(postRef);
+    const { data: comments, isLoading: areCommentsLoading } = useCollection<ForumComment>(commentsQuery);
+
+    const hasLiked = user && post?.likes?.includes(user.uid);
+
+    const handleLike = () => {
+        if (!user || !postRef) {
+            toast({ variant: 'destructive', title: 'يجب عليك تسجيل الدخول أولاً' });
+            return;
+        }
+        updateDocumentNonBlocking(postRef, {
+            likes: hasLiked ? arrayRemove(user.uid) : arrayUnion(user.uid)
+        });
+    };
+
+    const handleAddComment = async () => {
+        if (!user || !commentsCollection || !newComment.trim()) {
+            toast({ variant: 'destructive', title: 'لا يمكن إرسال تعليق فارغ' });
+            return;
+        }
+        setIsSubmittingComment(true);
+
+        const commentData = {
+            author: user.displayName || 'مستخدم',
+            authorId: user.uid,
+            avatarUrl: user.photoURL || `https://picsum.photos/seed/${user.uid}/40/40`,
+            text: newComment,
+            timestamp: new Date().toISOString(),
+        };
+
+        try {
+            await addDocumentNonBlocking(commentsCollection, commentData);
+            
+            // Also update the comment count on the post
+            if (postRef) {
+                updateDocumentNonBlocking(postRef, {
+                    commentCount: increment(1)
+                });
+            }
+
+            setNewComment('');
+            toast({ title: 'تم إضافة تعليقك بنجاح!' });
+        } catch (error) {
+            // Handled globally
+        } finally {
+            setIsSubmittingComment(false);
+        }
+    };
+
+
+    if (isPostLoading || areCommentsLoading) {
+        return <div className="flex justify-center items-center h-screen"><Loader2 className="h-16 w-16 animate-spin text-primary" /></div>;
+    }
 
     if (!post) {
         notFound();
-    }
-
-    const handleLike = () => {
-        setLikes(prev => prev + 1);
     }
 
     return (
@@ -73,33 +112,33 @@ export default function ForumPostPage({ params }: { params: { id: string } }) {
                         <div className="flex items-center gap-2">
                             <Avatar className="h-8 w-8">
                             <AvatarImage src={post.avatarUrl} alt={post.author} />
-                            <AvatarFallback>{post.authorInitials}</AvatarFallback>
+                            <AvatarFallback>{post.author.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <span>{post.author}</span>
                         </div>
                         <span>•</span>
-                        <span>{post.timestamp}</span>
+                        <span>{format(new Date(post.timestamp), 'd MMMM, yyyy')}</span>
                     </div>
                 </CardHeader>
                 <CardContent>
                     <div className="prose prose-lg max-w-none dark:prose-invert prose-p:leading-relaxed">
-                        <p>{post.content}</p>
+                        {post.content.split('\n').map((p, i) => <p key={i}>{p}</p>)}
                     </div>
                 </CardContent>
                 <CardFooter className="flex items-center justify-between border-t pt-4 mt-4">
                     <div className="flex items-center space-x-6 space-x-reverse">
                         <div className="flex items-center gap-2 text-muted-foreground">
                             <MessageSquare className="h-5 w-5" />
-                            <span>{post.comments.length} تعليقات</span>
+                            <span>{comments?.length || 0} تعليقات</span>
                         </div>
                         <div className="flex items-center gap-2 text-muted-foreground">
                             <ThumbsUp className="h-5 w-5" />
-                            <span>{likes} إعجابات</span>
+                            <span>{post.likes?.length || 0} إعجابات</span>
                         </div>
                     </div>
-                     <Button variant="outline" onClick={handleLike}>
+                     <Button variant={hasLiked ? 'default' : 'outline'} onClick={handleLike} disabled={!user}>
                         <ThumbsUp className="ml-2 h-4 w-4" />
-                        إعجاب
+                        {hasLiked ? 'تم الإعجاب' : 'إعجاب'}
                     </Button>
                 </CardFooter>
             </Card>
@@ -116,53 +155,61 @@ export default function ForumPostPage({ params }: { params: { id: string } }) {
                      <CardTitle className="text-lg font-headline">أضف تعليقًا</CardTitle>
                  </CardHeader>
                 <CardContent>
+                  {user ? (
                     <div className="flex items-start gap-4">
                         <Avatar>
+                            <AvatarImage src={user.photoURL || ''} alt={user.displayName || ''} />
                             <AvatarFallback><User /></AvatarFallback>
                         </Avatar>
                         <div className="flex-1 space-y-4">
-                            <Textarea placeholder="اكتب تعليقك هنا..." className="bg-background" rows={3} disabled />
-                            <Button disabled>
-                                <Send className="ml-2 h-4 w-4" />
-                                إرسال التعليق (قريبًا)
+                            <Textarea 
+                                placeholder="اكتب تعليقك هنا..." 
+                                className="bg-background" 
+                                rows={3}
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
+                                disabled={isSubmittingComment}
+                            />
+                            <Button onClick={handleAddComment} disabled={isSubmittingComment || !newComment.trim()}>
+                                {isSubmittingComment ? <Loader2 className="ml-2 h-4 w-4 animate-spin" /> : <Send className="ml-2 h-4 w-4" />}
+                                إرسال التعليق
                             </Button>
                         </div>
                     </div>
+                  ) : (
+                    <p className='text-muted-foreground'>
+                        <Link href="/login" className="text-primary underline">سجل الدخول</Link> لإضافة تعليق.
+                    </p>
+                  )}
                 </CardContent>
             </Card>
             
             {/* Existing Comments */}
             <div className="space-y-6">
-                {post.comments.length > 0 ? (
-                    post.comments.map(comment => (
+                {comments && comments.length > 0 ? (
+                    comments.map(comment => (
                         <div key={comment.id} className="flex items-start gap-4">
                             <Avatar className="h-10 w-10">
-                                <AvatarImage src={comment.avatar} alt={comment.author} />
+                                <AvatarImage src={comment.avatarUrl} alt={comment.author} />
                                 <AvatarFallback>{comment.author.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div className="flex-1 rounded-lg border bg-card p-4">
                                 <div className="flex justify-between items-center mb-2">
                                     <p className="font-bold text-sm">{comment.author}</p>
-                                    <p className="text-xs text-muted-foreground">{comment.timestamp}</p>
+                                    <p className="text-xs text-muted-foreground">{format(new Date(comment.timestamp), 'p, d MMM')}</p>
                                 </div>
                                 <p className="text-sm text-muted-foreground">{comment.text}</p>
                             </div>
                         </div>
                     ))
                 ) : (
+                    !areCommentsLoading &&
                     <div className="text-center text-muted-foreground py-8">
                         <p>لا توجد تعليقات حتى الآن. كن أول من يشارك رأيه!</p>
                     </div>
                 )}
+                 {areCommentsLoading && <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary" />}
             </div>
         </div>
     );
 }
-
-// This function can be used if you switch to Server-Side Rendering with dynamic data
-// export async function generateStaticParams() {
-//   // In a real app, you would fetch post IDs from a database
-//   return forumPosts.map((post) => ({
-//     id: post.id,
-//   }))
-// }

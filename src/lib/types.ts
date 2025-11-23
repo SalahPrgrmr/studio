@@ -101,3 +101,25 @@ export type SuccessStory = {
   status: 'pending_review' | 'approved';
   imageId?: string;
 };
+
+export type ForumPost = {
+  id: string;
+  title: string;
+  content: string;
+  author: string;
+  authorId: string;
+  avatarUrl: string;
+  timestamp: string;
+  tags?: string[];
+  likes?: string[];
+  commentCount?: number;
+};
+
+export type ForumComment = {
+  id: string;
+  author: string;
+  authorId: string;
+  avatarUrl: string;
+  text: string;
+  timestamp: string;
+};
