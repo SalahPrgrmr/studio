@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Target, Globe, BookOpen, Users, Heart } from "lucide-react";
+import { Target, Globe, BookOpen, Users, Heart, HeartHandshake } from "lucide-react";
 import Link from 'next/link';
 import WhyUsSection from "@/components/sections/why-us-section";
 import { Separator } from "@/components/ui/separator";
@@ -22,9 +22,9 @@ const principles = [
         description: "نؤمن بأن رحلة اليقين تكون أعمق وأكثر ثباتًا ضمن مجتمع داعم من خلال المنتديات والغرف التفاعلية وفرص التطوع.",
     },
     {
-        icon: <Heart className="h-8 w-8 text-primary" />,
-        title: "مشروع غير ربحي",
-        description: "عين اليقين مبادرة غير ربحية، تعتمد على جهود المتطوعين ودعم المجتمع لمواصلة تقديم رسالتها مجانًا.",
+        icon: <HeartHandshake className="h-8 w-8 text-primary" />,
+        title: "الانفتاح والتعاون",
+        description: "أي جهة أو فرد يدعو إلى 'لا إله إلا الله، الأحد الصمد' ولا يرجو إلا وجه الله، فنحن من أتباعه وشركاؤه في الدعوة."
     }
 ]
 
