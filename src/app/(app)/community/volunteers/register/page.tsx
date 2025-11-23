@@ -41,22 +41,22 @@ import { volunteerSchema, type Volunteer, type VolunteerFormValues } from '@/lib
 import { useUser } from '@/firebase';
 
 const skillOptions = [
+    { id: 'dawah', label: 'التبليغ والدعوة المباشرة' },
     { id: 'content_creation', label: 'صناعة المحتوى (كتابة، تصميم)' },
-    { id: 'media_production', label: 'إنتاج الميديا (مونتاج، صوت)' },
-    { id: 'marketing', label: 'التسويق والعلاقات العامة' },
-    { id: 'community_management', label: 'إدارة المجتمعات' },
+    { id: 'media_production', label: 'الإنتاج الإعلامي (مونتاج، فيديو، صوت)' },
     { id: 'translation', label: 'الترجمة' },
-    { id: 'tech_development', label: 'التطوير التقني والبرمجة' },
-    { id: 'public_speaking', label: 'الخطابة والدعوة المباشرة' },
-    { id: 'project_management', label: 'إدارة المشاريع' },
+    { id: 'marketing', label: 'التسويق الرقمي والعلاقات العامة' },
+    { id: 'tech_development', label: 'التطوير التقني (برمجة، تصميم واجهات)' },
+    { id: 'project_management', label: 'إدارة المشاريع والفرق' },
+    { id: 'public_speaking', label: 'الخطابة والتأثير الصوتي' },
 ];
 
 const interestOptions = [
-    { id: 'dawah', label: 'التبليغ والإنذار' },
-    { id: 'education', label: 'التعليم والتأصيل الشرعي' },
+    { id: 'direct_dawah', label: 'التبليغ والإنذار المباشر' },
+    { id: 'content', label: 'المساهمة بالمحتوى (كتابي، مرئي)' },
     { id: 'community', label: 'بناء المجتمع والتواصل' },
-    { id: 'media', label: 'الإنتاج الإعلامي' },
-    { id: 'tech', label: 'المساهمة التقنية' },
+    { id: 'technical', label: 'المساهمة التقنية' },
+    { id: 'awareness_campaigns', label: 'المشاركة في الحملات الإعلامية' },
 ];
 
 export default function VolunteerRegistrationPage() {
@@ -80,6 +80,7 @@ export default function VolunteerRegistrationPage() {
       email: '',
       phoneNumber: '',
       country: '',
+      availability: undefined,
       skills: [],
       interests: [],
       notes: '',
@@ -108,11 +109,16 @@ export default function VolunteerRegistrationPage() {
     }
     setIsSubmitting(true);
 
-    setDocumentNonBlocking(volunteerRef!, { ...values, id: user.uid }, { merge: true });
+    const dataToSave = { ...values, id: user.uid };
+    
+    // Add 'agreedToTerms' to the data being saved.
+    const finalData = { ...dataToSave, agreedToTerms: true, lastUpdated: new Date().toISOString() };
+
+    setDocumentNonBlocking(volunteerRef!, finalData, { merge: true });
 
     toast({
-      title: 'تم تحديث بياناتك!',
-      description: 'شكرًا لك على تسجيلك كمتطوع. سنقوم بمراجعة بياناتك وتوظيفها في المكان المناسب.',
+      title: existingVolunteer ? 'تم تحديث بياناتك!' : 'تم استلام طلبك!',
+      description: 'شكرًا لك على انضمامك لجنود اليقين. سنقوم بمراجعة بياناتك وتوظيفها في المكان المناسب.',
     });
     
     // Non-blocking, so we can navigate away immediately.
@@ -161,7 +167,7 @@ export default function VolunteerRegistrationPage() {
             <CardHeader>
               <CardTitle className="flex items-center gap-3 font-headline text-3xl">
                 <UserPlus className="h-8 w-8 text-primary" />
-                نموذج تسجيل المتطوعين
+                نموذج الانضمام لفريق العمل
               </CardTitle>
               <CardDescription>
                 املأ النموذج للانضمام إلى فريقنا. سيتم استخدام هذه المعلومات لتوجيهك للمهام التي تناسب مهاراتك واهتماماتك.
@@ -188,7 +194,7 @@ export default function VolunteerRegistrationPage() {
                  <FormField name="email" render={({ field }) => (
                   <FormItem>
                     <FormLabel>البريد الإلكتروني</FormLabel>
-                    <FormControl><Input type="email" {...field} /></FormControl>
+                    <FormControl><Input type="email" {...field} readOnly disabled /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -214,7 +220,7 @@ export default function VolunteerRegistrationPage() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>ما هو مدى توفرك للمساهمة؟</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger><SelectValue placeholder="اختر مدى توفرك" /></SelectTrigger>
                       </FormControl>
@@ -248,8 +254,8 @@ export default function VolunteerRegistrationPage() {
                                 checked={field.value?.includes(item.id)}
                                 onCheckedChange={(checked) => {
                                   return checked
-                                    ? field.onChange([...field.value, item.id])
-                                    : field.onChange(field.value?.filter((value) => value !== item.id));
+                                    ? field.onChange([...(field.value || []), item.id])
+                                    : field.onChange((field.value || []).filter((value) => value !== item.id));
                                 }}
                               />
                             </FormControl>
@@ -282,8 +288,8 @@ export default function VolunteerRegistrationPage() {
                                 checked={field.value?.includes(item.id)}
                                 onCheckedChange={(checked) => {
                                   return checked
-                                    ? field.onChange([...field.value, item.id])
-                                    : field.onChange(field.value?.filter((value) => value !== item.id));
+                                    ? field.onChange([...(field.value || []), item.id])
+                                    : field.onChange((field.value || []).filter((value) => value !== item.id));
                                 }}
                               />
                             </FormControl>
@@ -300,19 +306,45 @@ export default function VolunteerRegistrationPage() {
               <FormField name="notes" render={({ field }) => (
                 <FormItem>
                   <FormLabel>ملاحظات إضافية</FormLabel>
+                   <FormDescription>هل هناك أي شيء آخر تود إخبارنا به عن مهاراتك أو كيف يمكنك المساعدة؟</FormDescription>
                   <FormControl>
-                    <Textarea placeholder="هل هناك أي شيء آخر تود إخبارنا به؟" {...field} />
+                    <Textarea placeholder="اكتب ملاحظاتك هنا..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )} />
+
+              <FormField
+                control={form.control}
+                name="agreedToTerms"
+                render={({ field }) => (
+                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 space-x-reverse rounded-md border p-4">
+                        <FormControl>
+                            <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                            />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                            <FormLabel>
+                                أوافق على شروط الخدمة
+                            </FormLabel>
+                            <FormDescription>
+                                أقر بأنني قرأت وأوافق على <Link href="/terms-of-service" target="_blank" className="text-primary hover:underline">شروط الخدمة</Link> للمنصة وألتزم بالعمل ضمن مبادئها.
+                            </FormDescription>
+                             <FormMessage />
+                        </div>
+                    </FormItem>
+                )}
+             />
+
             </CardContent>
             <CardFooter>
-              <Button type="submit" disabled={isSubmitting || !form.formState.isDirty} size="lg">
+              <Button type="submit" disabled={isSubmitting || !form.formState.isValid} size="lg">
                 {isSubmitting ? (
                   <><Loader2 className="ml-2 h-5 w-5 animate-spin" /> جاري الحفظ...</>
                 ) : (
-                  <><Send className="ml-2 h-5 w-5" /> {existingVolunteer ? 'تحديث بياناتي' : 'إرسال التسجيل'}</>
+                  <><Send className="ml-2 h-5 w-5" /> {existingVolunteer ? 'تحديث بياناتي' : 'إرسال الطلب'}</>
                 )}
               </Button>
             </CardFooter>

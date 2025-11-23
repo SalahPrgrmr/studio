@@ -59,12 +59,16 @@ export const volunteerSchema = z.object({
   skills: z.array(z.string()).min(1, { message: "يرجى تحديد مهارة واحدة على الأقل." }),
   interests: z.array(z.string()).min(1, { message: "يرجى تحديد مجال اهتمام واحد على الأقل." }),
   notes: z.string().optional(),
+  agreedToTerms: z.boolean().refine(val => val === true, {
+    message: "يجب الموافقة على شروط الخدمة للانضمام."
+  }),
 });
 
 export type VolunteerFormValues = z.infer<typeof volunteerSchema>;
 
 export type Volunteer = VolunteerFormValues & {
   id: string;
+  lastUpdated?: string;
 };
 
 export type UserProfile = {

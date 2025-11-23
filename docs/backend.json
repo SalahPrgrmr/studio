@@ -172,6 +172,15 @@
         },
         "notes": {
           "type": "string"
+        },
+        "agreedToTerms": {
+          "type": "boolean",
+          "description": "Indicates if the volunteer has agreed to the terms of service."
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of the last update to the volunteer's information."
         }
       },
       "required": [
@@ -181,7 +190,8 @@
         "email",
         "availability",
         "skills",
-        "interests"
+        "interests",
+        "agreedToTerms"
       ]
     },
     "VoiceChatRoom": {
