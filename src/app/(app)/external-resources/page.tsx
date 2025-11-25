@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Landmark, MessageSquare, BookOpen, GraduationCap, BookMarked, BookText, Users } from "lucide-react";
+import { ExternalLink, Landmark, MessageSquare, BookOpen, GraduationCap, BookMarked, BookText, Users, Link2Off } from "lucide-react";
 import Link from 'next/link';
 
 const resourceCategories = [
@@ -88,10 +88,10 @@ export default function ExternalResourcesPage() {
               <p className="text-muted-foreground mb-4">{category.description}</p>
               <div className="space-y-2">
                 {category.links.map(link => (
-                    <Button key={link.name} asChild variant="outline" className="w-full justify-start text-right">
-                        <Link href={link.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between w-full">
+                    <Button key={link.name} asChild variant="outline" className="w-full justify-start text-right opacity-70 cursor-not-allowed" disabled>
+                        <Link href="#" onClick={(e) => e.preventDefault()} className="flex items-center justify-between w-full">
                             <span>{link.name}</span>
-                            <ExternalLink className="mr-2 h-4 w-4 flex-shrink-0" />
+                            <Link2Off className="mr-2 h-4 w-4 flex-shrink-0" />
                         </Link>
                     </Button>
                 ))}
