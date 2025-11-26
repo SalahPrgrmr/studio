@@ -5,12 +5,6 @@ import Logo from '../logo';
 import Link from 'next/link';
 import { Button } from '../ui/button';
 import { useEffect, useState } from 'react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { useLanguage, languages } from '@/lib/i18n/provider';
 import type { Language } from '@/lib/i18n/settings';
 import { Separator } from '../ui/separator';
@@ -137,11 +131,6 @@ export default function Footer() {
     });
   }
   
-  const handleLanguageChange = (lang: Language) => {
-    setLanguage(lang);
-    document.documentElement.lang = lang;
-    document.documentElement.dir = getDirection(lang);
-  };
 
   return (
     <footer className="bg-card border-t mt-12 no-pdf">
@@ -163,22 +152,6 @@ export default function Footer() {
                         <Download className="ml-2 h-4 w-4" />
                         {t('footer.downloadPdf')}
                     </Button>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                        <Button variant="outline" size="sm">
-                            <Globe className="ml-2 h-4 w-4" />
-                            {t('footer.language')}
-                        </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start">
-                        {languages.map((lang) => (
-                           <DropdownMenuItem key={lang.code} onClick={() => handleLanguageChange(lang.code)}>
-                             {lang.icon}
-                             <span>{lang.name}</span>
-                           </DropdownMenuItem>
-                         ))}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
                 </div>
                  <div className="space-y-2 pt-4">
                     <h4 className="font-semibold text-sm text-muted-foreground">تابعنا وساهم في النشر</h4>

@@ -3,14 +3,13 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  Globe,
-  LogOut,
   Menu,
   User as UserIcon,
   UserCircle2,
-  Mail,
   Loader2,
-  Share2,
+  LogIn,
+  UserPlus,
+  LogOut,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -33,8 +32,7 @@ import { cn } from '@/lib/utils';
 import { useFirebase, useUser } from '@/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { signOut } from 'firebase/auth';
-import { useLanguage, languages } from '@/lib/i18n/provider';
-import type { Language } from '@/lib/i18n/settings';
+import { useLanguage } from '@/lib/i18n/provider';
 
 const navLinks = [
   { href: '/mission', labelKey: 'header.links.mission' },
@@ -50,19 +48,13 @@ export default function Header() {
   const { auth } = useFirebase();
   const { user, isUserLoading } = useUser();
   const router = useRouter();
-  const { t, getDirection, language, setLanguage } = useLanguage();
+  const { t, getDirection, language } = useLanguage();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleSignOut = async () => {
     if (!auth) return;
     await signOut(auth);
     router.push('/');
-  };
-  
-  const handleLanguageChange = (lang: Language) => {
-    setLanguage(lang);
-    document.documentElement.lang = lang;
-    document.documentElement.dir = getDirection(lang);
   };
 
   const getInitials = (name?: string | null) => {
@@ -144,26 +136,8 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center justify-end space-x-1 md:space-x-2">
-          
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Globe className="h-5 w-5" />
-                <span className="sr-only">{t('header.changeLanguage')}</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {languages.map((lang) => (
-                <DropdownMenuItem key={lang.code} onClick={() => handleLanguageChange(lang.code)}>
-                  <span className="w-6 h-6 mr-2 flex items-center justify-center">{lang.icon}</span>
-                  <span>{lang.name}</span>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
           {isUserLoading ? (
-            <div className="h-8 w-8 flex items-center justify-center">
+            <div className="h-9 w-9 flex items-center justify-center">
                 <Loader2 className="h-5 w-5 animate-spin" />
             </div>
           ) : user ? (
@@ -171,9 +145,9 @@ export default function Header() {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="relative h-8 w-8 rounded-full"
+                  className="relative h-9 w-9 rounded-full"
                 >
-                  <Avatar className="h-8 w-8">
+                  <Avatar className="h-9 w-9">
                     <AvatarImage
                       src={user.photoURL || ''}
                       alt={user.displayName || 'User'}
@@ -197,9 +171,28 @@ export default function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button asChild className="hidden sm:inline-flex">
-              <Link href="/login">{t('header.signIn')}</Link>
-            </Button>
+             <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <UserCircle2 className="h-6 w-6" />
+                   <span className="sr-only">User Menu</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/login">
+                    <LogIn className="mr-2 h-4 w-4" />
+                    <span>{t('header.signIn')}</span>
+                  </Link>
+                </DropdownMenuItem>
+                 <DropdownMenuItem asChild>
+                  <Link href="/signup">
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    <span>{t('header.signUp')}</span>
+                  </Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
         </div>
       </div>
