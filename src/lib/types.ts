@@ -1,5 +1,28 @@
-
 import { z } from 'zod';
+
+// --- User Profile ---
+export type UserProfile = {
+  id: string;
+  displayName: string;
+  email: string;
+  photoURL: string;
+  createdAt: string;
+};
+
+// --- Forms ---
+
+export const signupSchema = z.object({
+  displayName: z.string().min(3, { message: 'الاسم يجب أن يكون 3 أحرف على الأقل.' }),
+  email: z.string().email({ message: 'البريد الإلكتروني غير صالح.' }),
+  password: z.string().min(6, { message: 'كلمة المرور يجب أن تكون 6 أحرف على الأقل.' }),
+  confirmPassword: z.string(),
+}).refine(data => data.password === data.confirmPassword, {
+  message: "كلمتا المرور غير متطابقتين.",
+  path: ["confirmPassword"],
+});
+
+export type SignupFormValues = z.infer<typeof signupSchema>;
+
 
 export const personalPathSchema = z.object({
   beliefs: z.string().min(20, { message: 'يرجى مشاركة المزيد عن معتقداتك (20 حرفًا على الأقل).' }).max(2000),
@@ -9,18 +32,8 @@ export const personalPathSchema = z.object({
 
 export type PersonalPathFormValues = z.infer<typeof personalPathSchema>;
 
-export const signupSchema = z.object({
-  displayName: z.string().min(3, { message: 'الاسم يجب أن يكون 3 أحرف على الأقل.' }),
-  email: z.string().email({ message: 'البريد الإلكتروني غير صالح.' }),
-  password: z.string().min(6, { message: 'كلمة المرور يجب أن تكون 6 أحرف على الأقل.' }),
-  confirmPassword: z.string(),
-}).refine(data => data.password === data.confirmPassword, {
-  message: "كلمتا المرور غير متطابقتين.",
-  path: ["confirmPassword"], // path of error
-});
 
-export type SignupFormValues = z.infer<typeof signupSchema>;
-
+// --- Community Features ---
 
 export type VoiceChatRoom = {
     id: string;
@@ -38,14 +51,6 @@ export type VideoChatRoom = {
     ownerId: string;
     creationDate: string;
     members: { [key: string]: 'owner' | 'viewer' };
-};
-
-export type VoiceChatMessage = {
-    id: string;
-    roomId: string;
-    senderId: string;
-    message: string;
-    timestamp: string;
 };
 
 export const volunteerSchema = z.object({

@@ -1,33 +1,168 @@
-
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Loader2, UserPlus } from 'lucide-react';
+import { useFirebase } from '@/firebase';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Home, Wrench } from 'lucide-react';
+import { signupSchema, type SignupFormValues } from '@/lib/types';
+
 
 export default function SignupPage() {
+  const { auth } = useFirebase();
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const form = useForm<SignupFormValues>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      displayName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  const { formState } = form;
+
+  async function onSubmit(values: SignupFormValues) {
+    if (!auth) return;
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+      
+      // Update the user's profile with the display name
+      await updateProfile(userCredential.user, {
+        displayName: values.displayName
+      });
+
+      toast({
+        title: 'تم إنشاء الحساب بنجاح!',
+        description: 'مرحبًا بك. يتم توجيهك الآن...',
+      });
+
+      // The cloud function will handle Firestore document creation.
+      // We just need to navigate the user.
+      router.push('/profile');
+
+    } catch (error: any) {
+      console.error(error);
+      let description = 'حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.';
+      if (error.code === 'auth/email-already-in-use') {
+        description = 'هذا البريد الإلكتروني مسجل بالفعل.';
+      }
+      toast({
+        variant: 'destructive',
+        title: 'فشل إنشاء الحساب',
+        description,
+      });
+    }
+  }
+
   return (
     <div className="flex min-h-[calc(100vh-10rem)] items-center justify-center p-4">
-        <Card className="mx-auto w-full max-w-sm text-center animate-in fade-in duration-500">
-          <CardHeader>
-            <div className="mx-auto bg-muted rounded-full p-3 w-fit mb-4">
-                <Wrench className="h-10 w-10 text-muted-foreground" />
-            </div>
-            <CardTitle className="text-2xl font-headline">الميزة قيد التطوير</CardTitle>
-            <CardDescription>
-              إنشاء الحسابات وتسجيل الدخول معطل حاليًا. نعمل على إعادة بناء هذه الميزة وستكون متاحة قريبًا.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild variant="outline">
-              <Link href="/">
-                <Home className="ml-2 h-4 w-4" />
-                العودة إلى الصفحة الرئيسية
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="mx-auto w-full max-w-sm animate-in fade-in duration-500">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <CardHeader className="text-center">
+              <CardTitle className="text-2xl font-headline">إنشاء حساب جديد</CardTitle>
+              <CardDescription>
+                انضم إلى مجتمعنا وابدأ رحلتك نحو اليقين.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="displayName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>الاسم (كما سيظهر للآخرين)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="اسمك الكامل" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>البريد الإلكتروني</FormLabel>
+                    <FormControl>
+                      <Input type="email" placeholder="example@domain.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>كلمة المرور</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="••••••••" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>تأكيد كلمة المرور</FormLabel>
+                    <FormControl>
+                      <Input type="password" placeholder="••••••••" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+            <CardFooter className="flex flex-col gap-4">
+              <Button type="submit" className="w-full" disabled={formState.isSubmitting}>
+                {formState.isSubmitting ? (
+                  <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <UserPlus className="ml-2 h-4 w-4" />
+                )}
+                إنشاء حساب
+              </Button>
+              <p className="text-xs text-muted-foreground">
+                لديك حساب بالفعل؟{' '}
+                <Link href="/login" className="text-primary hover:underline">
+                  سجل الدخول
+                </Link>
+              </p>
+            </CardFooter>
+          </form>
+        </Form>
+      </Card>
+    </div>
   );
 }
