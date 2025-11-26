@@ -4,24 +4,23 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     match /users/{userId} {
-      // Allow any authenticated user to read data, but only the owner to write.
-      allow read: if request.auth != null;
+      // Allow any user to read data, but only the owner to write.
+      allow read: if true;
       allow write: if request.auth != null && request.auth.uid == userId;
 
-      // Subcollections rules now explicitly define their own read and write rules.
       match /settings/{settingId} {
-        allow read: if request.auth != null;
+        allow read: if true;
         allow write: if request.auth != null && request.auth.uid == userId;
       }
 
       match /preferences/{prefId} {
-        allow read: if request.auth != null;
+        allow read: if true;
         allow write: if request.auth != null && request.auth.uid == userId;
       }
     }
     
     match /success_stories/{storyId} {
-        allow read: if resource.data.status == 'approved' || (request.auth != null && request.auth.uid == resource.data.authorId);
+        allow read: if true;
         allow create: if request.auth != null;
         allow update: if request.auth != null && request.auth.uid == resource.data.authorId;
     }
