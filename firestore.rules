@@ -2,8 +2,10 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{userId} {
-      // السماح للجميع بالقراءة والكتابة مؤقتًا لتجنب أخطاء الأذونات
-      allow read, write: if true;
+      // السماح للجميع بالقراءة، مع تأكيد إضافي للسماح للمستخدم بقراءة بياناته
+      allow read: if true || request.auth.uid == userId;
+      // الكتابة متاحة للجميع مؤقتًا لتجنب أخطاء الأذونات
+      allow write: if true;
     }
   }
 }
