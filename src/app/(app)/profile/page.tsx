@@ -6,6 +6,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -18,7 +19,8 @@ import {
   Globe,
   Palette,
   Bell,
-  Heart
+  Heart,
+  Edit,
 } from 'lucide-react';
 import { useUser, useFirebase, useDoc, useMemoFirebase } from '@/firebase';
 import Link from 'next/link';
@@ -135,6 +137,10 @@ export default function ProfilePage() {
             {userProfile.email}
           </p>
         </div>
+         <Button variant="outline" disabled>
+            <Edit className="ml-2 h-4 w-4" />
+            تعديل الملف الشخصي (قريبًا)
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
