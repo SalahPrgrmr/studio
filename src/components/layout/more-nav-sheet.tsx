@@ -32,7 +32,8 @@ import {
     Mail,
     Lock,
     Gavel,
-    HelpCircle
+    HelpCircle,
+    Share2
 } from 'lucide-react';
 import { useUser } from '@/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
@@ -75,6 +76,7 @@ const sitemapLinks = {
   engagement: [
       { href: '/stories', label: 'قصص النجاح', icon: HeartHandshake },
       { href: '/practical-activities', label: 'أنشطة عملية', icon: Activity },
+      { href: '/share-center', label: 'مركز الدعوة الرقمية', icon: Share2 },
       { href: '/vr-journeys', label: 'رحلات VR', icon: View },
       { href: '/external-resources', label: 'مصادر خارجية', icon: Globe },
   ]
