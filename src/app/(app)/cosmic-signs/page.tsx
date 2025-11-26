@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertTriangle, Eclipse, Mountain, Wind, Zap, Users } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 const cosmicSigns = [
   {
@@ -13,6 +14,18 @@ const cosmicSigns = [
     icon: <Mountain className="h-8 w-8 text-primary" />,
     title: 'الزلازل والبراكين',
     description: 'آيات تهز الأرض من تحت أقدامنا، لتوقظ القلوب الغافلة وتذكر بأن هذه الدنيا ليست بدار قرار، وأن القرار الحقيقي عند الله.',
+    images: [
+        {
+            src: "https://picsum.photos/seed/volcano/400/300",
+            alt: "Volcano erupting",
+            hint: "volcano eruption"
+        },
+        {
+            src: "https://picsum.photos/seed/earthquake/400/300",
+            alt: "Cracked earth from an earthquake",
+            hint: "earthquake crack"
+        }
+    ]
   },
   {
     icon: <Eclipse className="h-8 w-8 text-primary" />,
@@ -49,10 +62,44 @@ export default function CosmicSignsPage() {
               <p className="text-muted-foreground">
                 {sign.description}
               </p>
+               {sign.images && (
+                <div className="mt-4 grid grid-cols-2 gap-4">
+                  {sign.images.map((image, i) => (
+                    <div key={i} className="aspect-video relative rounded-lg overflow-hidden">
+                      <Image 
+                        src={image.src} 
+                        alt={image.alt} 
+                        fill 
+                        className="object-cover" 
+                        data-ai-hint={image.hint}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}
       </div>
+      
+      <Card className="my-16 shadow-lg">
+        <CardHeader>
+          <CardTitle className="font-headline text-2xl text-center">خريطة الزلازل والبراكين النشطة</CardTitle>
+          <CardDescription className="text-center">شاهد قوة الله تتجلى مباشرة على خريطة العالم.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="aspect-video w-full rounded-lg overflow-hidden border">
+             <iframe
+              src="https://www.volcanodiscovery.com/earthquakes/map.html"
+              className="w-full h-full"
+              title="خريطة الزلازل والبراكين النشطة"
+              frameBorder="0"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </CardContent>
+      </Card>
+
 
       <Card className="my-16 bg-destructive/10 border-destructive/20 shadow-lg">
         <CardHeader className="flex-row items-center gap-3">
