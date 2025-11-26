@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Settings, Palette, Globe, Sun, Moon, ArrowLeftRight } from 'lucide-react';
+import { Settings, Palette, Globe, Sun, Moon, ArrowLeftRight, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLanguage, languages } from '@/lib/i18n/provider';
@@ -53,7 +53,7 @@ const socialLinks = [
 ];
 
 export default function SettingsSidebar() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
   const [currentTheme, setCurrentTheme] = useState('default');
   const [mode, setMode] = useState<'light' | 'dark'>('dark');
   const { language, setLanguage, getDirection } = useLanguage();
@@ -95,11 +95,11 @@ export default function SettingsSidebar() {
   };
 
   const handleDirectionChange = (checked: boolean) => {
-    const newDir: Direction = checked ? 'ltr' : 'rtl';
-    setIsLtr(checked);
+    const isChecked = Boolean(checked);
+    const newDir: Direction = isChecked ? 'ltr' : 'rtl';
+    setIsLtr(isChecked);
     document.documentElement.dir = newDir;
 
-    // Find a language that matches the new direction and set it
     const newLang = languages.find(l => l.dir === newDir);
     if (newLang && newLang.code !== language) {
         setLanguage(newLang.code);
@@ -112,15 +112,24 @@ export default function SettingsSidebar() {
     setMode(prev => prev === 'light' ? 'dark' : 'light');
   }
 
+  const directionClasses = isLtr ? {
+    trigger: 'right-0 rounded-l-lg',
+    panel: 'right-12'
+  } : {
+    trigger: 'left-0 rounded-r-lg',
+    panel: 'left-12'
+  };
+  
   return (
     <div
-      className="fixed top-1/2 left-0 -translate-y-1/2 z-[60] no-pdf group"
-      onMouseEnter={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
+      className="fixed top-1/2 -translate-y-1/2 z-[60] no-pdf group"
     >
       <div
+        onClick={() => setIsPanelOpen(true)}
         className={cn(
-          "absolute top-1/2 -translate-y-1/2 left-0 bg-card border-y border-r p-2 rounded-r-lg shadow-lg transition-transform duration-300 ease-in-out"
+          "absolute top-1/2 -translate-y-1/2 bg-card border-y p-2 shadow-lg transition-all duration-300 ease-in-out cursor-pointer",
+          directionClasses.trigger,
+          isLtr ? "border-l" : "border-r"
         )}
       >
         <Settings className="h-6 w-6 text-primary group-hover:animate-spin-slow" />
@@ -129,13 +138,18 @@ export default function SettingsSidebar() {
 
       <div
         className={cn(
-          "absolute top-1/2 -translate-y-1/2 left-12 transition-all duration-300 ease-in-out",
-          isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8 pointer-events-none'
+          "absolute top-1/2 -translate-y-1/2 transition-all duration-300 ease-in-out",
+          directionClasses.panel,
+          isPanelOpen ? 'opacity-100 translate-x-0' : 'opacity-0 pointer-events-none',
+          isLtr ? (isPanelOpen ? 'translate-x-0' : 'translate-x-8') : (isPanelOpen ? 'translate-x-0' : '-translate-x-8')
         )}
       >
         <Card className="w-72 shadow-2xl">
-          <CardHeader>
+          <CardHeader className='relative'>
             <CardTitle className="font-headline">تخصيص الواجهة</CardTitle>
+            <Button variant="ghost" size="icon" className="absolute top-3 right-3 h-7 w-7" onClick={() => setIsPanelOpen(false)}>
+              <X className="h-4 w-4" />
+            </Button>
           </CardHeader>
           <CardContent className="space-y-6">
              <div>
