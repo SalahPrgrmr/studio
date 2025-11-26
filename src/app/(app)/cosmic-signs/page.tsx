@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { AlertTriangle, Eclipse, Mountain, Wind, Zap, Users } from 'lucide-react';
+import { AlertTriangle, Eclipse, Mountain, Wind, Zap, Users, Flame } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
@@ -37,6 +37,11 @@ const cosmicSigns = [
     title: 'الأعاصير والفيضانات',
     description: 'رسائل قوية تظهر أن ما نعتبره من المسلمات، كالماء والهواء، يمكن أن يتحول إلى جند من جنود الله يعذب به من يشاء من عباده.',
   },
+  {
+    icon: <Flame className="h-8 w-8 text-primary" />,
+    title: 'الكويكبات والنيازك',
+    description: 'صخور سماوية هائمة قد تتجه نحو الأرض بأمر الله لتكون نذيرًا أو عذابًا. إنها تذكير بأن السماء ليست آمنة دائمًا، وأن الله يملك جنودًا لا يعلمها إلا هو.',
+  },
 ];
 
 export default function CosmicSignsPage() {
@@ -51,7 +56,7 @@ export default function CosmicSignsPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {cosmicSigns.map((sign, index) => (
           <Card key={index} className="shadow-sm hover:shadow-md transition-shadow duration-300">
             <CardHeader className="flex flex-row items-center gap-4">
