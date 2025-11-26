@@ -90,10 +90,9 @@ export default function CosmicSignsPage() {
         <CardContent>
           <div className="aspect-video w-full rounded-lg overflow-hidden border">
              <iframe
-              src="https://www.volcanodiscovery.com/earthquakes/map.html"
               className="w-full h-full"
-              title="خريطة الزلازل والبراكين النشطة"
-              frameBorder="0"
+              title="خريطة الزلازل والبراكين النشطة من جوجل"
+              src="https://www.google.com/maps/d/embed?mid=1_g-bV59nuaUj4p8o52n5C3e8rGg&hl=ar&ll=25.263889,28.125&z=2"
               allowFullScreen
             ></iframe>
           </div>
