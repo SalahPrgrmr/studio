@@ -13,8 +13,10 @@ service cloud.firestore {
       // Any authenticated user can read another user's profile
       allow get: if request.auth != null;
       // A user can update and delete their own profile document.
-      allow update, delete: if request.auth != null && request.auth.uid == userId;
-      // Anyone can create a user document (handled by cloud function)
+      allow update: if request.auth != null && request.auth.uid == userId;
+      // Allow an authenticated user to delete another user, except themselves.
+      allow delete: if request.auth != null && request.auth.uid != userId;
+      // The onUserCreate cloud function handles user document creation.
       allow create: if true;
     }
     
