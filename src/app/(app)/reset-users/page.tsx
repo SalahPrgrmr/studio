@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useFirebase } from '@/firebase';
-import { collection, getDocs, writeBatch, doc } from 'firebase/firestore';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 import { Loader2, Trash2, AlertTriangle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -29,13 +29,13 @@ import {
 
 
 export default function ResetUsersPage() {
-  const { firestore, user } = useFirebase();
+  const { firebaseApp, user } = useFirebase();
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleDeleteAllUsers() {
-    if (!firestore || !user) {
+    if (!firebaseApp || !user) {
       toast({
         variant: 'destructive',
         title: 'غير مصرح به',
@@ -46,44 +46,28 @@ export default function ResetUsersPage() {
     setIsLoading(true);
 
     try {
-      const usersCollectionRef = collection(firestore, 'users');
-      const querySnapshot = await getDocs(usersCollectionRef);
+      const functions = getFunctions(firebaseApp);
+      const deleteAllUsersExceptAdmin = httpsCallable(functions, 'deleteAllUsersExceptAdmin');
       
-      const usersToDelete = querySnapshot.docs.filter(doc => doc.id !== user.uid);
+      const result = await deleteAllUsersExceptAdmin();
+      const data = result.data as { success: boolean; message: string; deletedCount: number };
 
-      if (usersToDelete.length === 0) {
+      if (data.success) {
         toast({
-          title: 'لا يوجد مستخدمين آخرين للحذف',
-          description: 'أنت المستخدم الوحيد الموجود حاليًا.',
+          title: 'نجاح!',
+          description: data.message,
         });
-        setIsLoading(false);
-        return;
+        router.push('/');
+      } else {
+        throw new Error(data.message);
       }
-      
-      const batchSize = 499;
-      for (let i = 0; i < usersToDelete.length; i += batchSize) {
-        const batch = writeBatch(firestore);
-        const chunk = usersToDelete.slice(i, i + batchSize);
-        chunk.forEach(docToDelete => {
-          batch.delete(docToDelete.ref);
-        });
-        await batch.commit();
-      }
-
-      toast({
-        title: 'نجاح!',
-        description: `تم حذف ${usersToDelete.length} مستخدمًا بنجاح. تم الإبقاء على حسابك الحالي.`,
-      });
-      
-      // Redirect to home page after deletion
-      router.push('/');
 
     } catch (error: any) {
-      console.error('Error deleting users:', error);
+      console.error('Error calling deleteAllUsersExceptAdmin function:', error);
       toast({
         variant: 'destructive',
         title: 'حدث خطأ',
-        description: error.message || 'فشل حذف المستخدمين. يرجى مراجعة صلاحيات Firestore.',
+        description: error.message || 'فشل حذف المستخدمين. يرجى مراجعة سجلات الدالة السحابية.',
       });
     } finally {
       setIsLoading(false);
