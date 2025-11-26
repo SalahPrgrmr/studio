@@ -3,15 +3,15 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     match /users/{userId} {
-      // Allow the user to read and write to their own document
       allow read, write: if request.auth != null && request.auth.uid == userId;
-
-      // Allow access to subcollections
+      
       match /settings/{settingId} {
+        // Allow the user to read and write to their own settings subcollection
         allow read, write: if request.auth != null && request.auth.uid == userId;
       }
 
       match /preferences/{prefId} {
+        // Allow the user to read and write to their own preferences subcollection
         allow read, write: if request.auth != null && request.auth.uid == userId;
       }
     }
