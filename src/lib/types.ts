@@ -1,31 +1,6 @@
 
 import { z } from 'zod';
 
-// Base User Profile
-export type UserProfile = {
-  id: string;
-  name: string;
-  email: string;
-  avatar: string | null;
-  phone: string | null;
-  createdAt: any; // Firebase Timestamp
-  lastLogin: any; // Firebase Timestamp
-};
-
-// User Settings
-export type UserSettings = {
-  theme: 'light' | 'dark';
-  language: 'ar' | 'en' | 'fr' | 'es' | 'ur';
-  notifications: boolean;
-};
-
-// User Preferences
-export type UserPreferences = {
-  favorites: string[]; // e.g., array of story IDs
-  bookmarks: string[]; // e.g., array of article IDs
-};
-
-
 export const personalPathSchema = z.object({
   beliefs: z.string().min(20, { message: 'يرجى مشاركة المزيد عن معتقداتك (20 حرفًا على الأقل).' }).max(2000),
   background: z.string().min(20, { message: 'يرجى مشاركة المزيد عن خلفيتك (20 حرفًا على الأقل).' }).max(2000),
