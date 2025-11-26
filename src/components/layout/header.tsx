@@ -10,6 +10,7 @@ import {
   UserCircle2,
   Mail,
   Loader2,
+  Share2,
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -39,6 +40,7 @@ const navLinks = [
   { href: '/mission', labelKey: 'header.links.mission' },
   { href: '/journey-of-certainty', labelKey: 'header.links.journey' },
   { href: '/stories', labelKey: 'header.links.stories' },
+  { href: '/share-center', labelKey: 'header.links.shareCenter' },
   { href: '/community', labelKey: 'header.links.community' },
   { href: '/contact', labelKey: 'header.links.contact' },
 ];
