@@ -1,11 +1,11 @@
+'use server';
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
 admin.initializeApp();
 
 /**
- * Creates a user profile document when a new Firebase user is created
- * and marks their email as verified.
+ * Creates a user profile document when a new Firebase user is created.
  */
 export const onUserCreate = functions.auth.user().onCreate(async (user) => {
   const { uid, email, displayName, photoURL } = user;
@@ -29,21 +29,13 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
   };
 
   try {
-    const firestorePromise = admin.firestore().collection('users').doc(uid).set(newUserProfile);
-    console.log(`Successfully created profile document for user: ${uid}`);
-
-    // Mark the user's email as verified
-    const authPromise = admin.auth().updateUser(uid, {
-        emailVerified: true
-    });
-    console.log(`Successfully marked email as verified for user: ${uid}`);
-    
-    // Wait for both operations to complete
-    await Promise.all([firestorePromise, authPromise]);
+    // Set the document in the 'users' collection with the user's UID as the document ID.
+    await admin.firestore().collection('users').doc(uid).set(newUserProfile);
+    console.log(`Successfully created profile for user: ${uid}`);
 
   } catch (error) {
-    console.error(`Error processing new user: ${uid}`, error);
+    console.error(`Error creating profile for user: ${uid}`, error);
     // Optionally, re-throw the error to have the function execution marked as a failure
-    throw new functions.https.HttpsError('internal', 'Could not process new user creation.');
+    throw new functions.https.HttpsError('internal', 'Could not create user profile.');
   }
 });
