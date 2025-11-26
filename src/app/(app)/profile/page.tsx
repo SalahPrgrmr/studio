@@ -6,7 +6,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -18,28 +17,44 @@ import {
   LogIn,
   Globe,
   Palette,
+  Bell,
+  Heart
 } from 'lucide-react';
 import { useUser, useFirebase, useDoc, useMemoFirebase } from '@/firebase';
 import Link from 'next/link';
 import { doc } from 'firebase/firestore';
-import type { UserProfile } from '@/lib/types';
+import type { UserProfile, UserSettings, UserPreferences } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
-import { format } from 'date-fns';
+import { format, formatDistanceToNow } from 'date-fns';
+import { ar } from 'date-fns/locale';
 
 export default function ProfilePage() {
   const { user, isUserLoading } = useUser();
   const { firestore } = useFirebase();
 
+  // Memoize document references
   const profileRef = useMemoFirebase(
     () => (firestore && user?.uid ? doc(firestore, 'users', user.uid) : null),
     [firestore, user?.uid]
   );
-
+  const settingsRef = useMemoFirebase(
+    () => (firestore && user?.uid ? doc(firestore, 'users', user.uid, 'settings', 'general') : null),
+    [firestore, user?.uid]
+  );
+  const prefsRef = useMemoFirebase(
+    () => (firestore && user?.uid ? doc(firestore, 'users', user.uid, 'preferences', 'main') : null),
+    [firestore, user?.uid]
+  );
+  
+  // Fetch data from all documents
   const { data: userProfile, isLoading: isProfileLoading } = useDoc<UserProfile>(profileRef);
+  const { data: userSettings, isLoading: areSettingsLoading } = useDoc<UserSettings>(settingsRef);
+  const { data: userPreferences, isLoading: arePrefsLoading } = useDoc<UserPreferences>(prefsRef);
 
-  const isLoading = isUserLoading || (user && !userProfile && isProfileLoading);
 
-  if (isLoading) {
+  const isLoading = isUserLoading || isProfileLoading || areSettingsLoading || arePrefsLoading;
+
+  if (isLoading && !userProfile) { // Show skeleton loader only on initial load
     return (
       <div className="container mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
@@ -63,9 +78,9 @@ export default function ProfilePage() {
         <Card>
           <CardHeader>
             <CardTitle>يجب عليك تسجيل الدخول</CardTitle>
-            <CardDescription>
+            <p className="text-muted-foreground pt-2">
               لعرض ملفك الشخصي، يرجى تسجيل الدخول أولاً.
-            </CardDescription>
+            </p>
           </CardHeader>
           <CardContent>
             <Button asChild>
@@ -89,13 +104,18 @@ export default function ProfilePage() {
      )
   }
 
-  if (!userProfile) return null;
+  if (!userProfile) return null; // Should not happen if loading is handled
 
   const formatDate = (timestamp: any) => {
     if (!timestamp) return 'غير متوفر';
-    // Convert Firebase Timestamp to JS Date
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-    return format(date, 'd MMMM, yyyy');
+    return format(date, 'd MMMM, yyyy', { locale: ar });
+  };
+  
+  const formatRelativeDate = (timestamp: any) => {
+    if (!timestamp) return 'غير متوفر';
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    return formatDistanceToNow(date, { addSuffix: true, locale: ar });
   };
 
 
@@ -103,7 +123,7 @@ export default function ProfilePage() {
     <div className="container mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 animate-in fade-in duration-500">
       <div className="flex flex-col items-center gap-8 mb-12">
         <Avatar className="h-32 w-32 border-4 border-primary shadow-lg">
-          <AvatarImage src={userProfile.photoURL || ''} alt={userProfile.name || 'User'} />
+          <AvatarImage src={userProfile.avatar || ''} alt={userProfile.name || 'User'} />
           <AvatarFallback className="text-4xl">
             {userProfile.name?.charAt(0).toUpperCase()}
           </AvatarFallback>
@@ -134,15 +154,11 @@ export default function ProfilePage() {
             <div className="flex items-center gap-2">
                 <LogIn className="h-5 w-5 text-muted-foreground" />
                 <span className="font-semibold">آخر تسجيل دخول:</span>
-                <span>{formatDate(userProfile.account.lastLogin)}</span>
+                <span>{formatRelativeDate(userProfile.lastLogin)}</span>
             </div>
              <div className="flex items-center gap-2">
-                <span className="font-semibold">مقدم الخدمة:</span>
-                <span>{userProfile.account.provider}</span>
-            </div>
-            <div className="flex items-center gap-2">
-                <span className="font-semibold">الهاتف:</span>
-                <span>{userProfile.phone || 'لم يتم إضافته'}</span>
+                <span className="font-semibold">الصلاحية:</span>
+                <span>{userProfile.role}</span>
             </div>
             </CardContent>
         </Card>
@@ -155,21 +171,32 @@ export default function ProfilePage() {
             </CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-1 gap-4 text-base">
-            <div className="flex items-center gap-2">
-                <Globe className="h-5 w-5 text-muted-foreground" />
-                <span className="font-semibold">لغة الواجهة:</span>
-                <span>{userProfile.settings.language}</span>
-            </div>
-            <div className="flex items-center gap-2">
-                <Palette className="h-5 w-5 text-muted-foreground" />
-                <span className="font-semibold">السمة (Theme):</span>
-                <span>{userProfile.settings.theme}</span>
-            </div>
-             <div className="flex items-center gap-2">
-                <Mail className="h-5 w-5 text-muted-foreground" />
-                <span className="font-semibold">إشعارات البريد:</span>
-                <span>{userProfile.settings.notifications.email ? 'مفعل' : 'معطل'}</span>
-            </div>
+            {userSettings ? (
+                <>
+                    <div className="flex items-center gap-2">
+                        <Globe className="h-5 w-5 text-muted-foreground" />
+                        <span className="font-semibold">لغة الواجهة:</span>
+                        <span>{userSettings.language}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Palette className="h-5 w-5 text-muted-foreground" />
+                        <span className="font-semibold">السمة (Theme):</span>
+                        <span>{userSettings.theme}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <Bell className="h-5 w-5 text-muted-foreground" />
+                        <span className="font-semibold">الإشعارات:</span>
+                        <span>{userSettings.notifications ? 'مفعل' : 'معطل'}</span>
+                    </div>
+                </>
+            ) : <p className="text-muted-foreground text-sm">جاري تحميل الإعدادات...</p>}
+            {userPreferences ? (
+                 <div className="flex items-center gap-2">
+                    <Heart className="h-5 w-5 text-muted-foreground" />
+                    <span className="font-semibold">المفضلات:</span>
+                    <span>{userPreferences.favorites?.length || 0}</span>
+                </div>
+            ) : <p className="text-muted-foreground text-sm">جاري تحميل التفضيلات...</p>}
             </CardContent>
         </Card>
       </div>

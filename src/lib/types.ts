@@ -1,6 +1,36 @@
 
 import { z } from 'zod';
 
+// Base User Profile
+export type UserProfile = {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string | null;
+  phone: string | null;
+  createdAt: any; // Firebase Timestamp
+  lastLogin: any; // Firebase Timestamp
+  role: 'user' | 'editor' | 'admin';
+};
+
+// User Settings
+export type UserSettings = {
+  theme: 'light' | 'dark';
+  language: 'ar' | 'en' | 'fr' | 'es' | 'ur';
+  notifications: boolean;
+  privacy: {
+    showEmail: boolean;
+    showPhone: boolean;
+  };
+};
+
+// User Preferences
+export type UserPreferences = {
+  favorites: string[]; // e.g., array of story IDs
+  bookmarks: string[]; // e.g., array of article IDs
+};
+
+
 export const personalPathSchema = z.object({
   beliefs: z.string().min(20, { message: 'يرجى مشاركة المزيد عن معتقداتك (20 حرفًا على الأقل).' }).max(2000),
   background: z.string().min(20, { message: 'يرجى مشاركة المزيد عن خلفيتك (20 حرفًا على الأقل).' }).max(2000),
@@ -70,36 +100,6 @@ export type VolunteerFormValues = z.infer<typeof volunteerSchema>;
 export type Volunteer = VolunteerFormValues & {
   id: string;
   lastUpdated?: string;
-};
-
-export type UserProfile = {
-  id: string;
-  name: string;
-  email: string;
-  emailVerified: boolean;
-  photoURL: string | null;
-  phone: string | null;
-  createdAt: any; // Firebase Timestamp
-  updatedAt: any; // Firebase Timestamp
-  settings: {
-    language: 'ar' | 'en' | 'fr' | 'es' | 'ur';
-    theme: string;
-    notifications: {
-      email: boolean;
-      sms: boolean;
-      push: boolean;
-    };
-  };
-  account: {
-    provider: string;
-    lastLogin: any; // Firebase Timestamp
-  };
-  profile: {
-    bio: string | null;
-    gender: string | null;
-    birthday: string | null;
-    country: string | null;
-  };
 };
 
 export type SuccessStory = {

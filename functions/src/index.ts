@@ -5,49 +5,49 @@ import * as admin from 'firebase-admin';
 admin.initializeApp();
 
 /**
- * Creates a comprehensive user profile document when a new Firebase user is created.
+ * Creates a comprehensive user profile document and sub-collections when a new Firebase user is created.
  */
 export const onUserCreate = functions.auth.user().onCreate(async (user) => {
-  const { uid, email, displayName, photoURL, phoneNumber, providerData } = user;
+  const { uid, email, displayName, photoURL } = user;
   const db = admin.firestore();
+  const batch = db.batch();
 
+  // 1. Main user profile document
   const userDocRef = db.collection('users').doc(uid);
-
   const newUserProfile = {
-    id: uid,
     name: displayName || 'مستخدم جديد',
     email: email || '',
-    emailVerified: user.emailVerified,
-    photoURL: photoURL || `https://picsum.photos/seed/${uid}/100/100`,
-    phone: phoneNumber || null,
+    avatar: photoURL || `https://picsum.photos/seed/${uid}/100/100`,
+    phone: null,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
-    updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+    lastLogin: admin.firestore.FieldValue.serverTimestamp(),
+    role: 'user', // Default role
+  };
+  batch.set(userDocRef, newUserProfile);
 
-    settings: {
-      language: "ar",
-      theme: "dark",
-      notifications: {
-        email: true,
-        sms: false,
-        push: true,
-      }
-    },
-
-    account: {
-      provider: providerData?.[0]?.providerId || "password",
-      lastLogin: admin.firestore.FieldValue.serverTimestamp()
-    },
-
-    profile: {
-      bio: null,
-      gender: null,
-      birthday: null,
-      country: null
+  // 2. Settings sub-collection document
+  const settingsDocRef = userDocRef.collection('settings').doc('general');
+  const userSettings = {
+    theme: 'dark',
+    language: 'ar',
+    notifications: true,
+    privacy: {
+        showEmail: false,
+        showPhone: false,
     }
   };
+  batch.set(settingsDocRef, userSettings);
+
+  // 3. Preferences sub-collection document
+  const prefsDocRef = userDocRef.collection('preferences').doc('main');
+  const userPreferences = {
+    favorites: [],
+    bookmarks: [],
+  };
+  batch.set(prefsDocRef, userPreferences);
 
   try {
-    await userDocRef.set(newUserProfile);
+    await batch.commit();
     console.log(`Successfully created comprehensive profile for user: ${uid}`);
   } catch (error) {
     console.error(`Error creating comprehensive profile for user: ${uid}`, error);
