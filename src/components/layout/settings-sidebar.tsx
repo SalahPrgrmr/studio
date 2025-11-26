@@ -84,28 +84,16 @@ export default function SettingsSidebar() {
     setMode(prev => prev === 'light' ? 'dark' : 'light');
   }
 
-  const sidebarDir = getDirection(language) === 'rtl' ? 'left-0' : 'right-0';
-  const sidebarTransform = getDirection(language) === 'rtl'
-    ? (isOpen ? 'translate-x-0' : '-translate-x-full')
-    : (isOpen ? 'translate-x-0' : 'translate-x-full');
-  
-  const triggerDir = getDirection(language) === 'rtl' ? 'left-0' : 'right-0';
-  const triggerTransform = getDirection(language) === 'rtl'
-    ? (isOpen ? 'translate-x-72' : 'translate-x-0')
-    : (isOpen ? '-translate-x-72' : 'translate-x-0');
-
-
   return (
     <div
-      className="fixed top-1/2 -translate-y-1/2 z-[60] no-pdf"
+      className="fixed top-1/2 -translate-y-1/2 z-[60] no-pdf left-0"
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
       <button
         className={cn(
-            "absolute top-1/2 -translate-y-1/2 bg-card border-y border-r rtl:border-r-0 rtl:border-l p-2 rounded-l-lg rtl:rounded-l-none rtl:rounded-r-lg shadow-lg transition-transform duration-300 ease-in-out",
-            triggerDir,
-            triggerTransform
+          "absolute top-1/2 -translate-y-1/2 bg-card border-y border-r rtl:border-r-0 rtl:border-l p-2 rounded-r-lg shadow-lg transition-transform duration-300 ease-in-out",
+          isOpen ? 'translate-x-72' : 'translate-x-0'
         )}
       >
         <Settings className="h-6 w-6 animate-spin-slow" />
@@ -114,9 +102,8 @@ export default function SettingsSidebar() {
 
       <div
         className={cn(
-            "fixed top-0 h-full w-72 bg-card border-r rtl:border-r-0 rtl:border-l shadow-2xl transition-transform duration-300 ease-in-out flex flex-col",
-            sidebarDir,
-            sidebarTransform
+          "fixed top-0 left-0 h-full w-72 bg-card border-r shadow-2xl transition-transform duration-300 ease-in-out flex flex-col",
+          isOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
         <CardHeader className="border-b">
