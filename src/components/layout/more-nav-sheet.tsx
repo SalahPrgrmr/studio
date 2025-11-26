@@ -33,7 +33,8 @@ import {
     Lock,
     Gavel,
     HelpCircle,
-    Share2
+    Share2,
+    UserCog
 } from 'lucide-react';
 import { useUser } from '@/firebase';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
@@ -79,6 +80,9 @@ const sitemapLinks = {
       { href: '/share-center', label: 'مركز الدعوة الرقمية', icon: Share2 },
       { href: '/vr-journeys', label: 'رحلات VR', icon: View },
       { href: '/external-resources', label: 'مصادر خارجية', icon: Globe },
+  ],
+  admin: [
+    { href: '/admin/users', label: 'إدارة المستخدمين', icon: UserCog, requiresAuth: true }
   ]
 };
 
@@ -167,6 +171,16 @@ export function MoreNavSheet() {
                     {sitemapLinks.engagement.map((link) => (
                         <NavLink key={link.href} {...link} />
                     ))}
+
+                    {user && (
+                        <>
+                            <Separator className="my-3" />
+                            <h3 className="px-3 py-2 text-xs font-semibold uppercase text-muted-foreground tracking-wider">الإدارة</h3>
+                            {sitemapLinks.admin.map((link) => (
+                                <NavLink key={link.href} {...link} />
+                            ))}
+                        </>
+                    )}
                 </nav>
             </SheetContent>
         </Sheet>
