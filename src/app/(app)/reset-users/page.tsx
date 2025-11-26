@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useFirebase } from '@/firebase';
-import { collection, getDocs, writeBatch } from 'firebase/firestore';
+import { collection, getDocs, writeBatch, doc } from 'firebase/firestore';
 import { Loader2, Trash2, AlertTriangle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -49,41 +49,41 @@ export default function ResetUsersPage() {
       const usersCollectionRef = collection(firestore, 'users');
       const querySnapshot = await getDocs(usersCollectionRef);
       
-      if (querySnapshot.empty) {
+      const usersToDelete = querySnapshot.docs.filter(doc => doc.id !== user.uid);
+
+      if (usersToDelete.length === 0) {
         toast({
-          title: 'لا يوجد مستخدمين للحذف',
-          description: 'قاعدة بيانات المستخدمين فارغة بالفعل.',
+          title: 'لا يوجد مستخدمين آخرين للحذف',
+          description: 'أنت المستخدم الوحيد الموجود حاليًا.',
         });
         setIsLoading(false);
         return;
       }
       
-      // Firestore allows up to 500 operations in a single batch.
-      // We will process in chunks of 499 to be safe.
       const batchSize = 499;
-      for (let i = 0; i < querySnapshot.docs.length; i += batchSize) {
+      for (let i = 0; i < usersToDelete.length; i += batchSize) {
         const batch = writeBatch(firestore);
-        const chunk = querySnapshot.docs.slice(i, i + batchSize);
-        chunk.forEach(doc => {
-          batch.delete(doc.ref);
+        const chunk = usersToDelete.slice(i, i + batchSize);
+        chunk.forEach(docToDelete => {
+          batch.delete(docToDelete.ref);
         });
         await batch.commit();
       }
 
       toast({
         title: 'نجاح!',
-        description: `تم حذف ${querySnapshot.size} مستخدمًا بنجاح.`,
+        description: `تم حذف ${usersToDelete.length} مستخدمًا بنجاح. تم الإبقاء على حسابك الحالي.`,
       });
       
       // Redirect to home page after deletion
       router.push('/');
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error deleting users:', error);
       toast({
         variant: 'destructive',
         title: 'حدث خطأ',
-        description: 'فشل حذف المستخدمين. يرجى مراجعة صلاحيات Firestore.',
+        description: error.message || 'فشل حذف المستخدمين. يرجى مراجعة صلاحيات Firestore.',
       });
     } finally {
       setIsLoading(false);
@@ -99,12 +99,12 @@ export default function ResetUsersPage() {
             إعادة تعيين بيانات المستخدمين
           </CardTitle>
           <CardDescription>
-            هذا الإجراء سيقوم بحذف **جميع** مستندات المستخدمين من قاعدة بيانات Firestore بشكل نهائي. لا يمكن التراجع عن هذا الإجراء.
+            هذا الإجراء سيقوم بحذف **جميع** مستندات المستخدمين من قاعدة بيانات Firestore بشكل نهائي، **باستثناء حسابك الحالي**. لا يمكن التراجع عن هذا الإجراء.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            استخدم هذا الخيار فقط إذا كنت متأكدًا من أنك تريد البدء من جديد بقاعدة بيانات مستخدمين نظيفة. سيتم حذف جميع الملفات الشخصية والإعدادات والتفضيلات.
+            استخدم هذا الخيار إذا كنت تريد البدء من جديد مع الاحتفاظ بحسابك الحالي. سيتم حذف جميع الملفات الشخصية الأخرى.
           </p>
         </CardContent>
         <CardFooter>
@@ -116,14 +116,14 @@ export default function ResetUsersPage() {
                     ) : (
                     <Trash2 className="mr-2 h-4 w-4" />
                     )}
-                    {user ? 'حذف جميع المستخدمين' : 'يجب تسجيل الدخول أولاً'}
+                    {user ? 'حذف جميع المستخدمين الآخرين' : 'يجب تسجيل الدخول أولاً'}
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>هل أنت متأكد تمامًا؟</AlertDialogTitle>
                   <AlertDialogDescription>
-                    سيتم حذف جميع بيانات المستخدمين بشكل دائم. لا يمكن التراجع عن هذا الإجراء.
+                    سيتم حذف جميع بيانات المستخدمين الآخرين بشكل دائم. لا يمكن التراجع عن هذا الإجراء.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
