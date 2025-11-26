@@ -130,23 +130,22 @@ export function MoreNavSheet() {
                 </SheetHeader>
                 <nav className="flex flex-col space-y-1 p-4 overflow-y-auto h-[calc(100%-4.5rem)]">
                     {user && (
-                         <Link href="/profile" onClick={onClose} className="flex items-center gap-3 rounded-lg p-3 mb-2 bg-muted/50 hover:bg-muted transition-colors">
+                         <div className="flex items-center gap-3 rounded-lg p-3 mb-2 bg-muted/50">
                             <Avatar className="h-12 w-12 border-2 border-primary/50">
                                 <AvatarImage src={user.photoURL || undefined} alt={user.displayName || 'User'} />
                                 <AvatarFallback>{user.displayName?.charAt(0).toUpperCase()}</AvatarFallback>
                             </Avatar>
                             <div className="flex flex-col">
                                 <span className="font-bold text-base">{user.displayName}</span>
-                                <span className="text-sm text-muted-foreground">عرض الملف الشخصي</span>
+                                <span className="text-sm text-muted-foreground">مرحباً بك</span>
                             </div>
-                        </Link>
+                        </div>
                     )}
 
                     <h3 className="px-3 py-2 text-xs font-semibold uppercase text-muted-foreground tracking-wider">التنقل الرئيسي</h3>
                     {mainNavLinks.map((link) => (
                         <NavLink key={link.href} {...link} />
                     ))}
-                    {!user && <NavLink href="/profile" label="ملفي الشخصي" icon={UserCircle2} requiresAuth />}
 
                     <Separator className="my-3" />
                     

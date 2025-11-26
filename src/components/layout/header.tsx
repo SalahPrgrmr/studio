@@ -157,13 +157,6 @@ export default function Header() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem asChild>
-                  <Link href="/profile">
-                    <UserCircle2 className="ml-2 h-4 w-4" />
-                    <span>{t('header.profile')}</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
                   <LogOut className="ml-2 h-4 w-4" />
                   <span>{t('header.signOut')}</span>

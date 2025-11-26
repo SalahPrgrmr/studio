@@ -3,14 +3,6 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    match /users/{userId} {
-      // Allow any authenticated user to read all user data and subcollections.
-      allow read: if request.auth != null;
-      
-      // Only allow the owner of the document to write to it and its subcollections.
-      allow write: if request.auth != null && request.auth.uid == userId;
-    }
-    
     // Public read, but only authenticated users can create/update their own.
     match /success_stories/{storyId} {
         allow read: if true;

@@ -1,45 +1,5 @@
-
 {
-  "entities": {
-    "UserProfile": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "User Profile",
-      "type": "object",
-      "description": "Stores core user profile information.",
-      "properties": {
-        "name": { "type": "string", "description": "The user's public display name." },
-        "email": { "type": "string", "format": "email" },
-        "avatar": { "type": "string", "format": "uri", "description": "URL of the user's profile picture." },
-        "phone": { "type": ["string", "null"] },
-        "createdAt": { "type": "string", "format": "date-time" },
-        "lastLogin": { "type": "string", "format": "date-time" }
-      },
-      "required": ["name", "email", "createdAt", "lastLogin"]
-    },
-    "UserSettings": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "User Settings",
-      "type": "object",
-      "description": "Stores user-specific settings.",
-      "properties": {
-        "theme": { "type": "string", "enum": ["light", "dark"] },
-        "language": { "type": "string", "enum": ["ar", "en", "fr", "es", "ur"] },
-        "notifications": { "type": "boolean" }
-      },
-      "required": ["theme", "language", "notifications"]
-    },
-    "UserPreferences": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "User Preferences",
-      "type": "object",
-      "description": "Stores user preferences like favorites and bookmarks.",
-      "properties": {
-        "favorites": { "type": "array", "items": { "type": "string" } },
-        "bookmarks": { "type": "array", "items": { "type": "string" } }
-      },
-      "required": ["favorites", "bookmarks"]
-    }
-  },
+  "entities": {},
   "auth": {
     "providers": [
       "password",
@@ -50,20 +10,5 @@
       "twitter"
     ]
   },
-  "firestore": {
-    "/users/{userId}": {
-      "schema": { "$ref": "#/entities/UserProfile" },
-      "description": "Stores the main profile data for a user.",
-      "subcollections": {
-        "/settings/general": {
-          "schema": { "$ref": "#/entities/UserSettings" },
-          "description": "User's general settings."
-        },
-        "/preferences/main": {
-          "schema": { "$ref": "#/entities/UserPreferences" },
-          "description": "User's preferences like favorites."
-        }
-      }
-    }
-  }
+  "firestore": {}
 }
