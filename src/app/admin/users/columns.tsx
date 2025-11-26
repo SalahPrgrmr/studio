@@ -1,25 +1,21 @@
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
-import type { UserProfile, UserRoles } from '@/lib/types';
+import type { UserProfile } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DataTableRowActions } from './data-table-row-actions';
 
-// Combined type for the table's data
-type UserWithRole = UserProfile & { role: UserRoles['role'] };
-
-
-const roleDisplay: Record<UserRoles['role'], { label: string; variant: 'default' | 'secondary' | 'outline' }> = {
-    admin: { label: 'مسؤول', variant: 'default' },
+const roleDisplay: Record<UserProfile['role'], { label: string; variant: 'default' | 'secondary' | 'outline' | 'destructive' }> = {
+    admin: { label: 'مسؤول', variant: 'destructive' },
     editor: { label: 'محرر', variant: 'secondary' },
-    viewer: { label: 'مشاهد', variant: 'outline' },
+    user: { label: 'مستخدم', variant: 'outline' },
 };
 
 
-export const columns: ColumnDef<UserWithRole>[] = [
+export const columns: ColumnDef<UserProfile>[] = [
   {
     accessorKey: 'name',
     header: 'المستخدم',
@@ -28,7 +24,7 @@ export const columns: ColumnDef<UserWithRole>[] = [
       return (
         <div className="flex items-center gap-3">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user.avatar} alt={user.name} />
+            <AvatarImage src={user.avatar ?? undefined} alt={user.name} />
             <AvatarFallback>{user.name?.charAt(0)}</AvatarFallback>
           </Avatar>
           <span className="font-medium">{user.name}</span>
@@ -54,7 +50,7 @@ export const columns: ColumnDef<UserWithRole>[] = [
     accessorKey: 'role',
     header: 'الصلاحية',
     cell: ({ row }) => {
-      const role = row.getValue('role') as UserRoles['role'];
+      const role = row.getValue('role') as UserProfile['role'];
       const display = roleDisplay[role] || { label: role, variant: 'secondary' };
       return (
         <Badge variant={display.variant}>

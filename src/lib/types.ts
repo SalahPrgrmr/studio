@@ -134,3 +134,7 @@ export type ForumComment = {
   text: string;
   timestamp: string;
 };
+
+export type UserRoles = {
+  role: 'admin' | 'editor' | 'viewer';
+};

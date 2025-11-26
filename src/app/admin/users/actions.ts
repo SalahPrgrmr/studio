@@ -4,7 +4,7 @@ import admin from 'firebase-admin';
 import { getFirestore } from 'firebase-admin/firestore';
 import { revalidatePath } from 'next/cache';
 import { serviceAccount } from '@/firebase/service-account-credentials';
-import type { UserProfile, UserRoles } from '@/lib/types';
+import type { UserProfile } from '@/lib/types'; // Note: UserRoles is removed as it's not needed here anymore.
 
 // Initialize Firebase Admin SDK if not already initialized
 function initializeFirebaseAdmin() {
@@ -25,34 +25,20 @@ type ActionResponse = {
   success?: boolean;
 };
 
-// Combined type for the table
-type UserWithRole = UserProfile & { role: UserRoles['role'] };
-
 
 /**
- * Fetches all users from the Firestore 'users' collection and their roles.
+ * Fetches all users from the Firestore 'users' collection.
  * This bypasses client-side security rules.
  */
-export async function getAllUsers(): Promise<{ users?: UserWithRole[]; error?: string }> {
+export async function getAllUsers(): Promise<{ users?: UserProfile[]; error?: string }> {
   try {
     const { db } = initializeFirebaseAdmin();
     const usersSnapshot = await db.collection('users').get();
     
-    const usersData = await Promise.all(
-        usersSnapshot.docs.map(async (userDoc) => {
-            const userProfile = { ...userDoc.data(), id: userDoc.id } as UserProfile;
-
-            // Fetch the role from the sub-collection
-            const roleDocRef = db.collection('users').doc(userDoc.id).collection('roles').doc('access');
-            const roleDoc = await roleDocRef.get();
-            const roleData = roleDoc.exists ? roleDoc.data() as UserRoles : { role: 'viewer' as const };
-
-            return {
-                ...userProfile,
-                role: roleData.role, // Add role to the main object
-            };
-        })
-    );
+    const usersData = usersSnapshot.docs.map(doc => ({
+        ...(doc.data() as Omit<UserProfile, 'id'>),
+        id: doc.id,
+    }));
 
     return { users: usersData };
 
@@ -70,18 +56,18 @@ export async function getAllUsers(): Promise<{ users?: UserWithRole[]; error?: s
  */
 export async function setUserRole(
   uid: string,
-  role: UserRoles['role']
+  role: UserProfile['role']
 ): Promise<ActionResponse> {
   try {
     const { auth, db } = initializeFirebaseAdmin();
 
-    // 1. Update the role in the Firestore sub-collection document
-    const roleDocRef = db.collection('users').doc(uid).collection('roles').doc('access');
-    await roleDocRef.update({ role: role });
+    // 1. Update the role in the Firestore document
+    const userDocRef = db.collection('users').doc(uid);
+    await userDocRef.update({ role: role });
 
     // 2. Set the custom claim on the user's auth token
-    const claims: { [key: string]: any } = { admin: null, editor: null, viewer: null };
-    if (role === 'admin' || role === 'editor') { // Example: admin and editor get special claims
+    const claims: { [key: string]: any } = { admin: null, editor: null }; // Reset claims
+    if (role === 'admin' || role === 'editor') {
         claims[role] = true;
     }
     

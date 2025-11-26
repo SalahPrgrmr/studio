@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuLabel
 } from '@/components/ui/dropdown-menu';
-import type { UserProfile, UserRoles } from '@/lib/types';
+import type { UserProfile } from '@/lib/types';
 import { setUserRole } from './actions';
 import { useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
@@ -25,23 +25,20 @@ interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
-type UserWithRole = UserProfile & { role: UserRoles['role'] };
-
-
-const roles: { value: UserRoles['role']; label: string }[] = [
+const roles: { value: UserProfile['role']; label: string }[] = [
     { value: 'admin', label: 'مسؤول' },
     { value: 'editor', label: 'محرر' },
-    { value: 'viewer', label: 'مشاهد' },
+    { value: 'user', label: 'مستخدم' },
 ];
 
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const user = row.original as UserWithRole;
+  const user = row.original as UserProfile;
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
-  const handleRoleChange = (newRole: UserRoles['role']) => {
+  const handleRoleChange = (newRole: UserProfile['role']) => {
     startTransition(async () => {
       const result = await setUserRole(user.id, newRole);
       if (result?.error) {
@@ -79,7 +76,7 @@ export function DataTableRowActions<TData>({
                 تغيير الصلاحية
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
-                 <DropdownMenuRadioGroup value={user.role} onValueChange={(value) => handleRoleChange(value as UserRoles['role'])}>
+                 <DropdownMenuRadioGroup value={user.role} onValueChange={(value) => handleRoleChange(value as UserProfile['role'])}>
                      {roles.map(role => (
                         <DropdownMenuRadioItem 
                             key={role.value} 
