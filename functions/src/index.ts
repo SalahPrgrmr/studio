@@ -30,25 +30,15 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
     notifications_enabled: true,
   };
 
-  // Create the initial roles document
-  const rolesRef = userProfileRef.collection('roles').doc('access');
-  const rolesData = {
-    role: 'viewer', // Default role
-    can_edit: false,
-    can_delete: false,
-    can_view_reports: false,
-  };
-
   // Use a batched write to perform all creations atomically
   const batch = db.batch();
   
   batch.set(userProfileRef, userProfileData);
   batch.set(settingsRef, settingsData);
-  batch.set(rolesRef, rolesData);
 
   try {
     await batch.commit();
-    console.log(`Successfully created profile and sub-collections for user: ${uid}`);
+    console.log(`Successfully created profile and settings for user: ${uid}`);
   } catch (error) {
     console.error(`Error creating profile for user: ${uid}`, error);
     // Re-throw the error to have the function execution marked as a failure
