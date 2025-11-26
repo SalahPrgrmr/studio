@@ -20,12 +20,20 @@ import {
     Box, 
     HelpCircle, 
     Share2,
-    Hash
+    Hash,
+    Zap
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
 const activities = [
+  {
+    icon: <Zap className="h-8 w-8 text-primary" />,
+    title: "أسهل رحلة لليقين",
+    description: "ذكر 'لا إله إلا الله' سراً وجهراً، ذكراً وتذكيراً وتبليغاً لمدة ثلاثة أيام، ثم المداومة على تخصيص أوقات لذلك يومياً.",
+    buttonLabel: "ابدأ الآن",
+    buttonLink: "#"
+  },
   {
     icon: <BookHeart className="h-8 w-8 text-primary" />,
     title: "يوميات الامتنان والشكر",
@@ -191,7 +199,7 @@ export default function PracticalActivitiesPage() {
           الأنشطة العملية: إخراج ثمرة اليقين
         </h1>
         <p className="mt-4 max-w-3xl mx-auto text-lg text-muted-foreground">
-          بعد أن اكتسبت المعرفة والتصديق، حان وقت العمل. هذه الأنشطة هي الثمرة العملية لرحلتك، وهي الإجابة على السؤال الأهم.
+          بعد أن اكتسبت المعرفة والتصديق، حان وقت العمل. هذه الأنشطة هي الثمرة العملية لرحلتكم، وهي الإجابة على السؤال الأهم.
         </p>
       </div>
 
