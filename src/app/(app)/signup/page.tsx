@@ -52,7 +52,6 @@ export default function SignupPage() {
 
       // The onUserCreate cloud function will handle creating the firestore document.
       
-      toast({ title: 'تم إنشاء الحساب بنجاح', description: 'أهلاً بك في رحلتك نحو اليقين!' });
       router.push('/');
 
     } catch (error: any) {

@@ -94,7 +94,6 @@ export default function LoginPage() {
     
     try {
       await signInWithPopup(auth, provider);
-      toast({ title: 'تم تسجيل الدخول بنجاح', description: 'أهلاً بك مجددًا!' });
       router.push('/');
     } catch (error: any) {
       if (error.code === 'auth/popup-closed-by-user') {
@@ -120,7 +119,6 @@ export default function LoginPage() {
     setIsLoading(prev => ({ ...prev, email: true }));
     try {
       await signInWithEmailAndPassword(auth, values.email, values.password);
-      toast({ title: 'تم تسجيل الدخول بنجاح', description: 'أهلاً بك مجددًا!' });
       router.push('/');
     } catch (error: any) {
       console.error("Email sign-in error:", error);
