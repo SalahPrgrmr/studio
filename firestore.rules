@@ -1,10 +1,9 @@
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{userId} {
-      // المستخدم يمكنه قراءة وتحديث وحذف مستنده الشخصي فقط
       allow read, update, delete: if request.auth != null && request.auth.uid == userId;
-      // المستخدم يمكنه إنشاء مستنده الشخصي عند التسجيل
       allow create: if request.auth != null;
     }
   }

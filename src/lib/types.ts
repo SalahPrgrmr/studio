@@ -1,3 +1,4 @@
+
 import { z } from 'zod';
 
 export const personalPathSchema = z.object({
@@ -75,10 +76,30 @@ export type UserProfile = {
   id: string;
   name: string;
   email: string;
-  created_at: any; // Allow for Firebase Timestamp object
-  avatar?: string;
-  phone?: string;
-  is_active?: boolean;
+  emailVerified: boolean;
+  photoURL: string | null;
+  phone: string | null;
+  createdAt: any; // Firebase Timestamp
+  updatedAt: any; // Firebase Timestamp
+  settings: {
+    language: 'ar' | 'en' | 'fr' | 'es' | 'ur';
+    theme: string;
+    notifications: {
+      email: boolean;
+      sms: boolean;
+      push: boolean;
+    };
+  };
+  account: {
+    provider: string;
+    lastLogin: any; // Firebase Timestamp
+  };
+  profile: {
+    bio: string | null;
+    gender: string | null;
+    birthday: string | null;
+    country: string | null;
+  };
 };
 
 export type SuccessStory = {
