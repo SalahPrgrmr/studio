@@ -63,7 +63,7 @@ export default function LoginPage() {
       console.error(error);
       let description = 'حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.';
       if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
-        description = 'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
+        description = 'البريد الإلكتروني أو كلمة المرور غير صحيحة. تأكد من بياناتك أو أنشئ حسابًا جديدًا.';
       }
       toast({
         variant: 'destructive',
