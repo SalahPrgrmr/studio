@@ -63,7 +63,9 @@ export default function SettingsSidebar() {
 
   useEffect(() => {
     const body = document.body;
-    body.classList.remove(...themes.map(t => `theme-${t.name}`));
+    themes.forEach(theme => {
+        body.classList.remove(`theme-${theme.name}`);
+    });
     if (currentTheme !== 'default') {
       body.classList.add(`theme-${currentTheme}`);
     }
@@ -86,20 +88,21 @@ export default function SettingsSidebar() {
 
   return (
     <div
-      className="fixed top-1/2 -translate-y-1/2 z-[60] no-pdf left-0"
+      className="fixed top-1/2 left-0 -translate-y-1/2 z-[60] no-pdf"
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
+      {/* Trigger Button - Always Visible */}
       <button
         className={cn(
-          "absolute top-1/2 -translate-y-1/2 bg-card border-y border-r rtl:border-r-0 rtl:border-l p-2 rounded-r-lg shadow-lg transition-transform duration-300 ease-in-out",
-          isOpen ? 'translate-x-72' : 'translate-x-0'
+          "absolute top-1/2 -translate-y-1/2 left-0 bg-card border-y border-r p-2 rounded-r-lg shadow-lg transition-transform duration-300 ease-in-out"
         )}
       >
         <Settings className="h-6 w-6 animate-spin-slow" />
         <span className="sr-only">Settings</span>
       </button>
 
+      {/* Sidebar Content - Slides in and out */}
       <div
         className={cn(
           "fixed top-0 left-0 h-full w-72 bg-card border-r shadow-2xl transition-transform duration-300 ease-in-out flex flex-col",
