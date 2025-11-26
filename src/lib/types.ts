@@ -75,7 +75,7 @@ export type UserProfile = {
   id: string;
   name: string;
   email: string;
-  created_at: string;
+  created_at: any; // Allow for Firebase Timestamp object
   avatar?: string;
   phone?: string;
   is_active: boolean;

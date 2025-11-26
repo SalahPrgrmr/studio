@@ -118,7 +118,7 @@ export default function ProfilePage() {
           <div className="flex items-center gap-2">
             <Calendar className="h-5 w-5 text-muted-foreground" />
             <span className="font-semibold">تاريخ الإنشاء:</span>
-            <span>{userProfile.created_at ? format(new Date(userProfile.created_at), 'd MMMM, yyyy') : 'غير متوفر'}</span>
+            <span>{userProfile.created_at ? format(new Date((userProfile.created_at as any).seconds * 1000), 'd MMMM, yyyy') : 'غير متوفر'}</span>
           </div>
           <div className="flex items-center gap-2">
             <ShieldCheck className="h-5 w-5 text-muted-foreground" />
