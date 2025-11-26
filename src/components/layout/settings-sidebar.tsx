@@ -1,13 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Settings, Palette, Globe, Sun, Moon } from 'lucide-react';
+import { Settings, Palette, Globe, Sun, Moon, ArrowLeftRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLanguage, languages } from '@/lib/i18n/provider';
-import type { Language } from '@/lib/i18n/settings';
+import type { Language, Direction } from '@/lib/i18n/settings';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Checkbox } from '../ui/checkbox';
+import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '../ui/tooltip';
+import { Label } from '../ui/label';
 
 const themes = [
   { name: 'default', color: 'hsl(204 88% 53%)' },
@@ -53,6 +57,7 @@ export default function SettingsSidebar() {
   const [currentTheme, setCurrentTheme] = useState('default');
   const [mode, setMode] = useState<'light' | 'dark'>('dark');
   const { language, setLanguage, getDirection } = useLanguage();
+  const [isLtr, setIsLtr] = useState(getDirection(language) === 'ltr');
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'default';
@@ -75,12 +80,33 @@ export default function SettingsSidebar() {
     body.classList.add(mode);
     localStorage.setItem('mode', mode);
   }, [currentTheme, mode]);
+  
+  useEffect(() => {
+    setIsLtr(getDirection(language) === 'ltr');
+  }, [language, getDirection]);
 
-  const handleLanguageChange = (lang: Language) => {
-    setLanguage(lang);
-    document.documentElement.lang = lang;
-    document.documentElement.dir = getDirection(lang);
+  const handleLanguageChange = (langCode: string) => {
+    const newLang = langCode as Language;
+    setLanguage(newLang);
+    const newDir = getDirection(newLang);
+    document.documentElement.lang = newLang;
+    document.documentElement.dir = newDir;
+    setIsLtr(newDir === 'ltr');
   };
+
+  const handleDirectionChange = (checked: boolean) => {
+    const newDir: Direction = checked ? 'ltr' : 'rtl';
+    setIsLtr(checked);
+    document.documentElement.dir = newDir;
+
+    // Find a language that matches the new direction and set it
+    const newLang = languages.find(l => l.dir === newDir);
+    if (newLang && newLang.code !== language) {
+        setLanguage(newLang.code);
+        document.documentElement.lang = newLang.code;
+        localStorage.setItem('language', newLang.code);
+    }
+  }
   
   const toggleMode = () => {
     setMode(prev => prev === 'light' ? 'dark' : 'light');
@@ -137,24 +163,40 @@ export default function SettingsSidebar() {
               </Button>
             </div>
 
-            <div>
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-sm text-muted-foreground">
+            <div className="space-y-3">
+              <h4 className="font-semibold flex items-center gap-2 text-sm text-muted-foreground">
                 <Globe className="h-4 w-4" />
                 اللغة
               </h4>
-              <div className="flex flex-wrap gap-2">
-                {languages.map((lang) => (
-                  <Button
-                    key={lang.code}
-                    variant={language === lang.code ? 'default' : 'outline'}
-                    size="sm"
-                    className="flex-1"
-                    onClick={() => handleLanguageChange(lang.code)}
-                  >
-                    {lang.name}
-                  </Button>
-                ))}
-              </div>
+               <Select value={language} onValueChange={handleLanguageChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="اختر لغة" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {languages.map((lang) => (
+                      <SelectItem key={lang.code} value={lang.code}>
+                        {lang.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                             <div className="flex items-center space-x-2 space-x-reverse">
+                                <Checkbox id="ltr-mode" checked={isLtr} onCheckedChange={handleDirectionChange} />
+                                <Label htmlFor="ltr-mode" className="flex items-center gap-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                   LTR <ArrowLeftRight className="h-3 w-3" />
+                                </Label>
+                            </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>هذا الخيار يجعل الموقع مناسب للغة الإنجليزية (من اليسار لليمين)</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+
             </div>
 
              <div>

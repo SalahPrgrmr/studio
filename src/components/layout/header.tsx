@@ -159,13 +159,13 @@ export default function Header() {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
                   <Link href="/profile">
-                    <UserCircle2 className="mr-2 h-4 w-4" />
+                    <UserCircle2 className="ml-2 h-4 w-4" />
                     <span>{t('header.profile')}</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleSignOut}>
-                  <LogOut className="mr-2 h-4 w-4" />
+                  <LogOut className="ml-2 h-4 w-4" />
                   <span>{t('header.signOut')}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -181,13 +181,13 @@ export default function Header() {
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
                   <Link href="/login">
-                    <LogIn className="mr-2 h-4 w-4" />
+                    <LogIn className="ml-2 h-4 w-4" />
                     <span>{t('header.signIn')}</span>
                   </Link>
                 </DropdownMenuItem>
                  <DropdownMenuItem asChild>
                   <Link href="/signup">
-                    <UserPlus className="mr-2 h-4 w-4" />
+                    <UserPlus className="ml-2 h-4 w-4" />
                     <span>{t('header.signUp')}</span>
                   </Link>
                 </DropdownMenuItem>
