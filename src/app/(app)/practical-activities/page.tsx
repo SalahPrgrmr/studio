@@ -35,6 +35,13 @@ const activities = [
     buttonLink: "#"
   },
   {
+    icon: <Users className="h-8 w-8 text-primary" />,
+    title: "جيوش التبليغ والإنذار",
+    description: "انظم الى جيوش التذكير او التبليغ او الانذار في المكان المشهور فيه على الواقع او على مواقع التواصل الاجتماعي.",
+    buttonLabel: "انضم الآن",
+    buttonLink: "/community/volunteers"
+  },
+  {
     icon: <BookHeart className="h-8 w-8 text-primary" />,
     title: "يوميات الامتنان والشكر",
     description: "خصص 5 دقائق كل يوم لكتابة ثلاثة أشياء على الأقل أنت ممتن لوجودها في حياتك. هذا التمرين يعمق الشعور بنعم الله التي لا تحصى.",
