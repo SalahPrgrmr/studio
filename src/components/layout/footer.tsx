@@ -1,6 +1,6 @@
 'use client';
 
-import { Globe, Download, AppWindow, Home, Mail, Target } from 'lucide-react';
+import { Globe, Download, AppWindow, Home, Mail, Target, Share2 } from 'lucide-react';
 import Logo from '../logo';
 import Link from 'next/link';
 import { Button } from '../ui/button';
@@ -47,6 +47,7 @@ const sitemapLinks = {
       { href: '/practical-activities', labelKey: 'footer.links.activities' },
       { href: '/library', labelKey: 'footer.links.library' },
       { href: '/community', labelKey: 'footer.links.community' },
+      { href: '/share-center', labelKey: 'footer.links.shareCenter' },
       { href: '/vr-journeys', labelKey: 'footer.links.vrJourneys' },
       { href: '/external-resources', labelKey: 'footer.links.externalResources' },
   ]
