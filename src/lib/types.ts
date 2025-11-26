@@ -10,7 +10,6 @@ export type UserProfile = {
   phone: string | null;
   createdAt: any; // Firebase Timestamp
   lastLogin: any; // Firebase Timestamp
-  role: 'user' | 'editor' | 'admin';
 };
 
 // User Settings
@@ -18,10 +17,6 @@ export type UserSettings = {
   theme: 'light' | 'dark';
   language: 'ar' | 'en' | 'fr' | 'es' | 'ur';
   notifications: boolean;
-  privacy: {
-    showEmail: boolean;
-    showPhone: boolean;
-  };
 };
 
 // User Preferences

@@ -12,10 +12,9 @@
         "avatar": { "type": "string", "format": "uri", "description": "URL of the user's profile picture." },
         "phone": { "type": ["string", "null"] },
         "createdAt": { "type": "string", "format": "date-time" },
-        "lastLogin": { "type": "string", "format": "date-time" },
-        "role": { "type": "string", "enum": ["user", "editor", "admin"] }
+        "lastLogin": { "type": "string", "format": "date-time" }
       },
-      "required": ["name", "email", "createdAt", "lastLogin", "role"]
+      "required": ["name", "email", "createdAt", "lastLogin"]
     },
     "UserSettings": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -25,16 +24,9 @@
       "properties": {
         "theme": { "type": "string", "enum": ["light", "dark"] },
         "language": { "type": "string", "enum": ["ar", "en", "fr", "es", "ur"] },
-        "notifications": { "type": "boolean" },
-        "privacy": {
-          "type": "object",
-          "properties": {
-            "showEmail": { "type": "boolean" },
-            "showPhone": { "type": "boolean" }
-          }
-        }
+        "notifications": { "type": "boolean" }
       },
-      "required": ["theme", "language", "notifications", "privacy"]
+      "required": ["theme", "language", "notifications"]
     },
     "UserPreferences": {
       "$schema": "http://json-schema.org/draft-07/schema#",

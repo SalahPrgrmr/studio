@@ -1,3 +1,4 @@
+
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
@@ -8,14 +9,18 @@ import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DataTableRowActions } from './data-table-row-actions';
 
-const roleDisplay: Record<UserProfile['role'], { label: string; variant: 'default' | 'secondary' | 'outline' | 'destructive' }> = {
+// Define roles type locally for admin actions
+type UserRole = 'user' | 'editor' | 'admin';
+type UserProfileWithRole = UserProfile & { role?: UserRole };
+
+const roleDisplay: Record<UserRole, { label: string; variant: 'default' | 'secondary' | 'outline' | 'destructive' }> = {
     admin: { label: 'مسؤول', variant: 'destructive' },
     editor: { label: 'محرر', variant: 'secondary' },
     user: { label: 'مستخدم', variant: 'outline' },
 };
 
 
-export const columns: ColumnDef<UserProfile>[] = [
+export const columns: ColumnDef<UserProfileWithRole>[] = [
   {
     accessorKey: 'name',
     header: 'المستخدم',
@@ -50,8 +55,10 @@ export const columns: ColumnDef<UserProfile>[] = [
     accessorKey: 'role',
     header: 'الصلاحية',
     cell: ({ row }) => {
-      const role = row.getValue('role') as UserProfile['role'];
-      const display = roleDisplay[role] || { label: role, variant: 'secondary' };
+      const role = row.getValue('role') as UserRole | undefined;
+      // Default to 'user' if role is not present
+      const currentRole = role || 'user';
+      const display = roleDisplay[currentRole] || { label: currentRole, variant: 'secondary' };
       return (
         <Badge variant={display.variant}>
           {display.label}

@@ -156,10 +156,6 @@ export default function ProfilePage() {
                 <span className="font-semibold">آخر تسجيل دخول:</span>
                 <span>{formatRelativeDate(userProfile.lastLogin)}</span>
             </div>
-             <div className="flex items-center gap-2">
-                <span className="font-semibold">الصلاحية:</span>
-                <span>{userProfile.role}</span>
-            </div>
             </CardContent>
         </Card>
 

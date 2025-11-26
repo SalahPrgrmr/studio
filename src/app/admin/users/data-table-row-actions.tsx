@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Row } from '@tanstack/react-table';
@@ -20,12 +21,16 @@ import { setUserRole } from './actions';
 import { useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
+// Define roles type locally for admin actions
+type UserRole = 'user' | 'editor' | 'admin';
+type UserProfileWithRole = UserProfile & { role?: UserRole };
+
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
-const roles: { value: UserProfile['role']; label: string }[] = [
+const roles: { value: UserRole; label: string }[] = [
     { value: 'admin', label: 'مسؤول' },
     { value: 'editor', label: 'محرر' },
     { value: 'user', label: 'مستخدم' },
@@ -34,11 +39,11 @@ const roles: { value: UserProfile['role']; label: string }[] = [
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const user = row.original as UserProfile;
+  const user = row.original as UserProfileWithRole;
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
-  const handleRoleChange = (newRole: UserProfile['role']) => {
+  const handleRoleChange = (newRole: UserRole) => {
     startTransition(async () => {
       const result = await setUserRole(user.id, newRole);
       if (result?.error) {
@@ -55,6 +60,8 @@ export function DataTableRowActions<TData>({
       }
     });
   };
+
+  const currentRole = user.role || 'user';
 
   return (
     <DropdownMenu>
@@ -76,7 +83,7 @@ export function DataTableRowActions<TData>({
                 تغيير الصلاحية
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
-                 <DropdownMenuRadioGroup value={user.role} onValueChange={(value) => handleRoleChange(value as UserProfile['role'])}>
+                 <DropdownMenuRadioGroup value={currentRole} onValueChange={(value) => handleRoleChange(value as UserRole)}>
                      {roles.map(role => (
                         <DropdownMenuRadioItem 
                             key={role.value} 

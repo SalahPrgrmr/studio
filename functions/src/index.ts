@@ -21,7 +21,6 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
     phone: null,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
     lastLogin: admin.firestore.FieldValue.serverTimestamp(),
-    role: 'user', // Default role
   };
   batch.set(userDocRef, newUserProfile);
 
@@ -31,10 +30,6 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
     theme: 'dark',
     language: 'ar',
     notifications: true,
-    privacy: {
-        showEmail: false,
-        showPhone: false,
-    }
   };
   batch.set(settingsDocRef, userSettings);
 

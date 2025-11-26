@@ -1,10 +1,15 @@
+
 'use server';
 
 import admin from 'firebase-admin';
 import { getFirestore } from 'firebase-admin/firestore';
 import { revalidatePath } from 'next/cache';
 import { serviceAccount } from '@/firebase/service-account-credentials';
-import type { UserProfile } from '@/lib/types'; // Note: UserRoles is removed as it's not needed here anymore.
+import type { UserProfile } from '@/lib/types';
+
+// Define roles type locally for admin actions
+type UserRole = 'user' | 'editor' | 'admin';
+
 
 // Initialize Firebase Admin SDK if not already initialized
 function initializeFirebaseAdmin() {
@@ -30,7 +35,7 @@ type ActionResponse = {
  * Fetches all users from the Firestore 'users' collection.
  * This bypasses client-side security rules.
  */
-export async function getAllUsers(): Promise<{ users?: UserProfile[]; error?: string }> {
+export async function getAllUsers(): Promise<{ users?: (UserProfile & { role?: UserRole })[]; error?: string }> {
   try {
     const { db } = initializeFirebaseAdmin();
     const usersSnapshot = await db.collection('users').get();
@@ -38,6 +43,8 @@ export async function getAllUsers(): Promise<{ users?: UserProfile[]; error?: st
     const usersData = usersSnapshot.docs.map(doc => ({
         ...(doc.data() as Omit<UserProfile, 'id'>),
         id: doc.id,
+        // The role might exist on old documents, so we include it if present
+        role: doc.data().role,
     }));
 
     return { users: usersData };
@@ -53,10 +60,11 @@ export async function getAllUsers(): Promise<{ users?: UserProfile[]; error?: st
 
 /**
  * Sets a user's role in Firestore and sets a corresponding custom claim.
+ * This function is kept for admin management but is separated from the main user model.
  */
 export async function setUserRole(
   uid: string,
-  role: UserProfile['role']
+  role: UserRole
 ): Promise<ActionResponse> {
   try {
     const { auth, db } = initializeFirebaseAdmin();
