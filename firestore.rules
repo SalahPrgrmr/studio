@@ -2,24 +2,30 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Allow any authenticated user to read, but only the owner to write.
     match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-      
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+
       match /settings/{settingId} {
-        allow read, write: if request.auth != null && request.auth.uid == userId;
+        allow read: if request.auth != null;
+        allow write: if request.auth != null && request.auth.uid == userId;
       }
 
       match /preferences/{prefId} {
-        allow read, write: if request.auth != null && request.auth.uid == userId;
+        allow read: if request.auth != null;
+        allow write: if request.auth != null && request.auth.uid == userId;
       }
     }
     
+    // Public read, but only authenticated users can create/update their own.
     match /success_stories/{storyId} {
         allow read: if true;
         allow create: if request.auth != null;
         allow update: if request.auth != null && request.auth.uid == resource.data.authorId;
     }
     
+    // Public read for forum, but authenticated users for actions.
     match /forum_posts/{postId} {
         allow read: if true;
         allow create: if request.auth != null;
@@ -31,6 +37,7 @@ service cloud.firestore {
         }
     }
     
+    // Public read for chat rooms, authenticated for creation/updates.
     match /voice_chat_rooms/{roomId} {
         allow read: if true;
         allow create, update: if request.auth != null;
@@ -41,6 +48,7 @@ service cloud.firestore {
         allow create, update: if request.auth != null;
     }
     
+    // Volunteers can only manage their own document.
     match /volunteers/{volunteerId} {
         allow read, write: if request.auth != null && request.auth.uid == volunteerId;
     }
