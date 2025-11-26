@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { AlertTriangle, Eclipse, Mountain, Wind, Zap, Users } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
