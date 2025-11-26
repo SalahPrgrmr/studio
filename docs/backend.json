@@ -4,13 +4,9 @@
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "User Profile",
       "type": "object",
-      "description": "Stores public-facing user profile information, stats, and achievements.",
+      "description": "Stores core user profile information.",
       "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the user, same as the user's UID."
-        },
-        "displayName": {
+        "name": {
           "type": "string",
           "description": "The user's public display name."
         },
@@ -18,285 +14,73 @@
           "type": "string",
           "format": "email"
         },
-        "photoURL": {
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "avatar": {
           "type": "string",
           "format": "uri",
           "description": "URL of the user's profile picture."
         },
+        "phone": {
+          "type": "string"
+        },
+        "is_active": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": ["name", "email", "created_at", "is_active"]
+    },
+    "UserSettings": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User Settings",
+      "type": "object",
+      "description": "Stores user-specific application settings.",
+      "properties": {
+        "theme": {
+          "type": "string",
+          "enum": ["light", "dark"],
+          "default": "dark"
+        },
+        "language": {
+          "type": "string",
+          "enum": ["ar", "en"],
+          "default": "ar"
+        },
+        "notifications_enabled": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "required": ["theme", "language", "notifications_enabled"]
+    },
+    "UserRoles": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User Roles",
+      "type": "object",
+      "description": "Stores user roles and specific permissions.",
+      "properties": {
         "role": {
           "type": "string",
-          "description": "The user's role, e.g., 'admin', 'user', 'editor', 'moderator'.",
-          "enum": [
-            "admin",
-            "editor",
-            "moderator",
-            "user"
-          ],
-          "default": "user"
+          "enum": ["admin", "editor", "viewer"],
+          "default": "viewer"
         },
-        "points": {
-          "type": "number",
-          "description": "Gamification points earned by the user.",
-          "default": 0
-        },
-        "title": {
-          "type": "string",
-          "description": "The current title or rank of the user based on points.",
-          "default": "مستكشف"
-        },
-        "badges": {
-          "type": "array",
-          "description": "A list of badge IDs the user has earned.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "stats": {
-          "type": "object",
-          "properties": {
-            "storiesPublished": {
-              "type": "number",
-              "default": 0
-            },
-            "forumPosts": {
-              "type": "number",
-              "default": 0
-            },
-            "audioContributions": {
-              "type": "number",
-              "default": 0
-            }
-          }
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      },
-      "required": [
-        "id",
-        "displayName",
-        "email",
-        "points",
-        "title",
-        "role"
-      ]
-    },
-    "SuccessStory": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Success Story",
-      "type": "object",
-      "description": "Represents a user-submitted story of their journey to certainty.",
-      "properties": {
-        "title": {
-          "type": "string"
-        },
-        "author": {
-          "type": "string"
-        },
-        "authorId": {
-          "type": "string"
-        },
-        "content": {
-          "type": "string"
-        },
-        "creationDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "status": {
-          "type": "string",
-          "enum": [
-            "pending_review",
-            "approved"
-          ]
-        },
-        "imageId": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "title",
-        "author",
-        "authorId",
-        "content",
-        "creationDate",
-        "status"
-      ]
-    },
-    "Volunteer": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Volunteer",
-      "type": "object",
-      "description": "Represents a volunteer contributing to the platform.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the volunteer, same as the user's UID."
-        },
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string",
-          "format": "email"
-        },
-        "phoneNumber": {
-          "type": "string"
-        },
-        "country": {
-          "type": "string"
-        },
-        "availability": {
-          "type": "string",
-          "enum": [
-            "few_hours_week",
-            "part_time",
-            "full_time"
-          ]
-        },
-        "skills": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "interests": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "notes": {
-          "type": "string"
-        },
-        "agreedToTerms": {
+        "can_edit": {
           "type": "boolean",
-          "description": "Indicates if the volunteer has agreed to the terms of service."
+          "default": false
         },
-        "lastUpdated": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Timestamp of the last update to the volunteer's information."
+        "can_delete": {
+          "type": "boolean",
+          "default": false
+        },
+        "can_view_reports": {
+          "type": "boolean",
+          "default": false
         }
       },
-      "required": [
-        "id",
-        "firstName",
-        "lastName",
-        "email",
-        "availability",
-        "skills",
-        "interests",
-        "agreedToTerms"
-      ]
-    },
-    "VoiceChatRoom": {
-      "title": "Voice Chat Room",
-      "type": "object",
-      "description": "Represents a live audio chat room.",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "ownerId": {
-          "type": "string"
-        },
-        "creationDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "members": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string",
-            "enum": [
-              "owner",
-              "speaker",
-              "listener"
-            ]
-          }
-        }
-      },
-      "required": [
-        "name",
-        "ownerId",
-        "creationDate",
-        "members"
-      ]
-    },
-    "VideoChatRoom": {
-      "title": "Video Chat Room",
-      "type": "object",
-      "description": "Represents a live video broadcast room.",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "presenter": {
-          "type": "string"
-        },
-        "ownerId": {
-          "type": "string"
-        },
-        "creationDate": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "members": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string",
-            "enum": [
-              "owner",
-              "viewer"
-            ]
-          }
-        }
-      },
-      "required": [
-        "name",
-        "presenter",
-        "ownerId",
-        "creationDate",
-        "members"
-      ]
-    },
-    "ForumPost": {
-      "title": "Forum Post",
-      "type": "object",
-      "description": "A single post in the community forum.",
-      "properties": {
-        "title": { "type": "string" },
-        "content": { "type": "string" },
-        "author": { "type": "string" },
-        "authorId": { "type": "string" },
-        "avatarUrl": { "type": "string", "format": "uri" },
-        "timestamp": { "type": "string", "format": "date-time" },
-        "tags": { "type": "array", "items": { "type": "string" } },
-        "likes": { "type": "array", "items": { "type": "string" } },
-        "commentCount": { "type": "number", "default": 0 }
-      },
-      "required": ["title", "content", "author", "authorId", "timestamp"]
-    },
-    "ForumComment": {
-      "title": "Forum Comment",
-      "type": "object",
-      "description": "A comment on a forum post.",
-      "properties": {
-        "author": { "type": "string" },
-        "authorId": { "type": "string" },
-        "avatarUrl": { "type": "string", "format": "uri" },
-        "text": { "type": "string" },
-        "timestamp": { "type": "string", "format": "date-time" }
-      },
-      "required": ["author", "authorId", "text", "timestamp"]
+      "required": ["role", "can_edit", "can_delete", "can_view_reports"]
     }
   },
   "auth": {
@@ -314,39 +98,19 @@
       "schema": {
         "$ref": "#/entities/UserProfile"
       },
-      "description": "Stores public user profile data, including gamification stats and badges."
+      "description": "Stores the main profile data for a user."
     },
-    "/success_stories/{storyId}": {
+    "/users/{userId}/settings/general": {
       "schema": {
-        "$ref": "#/entities/SuccessStory"
+        "$ref": "#/entities/UserSettings"
       },
-      "description": "Stores user-submitted success stories. Requires admin approval."
+      "description": "Stores general settings for a user."
     },
-    "/volunteers/{volunteerId}": {
+    "/users/{userId}/roles/access": {
       "schema": {
-        "$ref": "#/entities/Volunteer"
+        "$ref": "#/entities/UserRoles"
       },
-      "description": "Stores volunteer registration information. Each document ID is the UID of the user."
-    },
-    "/voice_chat_rooms/{roomId}": {
-      "schema": {
-        "$ref": "#/entities/VoiceChatRoom"
-      },
-      "description": "Stores data for live voice chat rooms."
-    },
-    "/video_chat_rooms/{roomId}": {
-      "schema": {
-        "$ref": "#/entities/VideoChatRoom"
-      },
-      "description": "Stores data for live video broadcast rooms."
-    },
-    "/forum_posts/{postId}": {
-      "schema": { "$ref": "#/entities/ForumPost" },
-      "description": "Stores main posts for the community forum."
-    },
-    "/forum_posts/{postId}/comments/{commentId}": {
-      "schema": { "$ref": "#/entities/ForumComment" },
-      "description": "Stores comments for a specific forum post."
+      "description": "Stores access roles and permissions for a user."
     }
   }
 }

@@ -72,24 +72,28 @@ export type Volunteer = VolunteerFormValues & {
 };
 
 export type UserProfile = {
-    id: string;
-    displayName: string;
-    email: string;
-    photoURL: string;
-    role: 'admin' | 'editor' | 'moderator' | 'user';
-    points: number;
-    title: string;
-    badges: string[];
-    stats: {
-        storiesPublished: number;
-        forumPosts: number;
-        audioContributions: number;
-    };
-    createdAt?: {
-      _seconds: number;
-      _nanoseconds: number;
-    } | string;
+  id: string;
+  name: string;
+  email: string;
+  created_at: string;
+  avatar?: string;
+  phone?: string;
+  is_active: boolean;
 };
+
+export type UserSettings = {
+    theme: 'light' | 'dark';
+    language: 'ar' | 'en';
+    notifications_enabled: boolean;
+};
+
+export type UserRoles = {
+    role: 'admin' | 'editor' | 'viewer';
+    can_edit: boolean;
+    can_delete: boolean;
+    can_view_reports: boolean;
+};
+
 
 export type SuccessStory = {
   id: string;

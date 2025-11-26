@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
@@ -16,7 +15,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuLabel
 } from '@/components/ui/dropdown-menu';
-import { UserProfile } from '@/lib/types';
+import type { UserProfile, UserRoles } from '@/lib/types';
 import { setUserRole } from './actions';
 import { useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
@@ -26,21 +25,23 @@ interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
-const roles: { value: UserProfile['role']; label: string }[] = [
+type UserWithRole = UserProfile & { role: UserRoles['role'] };
+
+
+const roles: { value: UserRoles['role']; label: string }[] = [
     { value: 'admin', label: 'مسؤول' },
     { value: 'editor', label: 'محرر' },
-    { value: 'moderator', label: 'مشرف' },
-    { value: 'user', label: 'مستخدم' },
+    { value: 'viewer', label: 'مشاهد' },
 ];
 
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const user = row.original as UserProfile;
+  const user = row.original as UserWithRole;
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
-  const handleRoleChange = (newRole: UserProfile['role']) => {
+  const handleRoleChange = (newRole: UserRoles['role']) => {
     startTransition(async () => {
       const result = await setUserRole(user.id, newRole);
       if (result?.error) {
@@ -52,7 +53,7 @@ export function DataTableRowActions<TData>({
       } else {
         toast({
           title: 'تم التحديث',
-          description: `تم تغيير صلاحية ${user.displayName} إلى ${roles.find(r => r.value === newRole)?.label}.`,
+          description: `تم تغيير صلاحية ${user.name} إلى ${roles.find(r => r.value === newRole)?.label}.`,
         });
       }
     });
@@ -78,7 +79,7 @@ export function DataTableRowActions<TData>({
                 تغيير الصلاحية
             </DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
-                 <DropdownMenuRadioGroup value={user.role} onValueChange={(value) => handleRoleChange(value as UserProfile['role'])}>
+                 <DropdownMenuRadioGroup value={user.role} onValueChange={(value) => handleRoleChange(value as UserRoles['role'])}>
                      {roles.map(role => (
                         <DropdownMenuRadioItem 
                             key={role.value} 
