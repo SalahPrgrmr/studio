@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -113,123 +114,122 @@ export default function SettingsSidebar() {
   }
 
   const directionClasses = isLtr ? {
-    trigger: 'right-0 rounded-l-lg',
+    container: 'right-0',
     panel: 'right-12'
   } : {
-    trigger: 'left-0 rounded-r-lg',
+    container: 'left-0',
     panel: 'left-12'
   };
   
   return (
-    <div
-      className="fixed top-1/2 -translate-y-1/2 z-[60] no-pdf group"
-    >
-      <div
-        onClick={() => setIsPanelOpen(true)}
+    <div className={cn("fixed top-1/2 -translate-y-1/2 z-[60] no-pdf", directionClasses.container)}>
+      <Button
+        onClick={() => setIsPanelOpen(p => !p)}
+        variant="ghost"
+        size="icon"
         className={cn(
-          "absolute top-1/2 -translate-y-1/2 bg-card border-y p-2 shadow-lg transition-all duration-300 ease-in-out cursor-pointer",
-          directionClasses.trigger,
-          isLtr ? "border-l" : "border-r"
+          "absolute top-1/2 -translate-y-1/2 bg-card border p-2 shadow-lg transition-transform hover:scale-110",
+           isLtr ? "right-0 rounded-l-full" : "left-0 rounded-r-full"
         )}
       >
         <Settings className="h-6 w-6 text-primary group-hover:animate-spin-slow" />
         <span className="sr-only">Settings</span>
-      </div>
+      </Button>
 
-      <div
-        className={cn(
-          "absolute top-1/2 -translate-y-1/2 transition-all duration-300 ease-in-out",
-          directionClasses.panel,
-          isPanelOpen ? 'opacity-100 translate-x-0' : 'opacity-0 pointer-events-none',
-          isLtr ? (isPanelOpen ? 'translate-x-0' : 'translate-x-8') : (isPanelOpen ? 'translate-x-0' : '-translate-x-8')
-        )}
-      >
-        <Card className="w-72 shadow-2xl">
-          <CardHeader className='relative'>
-            <CardTitle className="font-headline">تخصيص الواجهة</CardTitle>
-            <Button variant="ghost" size="icon" className="absolute top-3 right-3 h-7 w-7" onClick={() => setIsPanelOpen(false)}>
-              <X className="h-4 w-4" />
-            </Button>
-          </CardHeader>
-          <CardContent className="space-y-6">
-             <div>
-              <h4 className="font-semibold mb-3 flex items-center gap-2 text-sm text-muted-foreground">
-                <Palette className="h-4 w-4" />
-                الألوان
-              </h4>
-              <div className="grid grid-cols-7 gap-2">
-                {themes.map((theme) => (
-                  <button
-                    key={theme.name}
-                    onClick={() => setCurrentTheme(theme.name)}
-                    className={cn(
-                      'h-7 w-7 rounded-full border-2 transition-transform hover:scale-110',
-                      currentTheme === theme.name ? 'border-primary' : 'border-muted'
-                    )}
-                    style={{ backgroundColor: theme.color }}
-                    aria-label={`Theme ${theme.name}`}
-                  />
-                ))}
-              </div>
-              <Button onClick={toggleMode} variant="outline" size="sm" className="w-full mt-4">
-                  {mode === 'light' ? <Moon className="h-4 w-4 mr-2 rtl:ml-2 rtl:mr-0" /> : <Sun className="h-4 w-4 mr-2 rtl:ml-2 rtl:mr-0" />}
-                  {mode === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح'}
+      {isPanelOpen && (
+        <div
+          className={cn(
+            "absolute top-1/2 -translate-y-1/2",
+            directionClasses.panel,
+          )}
+        >
+          <Card className="w-72 shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+            <CardHeader className='relative'>
+              <CardTitle className="font-headline">تخصيص الواجهة</CardTitle>
+              <Button variant="ghost" size="icon" className={cn("absolute top-3 h-7 w-7", isLtr ? 'left-3' : 'right-3')} onClick={() => setIsPanelOpen(false)}>
+                <X className="h-4 w-4" />
               </Button>
-            </div>
-
-            <div className="space-y-3">
-              <h4 className="font-semibold flex items-center gap-2 text-sm text-muted-foreground">
-                <Globe className="h-4 w-4" />
-                اللغة
-              </h4>
-               <Select value={language} onValueChange={handleLanguageChange}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="اختر لغة" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {languages.map((lang) => (
-                      <SelectItem key={lang.code} value={lang.code}>
-                        {lang.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                             <div className="flex items-center space-x-2 space-x-reverse">
-                                <Checkbox id="ltr-mode" checked={isLtr} onCheckedChange={handleDirectionChange} />
-                                <Label htmlFor="ltr-mode" className="flex items-center gap-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                   LTR <ArrowLeftRight className="h-3 w-3" />
-                                </Label>
-                            </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                            <p>هذا الخيار يجعل الموقع مناسب للغة الإنجليزية (من اليسار لليمين)</p>
-                        </TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-
-            </div>
-
-             <div>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div>
                 <h4 className="font-semibold mb-3 flex items-center gap-2 text-sm text-muted-foreground">
-                    تابعنا
+                  <Palette className="h-4 w-4" />
+                  الألوان
                 </h4>
-                <div className="flex justify-center gap-4">
-                   {socialLinks.map((social) => (
-                    <Link key={social.name} href={social.href} target="_blank" rel="noopener noreferrer"
-                        className="text-muted-foreground hover:text-primary transition-colors">
-                        {social.icon}
-                        <span className="sr-only">{social.name}</span>
-                    </Link>
-                ))}
+                <div className="grid grid-cols-7 gap-2">
+                  {themes.map((theme) => (
+                    <button
+                      key={theme.name}
+                      onClick={() => setCurrentTheme(theme.name)}
+                      className={cn(
+                        'h-7 w-7 rounded-full border-2 transition-transform hover:scale-110',
+                        currentTheme === theme.name ? 'border-primary' : 'border-muted'
+                      )}
+                      style={{ backgroundColor: theme.color }}
+                      aria-label={`Theme ${theme.name}`}
+                    />
+                  ))}
                 </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+                <Button onClick={toggleMode} variant="outline" size="sm" className="w-full mt-4">
+                    {mode === 'light' ? <Moon className="h-4 w-4 mr-2 rtl:ml-2 rtl:mr-0" /> : <Sun className="h-4 w-4 mr-2 rtl:ml-2 rtl:mr-0" />}
+                    {mode === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح'}
+                </Button>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="font-semibold flex items-center gap-2 text-sm text-muted-foreground">
+                  <Globe className="h-4 w-4" />
+                  اللغة
+                </h4>
+                <Select value={language} onValueChange={handleLanguageChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="اختر لغة" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {languages.map((lang) => (
+                        <SelectItem key={lang.code} value={lang.code}>
+                          {lang.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  
+                  <TooltipProvider>
+                      <Tooltip>
+                          <TooltipTrigger asChild>
+                              <div className="flex items-center space-x-2 space-x-reverse">
+                                  <Checkbox id="ltr-mode" checked={isLtr} onCheckedChange={handleDirectionChange} />
+                                  <Label htmlFor="ltr-mode" className="flex items-center gap-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                    LTR <ArrowLeftRight className="h-3 w-3" />
+                                  </Label>
+                              </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                              <p>هذا الخيار يجعل الموقع مناسب للغة الإنجليزية (من اليسار لليمين)</p>
+                          </TooltipContent>
+                      </Tooltip>
+                  </TooltipProvider>
+
+              </div>
+
+              <div>
+                  <h4 className="font-semibold mb-3 flex items-center gap-2 text-sm text-muted-foreground">
+                      تابعنا
+                  </h4>
+                  <div className="flex justify-center gap-4">
+                    {socialLinks.map((social) => (
+                      <Link key={social.name} href={social.href} target="_blank" rel="noopener noreferrer"
+                          className="text-muted-foreground hover:text-primary transition-colors">
+                          {social.icon}
+                          <span className="sr-only">{social.name}</span>
+                      </Link>
+                  ))}
+                  </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
