@@ -3,7 +3,7 @@
 /**
  * @fileOverview An AI therapeutic guide named Khalil.
  *
- * - getKhalilResponse - A function that provides therapeutic guidance.
+ * - getKhalilResponse - a function that provides therapeutic guidance.
  * - KhalilAssistantInput - The input type for the getKhalilResponse function.
  * - KhalilAssistantOutput - The return type for the getKhalilResponse function.
  */

@@ -16,7 +16,7 @@ export default function HeroSection() {
             ابدأ رحلتك نحو <span className="text-primary">اليقين بالله</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-            اكتشف رحلة شخصية نحو الوضوح والأمان والرفاهية. منصتنا تقدم الإرشاد والبصيرة ومجتمعًا داعمًا لمساعدتك في العثور على الإجابات التي تبحث عنها لتوحيد الله ومعرفة الهدف من وجودك.
+            اكتشف رحلة شخصية نحو الوضوح والأمان والرفاهية. منصتكم تقدم الإرشاد والبصيرة ومجتمعًا داعمًا لمساعدتك في العثور على الإجابات التي تبحث عنها لتوحيد الله ومعرفة الهدف من وجودك.
           </p>
           <div className="flex justify-center">
             <Button size="lg" onClick={scrollToMain}>
