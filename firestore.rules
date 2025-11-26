@@ -18,7 +18,6 @@ service cloud.firestore {
       }
     }
     
-    // قواعد لمجموعات البيانات الأخرى
     match /success_stories/{storyId} {
         allow read: if resource.data.status == 'approved' || (request.auth != null && request.auth.uid == resource.data.authorId);
         allow create: if request.auth != null;
