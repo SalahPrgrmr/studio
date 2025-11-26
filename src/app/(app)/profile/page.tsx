@@ -10,7 +10,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
-  ShieldCheck,
   User,
   Loader2,
   Mail,
@@ -121,19 +120,6 @@ export default function ProfilePage() {
             <span>{userProfile.created_at ? format(new Date((userProfile.created_at as any).seconds * 1000), 'd MMMM, yyyy') : 'غير متوفر'}</span>
           </div>
           <div className="flex items-center gap-2">
-            <ShieldCheck className="h-5 w-5 text-muted-foreground" />
-            <span className="font-semibold">حالة الحساب:</span>
-            {userProfile.is_active ? (
-              <span className="flex items-center gap-1 text-green-500">
-                <CheckCircle className="h-5 w-5" /> نشط
-              </span>
-            ) : (
-              <span className="flex items-center gap-1 text-red-500">
-                <XCircle className="h-5 w-5" /> غير نشط
-              </span>
-            )}
-          </div>
-           <div className="flex items-center gap-2">
             <span className="font-semibold">رقم الهاتف:</span>
             <span>{userProfile.phone || 'لم يتم إضافته'}</span>
           </div>

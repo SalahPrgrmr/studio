@@ -78,22 +78,8 @@ export type UserProfile = {
   created_at: any; // Allow for Firebase Timestamp object
   avatar?: string;
   phone?: string;
-  is_active: boolean;
+  is_active?: boolean;
 };
-
-export type UserSettings = {
-    theme: 'light' | 'dark';
-    language: 'ar' | 'en';
-    notifications_enabled: boolean;
-};
-
-export type UserRoles = {
-    role: 'admin' | 'editor' | 'viewer';
-    can_edit: boolean;
-    can_delete: boolean;
-    can_view_reports: boolean;
-};
-
 
 export type SuccessStory = {
   id: string;
