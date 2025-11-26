@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Eye, Settings, Palette, Globe, Sun, Moon } from 'lucide-react';
+import { Settings, Palette, Globe, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLanguage, languages } from '@/lib/i18n/provider';
@@ -88,95 +88,91 @@ export default function SettingsSidebar() {
 
   return (
     <div
-      className="fixed top-1/2 left-0 -translate-y-1/2 z-[60] no-pdf"
+      className="fixed top-1/2 left-0 -translate-y-1/2 z-[60] no-pdf group"
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      {/* Trigger Button - Always Visible */}
-      <button
+      <div
         className={cn(
           "absolute top-1/2 -translate-y-1/2 left-0 bg-card border-y border-r p-2 rounded-r-lg shadow-lg transition-transform duration-300 ease-in-out"
         )}
       >
-        <Settings className="h-6 w-6 animate-spin-slow" />
+        <Settings className="h-6 w-6 text-primary group-hover:animate-spin-slow" />
         <span className="sr-only">Settings</span>
-      </button>
+      </div>
 
-      {/* Sidebar Content - Slides in and out */}
       <div
         className={cn(
-          "fixed top-0 left-0 h-full w-72 bg-card border-r shadow-2xl transition-transform duration-300 ease-in-out flex flex-col",
-          isOpen ? 'translate-x-0' : '-translate-x-full'
+          "absolute top-1/2 -translate-y-1/2 left-12 transition-all duration-300 ease-in-out",
+          isOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8 pointer-events-none'
         )}
       >
-        <CardHeader className="border-b">
-          <CardTitle className="flex items-center gap-3 font-headline">
-            <Eye className="h-6 w-6" />
-            تخصيص الواجهة
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-4 space-y-6 overflow-y-auto flex-1">
-          {/* Theme Section */}
-          <div>
-            <h4 className="font-semibold mb-3 flex items-center gap-2">
-              <Palette className="h-5 w-5" />
-              الألوان
-            </h4>
-            <div className="grid grid-cols-7 gap-2">
-              {themes.map((theme) => (
-                <button
-                  key={theme.name}
-                  onClick={() => setCurrentTheme(theme.name)}
-                  className={cn(
-                    'h-8 w-8 rounded-full border-2 transition-transform hover:scale-110',
-                    currentTheme === theme.name ? 'border-primary' : 'border-muted'
-                  )}
-                  style={{ backgroundColor: theme.color }}
-                  aria-label={`Theme ${theme.name}`}
-                />
-              ))}
+        <Card className="w-72 shadow-2xl">
+          <CardHeader>
+            <CardTitle className="font-headline">تخصيص الواجهة</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+             <div>
+              <h4 className="font-semibold mb-3 flex items-center gap-2 text-sm text-muted-foreground">
+                <Palette className="h-4 w-4" />
+                الألوان
+              </h4>
+              <div className="grid grid-cols-7 gap-2">
+                {themes.map((theme) => (
+                  <button
+                    key={theme.name}
+                    onClick={() => setCurrentTheme(theme.name)}
+                    className={cn(
+                      'h-7 w-7 rounded-full border-2 transition-transform hover:scale-110',
+                      currentTheme === theme.name ? 'border-primary' : 'border-muted'
+                    )}
+                    style={{ backgroundColor: theme.color }}
+                    aria-label={`Theme ${theme.name}`}
+                  />
+                ))}
+              </div>
+              <Button onClick={toggleMode} variant="outline" size="sm" className="w-full mt-4">
+                  {mode === 'light' ? <Moon className="h-4 w-4 mr-2 rtl:ml-2 rtl:mr-0" /> : <Sun className="h-4 w-4 mr-2 rtl:ml-2 rtl:mr-0" />}
+                  {mode === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح'}
+              </Button>
             </div>
-             <Button onClick={toggleMode} variant="outline" className="w-full mt-4">
-                {mode === 'light' ? <Moon className="h-4 w-4 mr-2" /> : <Sun className="h-4 w-4 mr-2" />}
-                {mode === 'light' ? 'الوضع الداكن' : 'الوضع الفاتح'}
-            </Button>
-          </div>
 
-          {/* Language Section */}
-          <div>
-            <h4 className="font-semibold mb-3 flex items-center gap-2">
-              <Globe className="h-5 w-5" />
-              اللغة
-            </h4>
-            <div className="space-y-2">
-              {languages.map((lang) => (
-                <Button
-                  key={lang.code}
-                  variant={language === lang.code ? 'default' : 'outline'}
-                  className="w-full justify-start"
-                  onClick={() => handleLanguageChange(lang.code)}
-                >
-                  <span className="w-6 h-6 mr-2 flex items-center justify-center font-bold">{lang.icon}</span>
-                  <span>{lang.name}</span>
-                </Button>
-              ))}
+            <div>
+              <h4 className="font-semibold mb-3 flex items-center gap-2 text-sm text-muted-foreground">
+                <Globe className="h-4 w-4" />
+                اللغة
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {languages.map((lang) => (
+                  <Button
+                    key={lang.code}
+                    variant={language === lang.code ? 'default' : 'outline'}
+                    size="sm"
+                    className="flex-1"
+                    onClick={() => handleLanguageChange(lang.code)}
+                  >
+                    {lang.name}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
-        </CardContent>
-        <div className="border-t p-4">
-            <h4 className="font-semibold mb-3 text-sm text-center text-muted-foreground">
-              تابعنا
-            </h4>
-            <div className="flex justify-center gap-4">
-               {socialLinks.map((social) => (
-                <Link key={social.name} href={social.href} target="_blank" rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-primary transition-colors">
-                    {social.icon}
-                    <span className="sr-only">{social.name}</span>
-                </Link>
-            ))}
+
+             <div>
+                <h4 className="font-semibold mb-3 flex items-center gap-2 text-sm text-muted-foreground">
+                    تابعنا
+                </h4>
+                <div className="flex justify-center gap-4">
+                   {socialLinks.map((social) => (
+                    <Link key={social.name} href={social.href} target="_blank" rel="noopener noreferrer"
+                        className="text-muted-foreground hover:text-primary transition-colors">
+                        {social.icon}
+                        <span className="sr-only">{social.name}</span>
+                    </Link>
+                ))}
+                </div>
             </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
