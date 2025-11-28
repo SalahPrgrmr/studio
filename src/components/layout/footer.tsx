@@ -113,27 +113,25 @@ export default function Footer() {
   
   const handleDownloadPDF = async () => {
     const html2pdf = (await import('html2pdf.js')).default;
-    const element = document.body;
+    // Select only the main content area for PDF export
+    const element = document.querySelector('div.flex-1.pb-16.lg\\:pb-0');
+    if (!element) {
+        console.error("PDF export failed: Main content area not found.");
+        return;
+    }
     const opt = {
       margin:       0.5,
       filename:     'eye-of-certainty.pdf',
       image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true, logging: false },
+      html2canvas:  { scale: 2, useCORS: true, logging: false, scrollY: -window.scrollY },
       jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
-    // Temporarily hide elements that shouldn't be in the PDF
-    const elementsToHide = document.querySelectorAll('.no-pdf');
-    elementsToHide.forEach(el => (el as HTMLElement).style.display = 'none');
-    
-    html2pdf().from(element).set(opt).save().then(() => {
-        // Show elements again after PDF generation
-        elementsToHide.forEach(el => (el as HTMLElement).style.display = '');
-    });
+    html2pdf().from(element).set(opt).save();
   }
   
 
   return (
-    <footer className="bg-card border-t mt-12 no-pdf">
+    <footer className="bg-card border-t mt-12 no-print">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-16">
             <div className="flex flex-col items-start space-y-4">

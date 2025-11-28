@@ -32,7 +32,7 @@ export default function ScrollToTop() {
   }, []);
 
   return (
-    <div className="fixed bottom-20 right-6 z-50 no-pdf">
+    <div className="fixed bottom-20 right-6 z-50 no-print">
       <Button
         size="icon"
         onClick={scrollToTop}

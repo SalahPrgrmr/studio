@@ -122,7 +122,7 @@ export default function SettingsSidebar() {
   };
   
   return (
-    <div className={cn("fixed top-1/2 -translate-y-1/2 z-[60] no-pdf", directionClasses.container)}>
+    <div className={cn("fixed top-1/2 -translate-y-1/2 z-[60] no-print", directionClasses.container)}>
       <Button
         onClick={() => setIsPanelOpen(p => !p)}
         variant="ghost"

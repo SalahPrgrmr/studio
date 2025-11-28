@@ -54,7 +54,7 @@ export default function ChatAssistant() {
 
   return (
     <>
-      <div className="fixed bottom-6 left-6 z-50">
+      <div className="fixed bottom-6 left-6 z-50 no-print">
         <Button
           onClick={() => setIsOpen(!isOpen)}
           size="icon"
@@ -65,7 +65,7 @@ export default function ChatAssistant() {
       </div>
 
       {isOpen && (
-        <Card className="fixed bottom-24 left-6 z-50 w-[calc(100vw-3rem)] max-w-sm h-[60vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-300">
+        <Card className="fixed bottom-24 left-6 z-50 w-[calc(100vw-3rem)] max-w-sm h-[60vh] flex flex-col shadow-2xl animate-in fade-in zoom-in-95 duration-300 no-print">
           <CardHeader className="flex flex-row items-center justify-between border-b">
             <div className="flex items-center gap-3">
                 <Compass className="h-7 w-7 text-primary" />
