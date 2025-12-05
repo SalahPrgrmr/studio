@@ -1,11 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Share2, Copy, Check, Hash } from 'lucide-react';
+import { Share2, Copy, Check, Hash, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { toPng } from 'html-to-image';
+import InvitationCard from '@/components/invitation-card';
 
 const categorizedContent = [
   {
@@ -1065,7 +1067,7 @@ const ShareableCard = ({ title, content, hashtags }: { title: string, content: s
   const fullText = `${content}\n\n${hashtags.join(' ')}`;
 
   const copyToClipboard = () => {
-    const siteUrl = window.location.origin;
+    const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://ain-al-yaqin.com';
     const finalText = fullText.replace(/\[ضع رابط المنصة هنا\]/g, siteUrl);
 
     navigator.clipboard.writeText(finalText).then(() => {
@@ -1113,7 +1115,29 @@ const ShareableCard = ({ title, content, hashtags }: { title: string, content: s
 
 
 export default function ShareCenterPage() {
-  
+  const arabicCardRef = useRef<HTMLDivElement>(null);
+  const englishCardRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
+
+  const handleDownload = useCallback((ref: React.RefObject<HTMLDivElement>, filename: string) => {
+    if (ref.current === null) {
+      return;
+    }
+
+    toPng(ref.current, { cacheBust: true, pixelRatio: 2 })
+      .then((dataUrl) => {
+        const link = document.createElement('a');
+        link.download = `${filename}.png`;
+        link.href = dataUrl;
+        link.click();
+        toast({ title: 'تم بدء تحميل الصورة!' });
+      })
+      .catch((err) => {
+        console.error(err);
+        toast({ variant: 'destructive', title: 'فشل تحميل الصورة', description: 'حدث خطأ أثناء إنشاء الصورة.' });
+      });
+  }, [toast]);
+
   return (
     <div className="container mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 animate-in fade-in duration-500">
       <div className="text-center mb-12">
@@ -1125,6 +1149,31 @@ export default function ShareCenterPage() {
           كن من المنذرين والمبلغين. انسخ هذه الرسائل وانشرها في كل مكان لحشد الزوار ومشاركة النور مع الآخرين.
         </p>
       </div>
+
+      <Card className="mb-16 shadow-lg">
+        <CardHeader>
+          <CardTitle className="font-headline text-2xl text-center">بطاقات دعوية جاهزة للنشر</CardTitle>
+        </CardHeader>
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            {/* Arabic Card */}
+            <div className="space-y-4">
+              <InvitationCard ref={arabicCardRef} lang="ar" />
+              <Button onClick={() => handleDownload(arabicCardRef, 'dawah-card-ar')} className="w-full">
+                  <Download className="ml-2 h-4 w-4" />
+                  تحميل البطاقة (العربية)
+              </Button>
+            </div>
+             {/* English Card */}
+            <div className="space-y-4">
+              <InvitationCard ref={englishCardRef} lang="en" />
+              <Button onClick={() => handleDownload(englishCardRef, 'dawah-card-en')} className="w-full">
+                  <Download className="ml-2 h-4 w-4" />
+                  تحميل البطاقة (الإنجليزية)
+              </Button>
+            </div>
+        </CardContent>
+      </Card>
+
 
       <Tabs defaultValue="muslims" className="w-full">
         <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-11 h-auto flex-wrap">
