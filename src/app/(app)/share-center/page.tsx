@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button';
 import { Share2, Copy, Check, Hash, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { toPng } from 'html-to-image';
 import InvitationCard from '@/components/invitation-card';
 
 const categorizedContent = [
@@ -251,7 +250,7 @@ const categorizedContent = [
 اغتنم الفرصة الآن: [ضع رابط المنصة هنا]`,
         hashtags: ['#انقذ_نفسك', '#غير_نفسك', '#الوقت_الآن'],
       },
-      {
+       {
         title: "ما قيمة عمرك؟",
         content: `كم أفنيت من عمرك في خدمة الرب؟ وهل وصلت لغايتك؟ مهما كان الرقم الذي ستقف عنده، سواء صفرًا أو أعظم عدد، فإنه ليس بشيء أمام الأبدية. فلتكن حياتك ذات قيمة أمام من لا نهاية لوجوده.
 [ضع رابط المنصة هنا]`,
@@ -344,7 +343,7 @@ const categorizedContent = [
       },
       {
         title: "هو الله: الحق",
-        content: `هو الله، الحقيقة المطلقة التي لا تتغير. كل ما سواه إلى زوال.
+        content: `هو الله، الحقيقة المطلقة التي لا تتغير. כל ما سواه إلى زوال.
 ابحث عن الحقيقة الباقية: [ضع رابط المنصة هنا]`,
         hashtags: ['#هو_الله', '#الحق', '#الحقيقة_المطلقة']
       },
@@ -426,7 +425,7 @@ const categorizedContent = [
 اكتشف الآن: [ضع رابط المنصة هنا]`,
         hashtags: ['#أنقذ_عقلك', '#فرصتك_الأخيرة', '#ماذا_بعد_الموت'],
       },
-      {
+       {
         title: "ما أثرك في اللا نهاية؟",
         content: `كم ستعيش من السنين؟ وكم عملاً ستنجز؟ وهل وصلت لهدفك؟ مهما كان الرقم الذي ستقف عنده، فإنه يتلاشى ويصبح صفرًا أمام اللانهاية. ما هو الأثر الذي ستتركه في كون لا نهائي؟
 [ضع رابط المنصة هنا]`,
@@ -1119,23 +1118,23 @@ export default function ShareCenterPage() {
   const englishCardRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  const handleDownload = useCallback((ref: React.RefObject<HTMLDivElement>, filename: string) => {
+  const handleDownload = useCallback(async (ref: React.RefObject<HTMLDivElement>, filename: string) => {
     if (ref.current === null) {
       return;
     }
 
-    toPng(ref.current, { cacheBust: true, pixelRatio: 2 })
-      .then((dataUrl) => {
+    try {
+        const { toPng } = await import('html-to-image');
+        const dataUrl = await toPng(ref.current, { cacheBust: true, pixelRatio: 2 });
         const link = document.createElement('a');
         link.download = `${filename}.png`;
         link.href = dataUrl;
         link.click();
         toast({ title: 'تم بدء تحميل الصورة!' });
-      })
-      .catch((err) => {
+    } catch (err) {
         console.error(err);
         toast({ variant: 'destructive', title: 'فشل تحميل الصورة', description: 'حدث خطأ أثناء إنشاء الصورة.' });
-      });
+    }
   }, [toast]);
 
   return (
