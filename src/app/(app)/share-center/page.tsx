@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useCallback } from 'react';
@@ -101,7 +102,7 @@ const categorizedContent = [
       },
       {
         title: "أحلامك بين يديك",
-        content: `هل لديك أمنيات طال انتظارها؟ "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ". بيده خزائن كل شيء. مفتاحها شيء واحد كما هو واحد: (اليقين).
+        content: `هل لديك أمنيات طال انتظارها؟ "وَإِذَا سَأَلَكَ cِبَادِي عَنِّي فَإِنِّي قَرِيبٌ". بيده خزائن كل شيء. مفتاحها شيء واحد كما هو واحد: (اليقين).
 تعلم كيف تدعو بيقين لتُستجاب: [ضع رابط المنصة هنا]`,
         hashtags: ['#الدعاء_المستجاب', '#اليقين_بالإجابة', '#قوة_الدعاء'],
       },
@@ -343,7 +344,7 @@ const categorizedContent = [
       },
       {
         title: "هو الله: الحق",
-        content: `هو الله، الحقيقة المطلقة التي لا تتغير. כל ما سواه إلى زوال.
+        content: `هو الله، الحقيقة المطلقة التي لا تتغير. كل ما سواه إلى زوال.
 ابحث عن الحقيقة الباقية: [ضع رابط المنصة هنا]`,
         hashtags: ['#هو_الله', '#الحق', '#الحقيقة_المطلقة']
       },
@@ -403,7 +404,7 @@ const categorizedContent = [
       },
       {
         title: "هل جاء الكون بالصدفة؟",
-        content: `من دقة الحمض النووي إلى اتساع المجرات، هل يمكن أن يكون כל هذا النظام نتيجة فوضى عشوائية؟ العقل يدلك على الصانع.
+        content: `من دقة الحمض النووي إلى اتساع المجرات، هل يمكن أن يكون كل هذا النظام نتيجة فوضى عشوائية؟ العقل يدلك على الصانع.
 تفكر بالأدلة المنطقية: [ضع رابط المنصة هنا]`,
         hashtags: ['#التصميم_الذكي', '#العلم_والإيمان', '#برهان_النظم'],
       },
@@ -1066,7 +1067,7 @@ const ShareableCard = ({ title, content, hashtags }: { title: string, content: s
   const fullText = `${content}\n\n${hashtags.join(' ')}`;
 
   const copyToClipboard = () => {
-    const siteUrl = typeof window !== 'undefined' ? window.location.origin : 'https://ain-al-yaqin.com';
+    const siteUrl = window.location.origin;
     const finalText = fullText.replace(/\[ضع رابط المنصة هنا\]/g, siteUrl);
 
     navigator.clipboard.writeText(finalText).then(() => {
@@ -1194,3 +1195,5 @@ export default function ShareCenterPage() {
     </div>
   );
 }
+
+    
