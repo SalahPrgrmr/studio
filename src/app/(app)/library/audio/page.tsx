@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardTitle } from '@/components/ui/card';
+import { Card, CardTitle, CardHeader, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Headphones, Play, Clock, Mic, Download, Share2, Upload } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';

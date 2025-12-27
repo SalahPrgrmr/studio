@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useUser, useDoc, useMemoFirebase } from '@/firebase';
 import { useRouter } from 'next/navigation';
 import { Loader2, User, Mail, Calendar } from 'lucide-react';

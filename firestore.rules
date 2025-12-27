@@ -7,22 +7,9 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
-    // Rules for the 'users' collection as a whole
-    match /users/{document=**} {
-        // Any authenticated user can list the users collection
-        allow list: if request.auth != null;
-    }
-
-    // Rules for individual user documents
+    // Users can only read and write to their own document.
     match /users/{userId} {
-      // Any authenticated user can read another user's profile
-      allow get: if request.auth != null;
-      // A user can update their own profile document.
-      allow update: if request.auth != null && request.auth.uid == userId;
-      // Allow an authenticated user to delete another user, except themselves.
-      allow delete: if request.auth != null && request.auth.uid != userId;
-      // The onUserCreate cloud function handles user document creation.
-      allow create: if true;
+      allow read, write: if request.auth.uid == userId;
     }
     
     // Stories are public to read, but only authenticated users can create.
