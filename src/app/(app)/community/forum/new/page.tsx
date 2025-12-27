@@ -80,12 +80,13 @@ export default function NewForumPostPage() {
     };
 
     try {
-      const docRef = await addDocumentNonBlocking(postsCollection, newPostData);
+      await addDocumentNonBlocking(postsCollection, newPostData);
       toast({
         title: 'تم إنشاء المشاركة!',
         description: 'تم نشر مشاركتك الجديدة في المنتدى بنجاح.',
       });
-      router.push(`/community/forum/${docRef.id}`);
+      // Redirect to the main forum page to prevent race condition errors
+      router.push('/community/forum');
     } catch (e) {
       // Error is handled by the global error handler
     }

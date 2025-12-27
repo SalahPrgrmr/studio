@@ -16,7 +16,6 @@ type SuccessStory = {
   content: string;
   status: 'pending_review' | 'approved';
   creationDate: string;
-  // Assuming a snippet or imageId might be added later
   snippet?: string; 
   imageId?: string; 
 };
@@ -102,7 +101,7 @@ export default function StoriesPage() {
                   <CardDescription>بواسطة {story.author}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex-grow">
-                  <p className="text-muted-foreground italic line-clamp-3">"{story.content}"</p>
+                  <p className="text-muted-foreground italic line-clamp-3">\"{story.content}\"</p>
                 </CardContent>
               </Card>
             </Link>

@@ -11,7 +11,7 @@ import {
   UserPlus,
   LogOut,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Logo from '@/components/logo';
 import { Button } from '@/components/ui/button';
@@ -50,6 +50,11 @@ export default function Header() {
   const router = useRouter();
   const { t, getDirection, language } = useLanguage();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleSignOut = async () => {
     if (!auth) return;
@@ -99,33 +104,35 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         <div className="lg:hidden flex-1 flex justify-start">
-          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">{t('header.openMenu')}</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side={getDirection(language) === 'ltr' ? 'left' : 'right'}>
-              <SheetHeader>
-                <Link
-                  href="/"
-                  onClick={() => setIsSheetOpen(false)}
-                  className="flex items-center space-x-2 rtl:space-x-reverse"
-                >
-                  <Logo className="h-6 w-6 text-primary" />
-                  <span className="font-bold font-headline">
-                    {t('appName')}
-                  </span>
-                </Link>
-              </SheetHeader>
-              <nav className="flex flex-col space-y-2 mt-6">
-                {navLinks.map((link) => (
-                  <NavLink key={link.href} {...link} />
-                ))}
-              </nav>
-            </SheetContent>
-          </Sheet>
+          {isClient && (
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">{t('header.openMenu')}</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side={getDirection(language) === 'ltr' ? 'left' : 'right'}>
+                <SheetHeader>
+                  <Link
+                    href="/"
+                    onClick={() => setIsSheetOpen(false)}
+                    className="flex items-center space-x-2 rtl:space-x-reverse"
+                  >
+                    <Logo className="h-6 w-6 text-primary" />
+                    <span className="font-bold font-headline">
+                      {t('appName')}
+                    </span>
+                  </Link>
+                </SheetHeader>
+                <nav className="flex flex-col space-y-2 mt-6">
+                  {navLinks.map((link) => (
+                    <NavLink key={link.href} {...link} />
+                  ))}
+                </nav>
+              </SheetContent>
+            </Sheet>
+          )}
         </div>
 
         {/* Desktop Navigation */}
@@ -136,64 +143,65 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center justify-end space-x-1 md:space-x-2">
-          {isUserLoading ? (
-            <div className="h-9 w-9 flex items-center justify-center">
+          {isClient &&
+            (isUserLoading ? (
+              <div className="h-9 w-9 flex items-center justify-center">
                 <Loader2 className="h-5 w-5 animate-spin" />
-            </div>
-          ) : user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="relative h-9 w-9 rounded-full"
-                >
-                  <Avatar className="h-9 w-9">
-                    <AvatarImage
-                      src={user.photoURL || ''}
-                      alt={user.displayName || 'User'}
-                    />
-                    <AvatarFallback>{getInitials(user.displayName)}</AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                 <DropdownMenuItem asChild>
-                  <Link href="/profile">
-                    <UserCircle2 className="ml-2 h-4 w-4" />
-                    <span>{t('header.profile')}</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut}>
-                  <LogOut className="ml-2 h-4 w-4" />
-                  <span>{t('header.signOut')}</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-             <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <UserCircle2 className="h-6 w-6" />
-                   <span className="sr-only">User Menu</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem asChild>
-                  <Link href="/login">
-                    <LogIn className="ml-2 h-4 w-4" />
-                    <span>{t('header.signIn')}</span>
-                  </Link>
-                </DropdownMenuItem>
-                 <DropdownMenuItem asChild>
-                  <Link href="/signup">
-                    <UserPlus className="ml-2 h-4 w-4" />
-                    <span>{t('header.signUp')}</span>
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
+              </div>
+            ) : user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-9 w-9 rounded-full"
+                  >
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage
+                        src={user.photoURL || ''}
+                        alt={user.displayName || 'User'}
+                      />
+                      <AvatarFallback>{getInitials(user.displayName)}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile">
+                      <UserCircle2 className="ml-2 h-4 w-4" />
+                      <span>{t('header.profile')}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="ml-2 h-4 w-4" />
+                    <span>{t('header.signOut')}</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <UserCircle2 className="h-6 w-6" />
+                    <span className="sr-only">User Menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem asChild>
+                    <Link href="/login">
+                      <LogIn className="ml-2 h-4 w-4" />
+                      <span>{t('header.signIn')}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/signup">
+                      <UserPlus className="ml-2 h-4 w-4" />
+                      <span>{t('header.signUp')}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ))}
         </div>
       </div>
     </header>

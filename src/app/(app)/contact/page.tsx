@@ -26,6 +26,8 @@ import { Loader2, Send, Mail, Phone, Bot } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
+import { useFirebase, addDocumentNonBlocking } from '@/firebase'; // Import Firebase hooks
+import { collection } from 'firebase/firestore'; // Import collection function
 
 const contactSchema = z.object({
   name: z.string().min(3, { message: 'الاسم يجب أن يكون 3 أحرف على الأقل.' }),
@@ -39,6 +41,7 @@ type ContactFormValues = z.infer<typeof contactSchema>;
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { firestore } = useFirebase(); // Get firestore instance
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -51,16 +54,32 @@ export default function ContactPage() {
   });
 
   async function onSubmit(values: ContactFormValues) {
+    if (!firestore) {
+        toast({ variant: "destructive", title: "خطأ", description: "فشلت تهيئة قاعدة البيانات. يرجى المحاولة مرة أخرى." });
+        return;
+    }
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log(values);
-    setIsSubmitting(false);
-    toast({
-      title: 'تم إرسال رسالتك!',
-      description: 'شكرًا لتواصلك معنا. سنقوم بالرد في أقرب وقت ممكن.',
-    });
-    form.reset();
+    
+    try {
+      const messagesCollection = collection(firestore, 'contact_messages');
+      const messageData = {
+          ...values,
+          submittedAt: new Date().toISOString(),
+          status: 'new' // to track if it has been read
+      };
+      await addDocumentNonBlocking(messagesCollection, messageData);
+      
+      toast({
+        title: 'تم إرسال رسالتك!',
+        description: 'شكرًا لتواصلك معنا. سنقوم بالرد في أقرب وقت ممكن.',
+      });
+      form.reset();
+    } catch (error) {
+        console.error("Error submitting contact form:", error);
+        toast({ variant: "destructive", title: "فشل الإرسال", description: "حدث خطأ أثناء إرسال رسالتك. يرجى المحاولة مرة أخرى." });
+    } finally {
+        setIsSubmitting(false);
+    }
   }
 
   return (

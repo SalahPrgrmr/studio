@@ -5,9 +5,10 @@ import Image from 'next/image';
 import { User, Loader2, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { useFirebase, useDoc, useMemoFirebase } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { useFirebase } from '@/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import { format } from 'date-fns';
+import { useState, useEffect } from 'react';
 
 // Define the type for a single story fetched from Firestore
 type SuccessStory = {
@@ -18,22 +19,46 @@ type SuccessStory = {
   content: string;
   creationDate: string;
   status: 'pending_review' | 'approved';
-  // Optional snippet or imageId can be added later
   snippet?: string;
   imageId?: string;
 };
 
 
 export default function StoryPage({ params }: { params: { id: string } }) {
-  const { firestore, user } = useFirebase();
+  const { id } = params;
+  const { firestore } = useFirebase();
 
-  // Memoize the document reference to prevent re-renders
-  const storyRef = useMemoFirebase(
-    () => (firestore ? doc(firestore, 'success_stories', params.id) : null),
-    [firestore, params.id]
-  );
-  
-  const { data: story, isLoading, error } = useDoc<SuccessStory>(storyRef);
+  const [story, setStory] = useState<SuccessStory | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    // Only run if firestore and id are available
+    if (!firestore || !id) return;
+
+    const fetchStory = async () => {
+      setIsLoading(true);
+      const storyDocRef = doc(firestore, 'success_stories', id);
+      try {
+        const docSnap = await getDoc(storyDocRef);
+        if (docSnap.exists()) {
+          // Combine doc id and data into a single object
+          setStory({ id: docSnap.id, ...docSnap.data() } as SuccessStory);
+        } else {
+          // Document not found, set story to null to trigger notFound()
+          setStory(null);
+        }
+      } catch (e) {
+        console.error("Error fetching story document:", e);
+        setError(e as Error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchStory();
+  }, [firestore, id]);
+
 
   if (isLoading) {
     return (
@@ -43,16 +68,9 @@ export default function StoryPage({ params }: { params: { id: string } }) {
     );
   }
 
-  // Only show the story if it's approved, OR if the current user is the author
-  const canView = story && (story.status === 'approved' || (user && user.uid === story.authorId));
-
-  if (error || !canView) {
-    // Show notFound for errors, non-existent stories, or stories the user can't view
+  // If there was an error or the story is null (not found), render the 404 page.
+  if (error || !story) {
     notFound();
-  }
-  
-  if (!story) {
-    return notFound();
   }
 
   return (
@@ -61,7 +79,7 @@ export default function StoryPage({ params }: { params: { id: string } }) {
         <header className="mb-12 text-center">
              {story.status === 'pending_review' && (
                 <div className="mb-4 text-center text-yellow-600 bg-yellow-100 p-3 rounded-lg">
-                    هذه القصة قيد المراجعة حاليًا ولن تظهر للعامة حتى تتم الموافقة عليها.
+                    (هذه القصة قيد المراجعة حاليًا)
                 </div>
             )}
             <div className="mb-8 overflow-hidden rounded-lg shadow-lg aspect-video">

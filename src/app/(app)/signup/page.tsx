@@ -23,6 +23,7 @@ import { Input } from '@/components/ui/input';
 import { Loader2, UserPlus } from 'lucide-react';
 import { useFirebase } from '@/firebase';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -30,7 +31,7 @@ import { signupSchema, type SignupFormValues } from '@/lib/types';
 
 
 export default function SignupPage() {
-  const { auth } = useFirebase();
+  const { auth, firestore } = useFirebase(); // Make sure to get firestore instance
   const { toast } = useToast();
   const router = useRouter();
 
@@ -47,13 +48,24 @@ export default function SignupPage() {
   const { formState } = form;
 
   async function onSubmit(values: SignupFormValues) {
-    if (!auth) return;
+    if (!auth || !firestore) return;
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
-      
+      const { user } = userCredential;
+
       // Update the user's profile with the display name
-      await updateProfile(userCredential.user, {
+      await updateProfile(user, {
         displayName: values.displayName
+      });
+      
+      // Create a document in Firestore
+      const userRef = doc(firestore, 'users', user.uid);
+      await setDoc(userRef, {
+        displayName: values.displayName,
+        email: values.email,
+        uid: user.uid,
+        createdAt: new Date(),
+        roles: ['user']
       });
 
       toast({
@@ -61,8 +73,6 @@ export default function SignupPage() {
         description: 'مرحبًا بك. يتم توجيهك الآن...',
       });
 
-      // The cloud function will handle Firestore document creation.
-      // We just need to navigate the user.
       router.push('/profile');
 
     } catch (error: any) {

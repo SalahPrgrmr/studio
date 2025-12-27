@@ -32,7 +32,7 @@ import Link from 'next/link';
 
 const newStorySchema = z.object({
   title: z.string().min(5, { message: 'العنوان يجب أن يكون 5 أحرف على الأقل.' }).max(100),
-  author: z.string(), // Author is now derived from user, so no validation needed here.
+  author: z.string(), // Author is derived from user, so no validation needed here.
   content: z.string().min(50, { message: 'القصة يجب أن تكون 50 حرفًا على الأقل.' }).max(5000),
 });
 
@@ -75,60 +75,60 @@ export default function NewStoryPage() {
     const userProfileRef = doc(firestore, 'users', user.uid);
 
     try {
-        // Use the displayName from the authenticated user, not the form.
+        // Create the complete and correct story payload
         const storyPayload = {
             title: values.title,
             content: values.content,
-            author: user.displayName || 'مؤلف مجهول', // Fallback name
+            author: user.displayName || 'مؤلف مجهول',
             authorId: user.uid,
             creationDate: new Date().toISOString(),
-            status: 'pending_review' as const,
+            status: 'approved' as const, // Story is approved immediately
+            snippet: values.content.substring(0, 150), // Add a snippet for card view
         };
 
-        // Add the story using non-blocking write
-        const storyDocRefPromise = addDocumentNonBlocking(storiesCollection, storyPayload);
-        
-        // Update user's profile points and stats in a transaction
-        await runTransaction(firestore, async (transaction) => {
-            const userProfileDoc = await transaction.get(userProfileRef);
-            if (!userProfileDoc.exists()) {
-                const newProfile = {
-                    id: user.uid,
-                    displayName: user.displayName || 'مستخدم جديد',
-                    photoURL: user.photoURL || '',
-                    points: 150, // Points for first story
-                    title: 'مستكشف',
-                    badges: ['story_writer'],
-                    stats: { storiesPublished: 1, forumPosts: 0, audioContributions: 0 },
-                };
-                transaction.set(userProfileRef, newProfile);
-            } else {
-                const currentData = userProfileDoc.data();
-                const currentPoints = currentData.points || 0;
-                const currentStories = currentData.stats?.storiesPublished || 0;
-                const currentBadges = currentData.badges || [];
-                
-                const newBadges = [...currentBadges];
-                if (!newBadges.includes('story_writer')) {
-                    newBadges.push('story_writer');
+        // Add the story and update user profile in parallel
+        await Promise.all([
+            addDocumentNonBlocking(storiesCollection, storyPayload),
+            runTransaction(firestore, async (transaction) => {
+                const userProfileDoc = await transaction.get(userProfileRef);
+                if (!userProfileDoc.exists()) {
+                    const newProfile = {
+                        id: user.uid,
+                        displayName: user.displayName || 'مستخدم جديد',
+                        photoURL: user.photoURL || '',
+                        points: 150, // Points for first story
+                        title: 'مستكشف',
+                        badges: ['story_writer'],
+                        stats: { storiesPublished: 1, forumPosts: 0, audioContributions: 0 },
+                    };
+                    transaction.set(userProfileRef, newProfile);
+                } else {
+                    const currentData = userProfileDoc.data();
+                    const currentPoints = currentData.points || 0;
+                    const currentStories = currentData.stats?.storiesPublished || 0;
+                    const currentBadges = currentData.badges || [];
+                    
+                    const newBadges = [...currentBadges];
+                    if (!newBadges.includes('story_writer')) {
+                        newBadges.push('story_writer');
+                    }
+
+                    transaction.update(userProfileRef, {
+                        points: currentPoints + 150,
+                        'stats.storiesPublished': currentStories + 1,
+                        badges: newBadges
+                    });
                 }
-
-                transaction.update(userProfileRef, {
-                    points: currentPoints + 150,
-                    'stats.storiesPublished': currentStories + 1,
-                    badges: newBadges
-                });
-            }
-        });
-
-        // Wait for the story doc ref if needed for navigation
-        const storyDocRef = await storyDocRefPromise;
+            })
+        ]);
 
         toast({
-            title: 'شكرًا لمشاركتك!',
-            description: 'تم إرسال قصتك بنجاح وستظهر بعد المراجعة. لقد حصلت على 150 نقطة!',
+            title: 'تم نشر قصتك بنجاح!',
+            description: 'شكرًا لمشاركتك. لقد حصلت على 150 نقطة!',
         });
-        router.push(`/stories/${storyDocRef.id}`);
+
+        // Redirect to the main stories page to avoid race condition on read
+        router.push('/stories');
 
     } catch(e: any) {
         console.error("Error submitting story and updating profile:", e);
@@ -179,7 +179,7 @@ export default function NewStoryPage() {
                 اكتب قصتك
               </CardTitle>
               <CardDescription>
-                شارك قصة ملهمة عن رحلتك مع اليقين، أو قصة سمعتها وأثرت فيك. سيتم مراجعة جميع المشاركات قبل النشر.
+                شارك قصة ملهمة عن رحلتك مع اليقين، أو قصة سمعتها وأثرت فيك. سيتم نشر جميع المشاركات مباشرة.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -233,16 +233,16 @@ export default function NewStoryPage() {
                 {isSubmitting ? (
                   <>
                     <Loader2 className="ml-2 h-5 w-5 animate-spin" />
-                    جاري الإرسال للمراجعة...
+                    جاري النشر...
                   </>
                 ) : (
                   <>
                     <Send className="ml-2 h-5 w-5" />
-                    أرسل القصة للمراجعة
+                    انشر القصة
                   </>
                 )}
               </Button>
-              <p className="text-xs text-muted-foreground">تخضع المشاركة لشروط وأحكام النشر.</p>
+              <p className="text-xs text-muted-foreground">سيتم نشر القصة مباشرة.</p>
             </CardFooter>
           </form>
         </Form>

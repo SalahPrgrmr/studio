@@ -1,55 +1,73 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Default deny all
+
+    // Default deny all reads and writes
     match /{document=**} {
       allow read, write: if false;
     }
 
-    // Users can only read and write to their own document.
+    // Users can read/write their own user document
     match /users/{userId} {
       allow read, write: if request.auth.uid == userId;
     }
-    
-    // Stories are public to read, but only authenticated users can create.
-    // Only the author can update their own story.
-    match /success_stories/{storyId} {
+
+    // === Public & Semi-Public Collections ===
+
+    match /share_center_items/{itemId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+    }
+    match /practical_activities/{activityId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+    }
+    match /cosmic_signs/{signId} {
+      allow read: if true;
+      allow create: if request.auth != null;
+    }
+    match /blessings_and_signs/{signId} {
         allow read: if true;
         allow create: if request.auth != null;
+    }
+
+    // Logged-in users can read and create success stories.
+    // They can only update their own stories.
+    match /success_stories/{storyId} {
+        allow read, create: if request.auth != null;
         allow update: if request.auth != null && request.auth.uid == resource.data.authorId;
     }
-    
-    // Forum posts are public to read.
-    // Authenticated users can create posts and comments.
-    // Only authors can update their own posts.
+
+    // Anyone can create contact messages. Admins will read them later.
+    match /contact_messages/{messageId} {
+        allow create: if true;
+    }
+
+    // === Feature-specific Rules ===
+
     match /forum_posts/{postId} {
         allow read: if true;
         allow create: if request.auth != null;
         allow update: if request.auth != null && request.auth.uid == resource.data.authorId;
-        
+
         match /comments/{commentId} {
             allow read: if true;
             allow create: if request.auth != null;
         }
     }
-    
-    // Chat rooms are public to read.
-    // Only authenticated users can create or update them.
+
     match /voice_chat_rooms/{roomId} {
         allow read: if true;
         allow create, update: if request.auth != null;
     }
-    
+
     match /video_chat_rooms/{roomId} {
         allow read: if true;
         allow create, update: if request.auth != null;
     }
-    
-    // Volunteers can only manage their own document.
+
     match /volunteers/{volunteerId} {
         allow read, write: if request.auth != null && request.auth.uid == volunteerId;
     }
   }
 }
-
